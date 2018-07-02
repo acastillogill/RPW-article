@@ -636,13 +636,12 @@ color = cut(indu, breaks = 4),
   geom_text(
     aes(x = test_date$distance, y = test_date$date),
     label = test_date$Nom,
-    size = 3,
+    size = 5,
     check_overlap = TRUE,
     inherit.aes = FALSE,
     hjust = 0,
     nudge_x = 0.005
   ) +
-  scale_x_continuous(limits = c(-5, 200)) +
   theme_classic() +
   guides(
     size = guide_legend(title = "Population"),
@@ -653,11 +652,12 @@ color = cut(indu, breaks = 4),
    subtitle = "Vs. distance, population and fraction of GDP from services.",
     x = "Distance to coastline (km)",
     y = "Date palms"
-  )
+  )+ theme(
+        text = element_text(size=20))
 ggsave(
   "Date_palms.png",
-  width = 10,
-  height = 2,
+  width = 14,
+  height = 8,
   bg = "transparent"
 )
 
@@ -671,13 +671,12 @@ color = cut(indu, breaks = 4),
   geom_text(
     aes(x = test_canary$distance, y = test_canary$canary),
     label = test_canary$Nom,
-    size = 3,
+    size = 5,
     check_overlap = TRUE,
     inherit.aes = FALSE,
     hjust = 0,
     nudge_x = 0.005
   ) +
-  scale_x_continuous(limits = c(-5, 200)) +
   theme_classic() +
   guides(
     size= guide_legend(title="Population"),
@@ -688,16 +687,17 @@ color = cut(indu, breaks = 4),
     subtitle = "Vs. distance, population and fraction of GDP from services.",
     x = "Distance to coastline (km)",
     y = "Canary palms"
-  )
+  )+ theme(
+        text = element_text(size=20))
 ggsave(
   "canary_palms.png",
-  width = 10,
-  height = 2,
+  width = 14,
+  height = 8,
   bg = "transparent"
 )
 
-predictions <- arrangeGrob(date_mean,canary_mean,nrow=1)
-ggsave("predictions.png",predictions,width = 14,height=5,limitsize = FALSE,bg="transparent")
+predictions <- arrangeGrob(date_mean,canary_mean,nrow=2)
+ggsave("predictions.png",predictions,width = 14,height=16,limitsize = FALSE,bg="transparent")
 ```
 
 Using these models, we estimated the number of date and canary palms in Catalonia. Predictions appear in Figure \ref{fig:predictions} as a function of distance, population, and fraction of GDP for industry. We can see that for most species, palm trees are located closest to the coast, have a positive relationship with population and negative relationship with fraction of GDP from industry. If we consider industry to be opposed to services, it is likely this variable serves as a proxy for tourism.
@@ -1202,8 +1202,8 @@ Values <- c("Effective Contact Rate",
                               "Successful treatment prob ($\\sigma$)", 
                               "Healthy stock 2005",
                               "Infested stock 2005")
-Date <- c("[1,2]","[0.5,1]","[0.0-0.5]",(sum_date$sum_2018+14),"[3-5]")
-Canary <- c("[1,2]","[0.5,1]","[0.0-0.5]",(sum_canary$sum_2018+8946),"[365-975]")
+Date <- c("[1, 2]","[0.5, 1]","[0.0-0.5]",(sum_date$sum_2018+14),"[3-5]")
+Canary <- c("[1, 2]","[0.5, 1]","[0.0-0.5]",(sum_canary$sum_2018+8946),"[365-975]")
 parameter_table <- data_frame(Values,Date,Canary)
 
 kable(parameter_table, 
@@ -1250,17 +1250,6 @@ gencat <- data_frame(time,gov_cost,gov_cost_present)
 
 ```
 
-```{r gov_costs table, echo=FALSE}
-gencat%>%
-  set_names(c("Year","GenCat cost","GenCat cost present"))%>%
-kable(
-  caption = "\\label{tab:gencat_table}GenCat costs Source: GENCAT, 2018.",
-  booktabs = T,
-  escape = F,
-  linesep= ""
-) %>%
-  kable_styling(latex_options = c("hold_position"))
-```
 
 ```{r gencast costs plots, include=FALSE}
 gencat %>%
@@ -1277,12 +1266,13 @@ gencat %>%
   theme_classic()+
   scale_x_continuous(breaks = int_breaks)+
   guides( color = FALSE,
-           fill = guide_legend(title = "Cost type"))+
+           fill = FALSE)+
   labs(
     title = "GenCat costs",
     x = "Time",
     y = "Euros"
-  )+theme(legend.position = "top") -> gencat_plot
+  ) + theme(legend.position = "top",
+        text = element_text(size=20)) -> gencat_plot
 
 ggsave("gencat_plot.png",gencat_plot,width = 14,height=8,limitsize = FALSE,bg="transparent")
 ```
@@ -1295,6 +1285,10 @@ In Figure \ref{fig:gencat_plot}, we can see that GenCat costs are slowly rising 
 \end{figure}
 
 Equation \ref{eq:management_costs} was applied to the lower and upper estimates of date palms. Tables \ref{tab:date_costs_low} and \ref{tab:date_costs_high} summarise each activity along with the total. The footnote shows an all year total. 
+
+ In date palms, the costliest management activities are inspection and prevention, as shown in Figure \ref{fig:date_costs}
+
+
 ```{r Management costs for date palms, include=FALSE}
 #Management costs for date palms
 unit_replanting <- 500 #Define the unitary cost of replanting (euros)
@@ -1324,10 +1318,10 @@ df_date %>%
          )-> date_costs #Calculate total management costs.
 ```
 
-```{r date_costs table,echo=FALSE}
-
+```{r date_costs present value,echo=FALSE}
+low_run=3
 date_costs%>%
-  filter(run==3,
+  filter(run==low_run,
          time>=2011)%>%
   #Bring to present value
   mutate(rep_cost_low=future_value(rep_cost,
@@ -1358,19 +1352,10 @@ date_costs%>%
                 rem_cost_low,
                 total)->date_cost_low
 
-date_cost_low%>%
-  set_names(c("Year","Replanting","Inspection","Prevention","Treatment","Removal","Total"))%>%
-  kable(
-    caption = "\\label{tab:date_costs_low}Date management costs lower bound.",
-    booktabs = T,
-    escape = F,
-    linesep= ""
-  ) %>%
-  kable_styling(latex_options = c("hold_position"))%>%
-  footnote(general=paste("Total value for all years is ",round(sum(date_cost_low$total),digits = 0)))
 
+high_run=4
 date_costs%>%
-  filter(run==4,
+  filter(run==high_run,
          time>=2011)%>%
   #Bring to present value
   mutate(rep_cost_high=future_value(rep_cost,
@@ -1401,16 +1386,7 @@ date_costs%>%
                 rem_cost_high,
                 total)->date_cost_high
 
-date_cost_high%>%
-  set_names(c("Year","Replanting","Inspection","Prevention","Treatment","Removal","Total"))%>%
-  kable(
-    caption = "\\label{tab:date_costs_high}Date management costs upper bound.",
-    booktabs = T,
-    escape = F,
-    linesep= ""
-  ) %>%
-  kable_styling(latex_options = c("hold_position"))%>%
-  footnote(general=paste("Total value for all years is ",round(sum(date_cost_high$total),digits=0)))
+
 ```
 
 The same procedure was applied for canary costs and results appear summarised in Tables \ref{tab:canary_costs_low} and \ref{tab:canary_costs_high}.         
@@ -1435,7 +1411,8 @@ date_cost_low%>%
     title = "Date palm costs lower bound",
     x = "Time",
     y = "Euros")+
-  theme(legend.position = "top") -> date_1
+  theme(legend.position = "top",
+        text = element_text(size=20)) -> date_1
 
 #Filter for run 6
 date_cost_high%>%
@@ -1456,12 +1433,13 @@ date_cost_high%>%
   labs(
     title = "Date palm costs upper bound",
     x = "Time",
-    y = "Euros"
-  ) +theme(legend.position = "top")-> date_6
+    y = "Euros")  + 
+  theme(legend.position = "top",
+        text = element_text(size=20))-> date_6
 
 
-date_costs_plots<- arrangeGrob(date_1,date_6,nrow=1)
-ggsave("date_costs.png",date_costs_plots,width = 14,height=8,limitsize = FALSE,bg="transparent")
+date_costs_plots<- arrangeGrob(date_1,date_6,nrow=2)
+ggsave("date_costs.png",date_costs_plots,width = 14,height=16,limitsize = FALSE,bg="transparent")
 ```
 
 ```{r Management costs for canary palms, include=FALSE}
@@ -1485,7 +1463,7 @@ df_canary %>%
   )-> canary_costs #Calculate total management costs.
 ```
 
-```{r canary_costs table,echo=FALSE}
+```{r canary_costs present value,echo=FALSE}
 
 canary_costs%>%
   filter(run==3,
@@ -1519,16 +1497,7 @@ canary_costs%>%
                 rem_cost_low,
                 total)->canary_cost_low
 
-canary_cost_low%>%
-  set_names(c("Year","Replanting","Inspection","Prevention","Treatment","Removal","Total"))%>%
-  kable(
-    caption = "\\label{tab:canary_costs_low}Canary lower bound.",
-    booktabs = T,
-    escape = F,
-    linesep= ""
-  ) %>%
-  kable_styling(latex_options = c("hold_position"))%>%
-  footnote(general=paste("Total value for all years is ",round(sum(canary_cost_low$total),digits = 2)))
+
 
 canary_costs%>%
   filter(run==4,
@@ -1562,18 +1531,10 @@ canary_costs%>%
                 rem_cost_high,
                 total)->canary_cost_high
 
-canary_cost_high%>%
-  set_names(c("Year","Replanting","Inspection","Prevention","Treatment","Removal","Total"))%>%
-  kable(
-    caption = "\\label{tab:canary_costs_high}Canary upper bound.",
-    booktabs = T,
-    escape = F,
-    linesep= ""
-  ) %>%
-  kable_styling(latex_options = c("hold_position"))%>%
-  footnote(general=paste("Total value for all years is ",round(sum(canary_cost_high$total),digits=0)))
 ```
-To better understand the differences betwee each management activity, costs for both species are illustrated in Figure \ref{fig:costs_combined}. In date palms, the costliest management activities are inspection and prevention, which makes sense since this species has been less reported. For canary palms, removal of infested trees has been the most expensive activity. 
+In date palms, the costliest management activities are inspection and prevention, which makes sense since this species has been less reported. For canary palms, removal of infested trees has been the most expensive activity. Figure \ref{fig:canary_costs}
+
+
 ```{r canary costs plots, include=FALSE}
 
 canary_cost_low%>%
@@ -1594,8 +1555,8 @@ canary_cost_low%>%
   labs(
     title = "Canary management costs lower bound",
     x = "Time",
-    y = "Euros")+
-  theme(legend.position = "top") -> canary_1
+    y = "Euros") + theme(legend.position = "top",
+        text = element_text(size=20)) -> canary_1
 
 #Filter for run 6
 canary_cost_high%>%
@@ -1617,58 +1578,67 @@ canary_cost_high%>%
     title = "Canary management costs upper bound",
     x = "Time",
     y = "Euros"
-  ) +theme(legend.position = "top")-> canary_6
+  ) + theme(legend.position = "top",
+        text = element_text(size=20))-> canary_6
 
 
-canary_costs_plots<- arrangeGrob(canary_1,canary_6,nrow=1)
-ggsave("canary_costs.png",canary_costs_plots,width = 14,height=8,limitsize = FALSE,bg="transparent")
+canary_costs_plots<- arrangeGrob(canary_1,canary_6,nrow=2)
+ggsave("canary_costs.png",canary_costs_plots,width = 14,height=16,limitsize = FALSE,bg="transparent")
 ```
 
-```{r combining management costs plots, include=FALSE}
-costs_combined<- arrangeGrob(date_costs_plots,canary_costs_plots, nrow=2)
-ggsave("costs_combined.png",costs_combined,width = 14,height=8,limitsize = FALSE,bg="transparent")
-```
-
-\begin{figure}[!htb]
-\centerline{\includegraphics[width=30pc]{costs_combined.png}}
-\caption{Management costs for date and canary palms.}
-\label{fig:costs_combined} 
-\end{figure}
 
 
-
-#### Benefits
 In our total benefits calculation, we will present ranges using the lowest (USD 12) and highest (USD 125) social cost of carbon $SCC$. The lowest bound for each species will be combined with lowest cost. By applying Equation \label{eq:social_cost} using a value of 0.191 tonnes per year for 1000 trees [@aguaronComparisonMethodsEstimating2012; @chaparroEcologicalServicesUrban2009].
 
 
 ```{r Create total costs for both species including GenCat costs, include=FALSE}
 #Create total costs for both species including GenCat costs
-date_costs %>%
-  filter(run==max(run)) %>%
-  mutate(management_costs=rep_cost+ins_cost+pre_cost+tre_cost+rem_cost)->total_date_costs_lower
-date_costs %>%
-  filter(run==min(run)) %>%
-  mutate(management_costs=rep_cost+ins_cost+pre_cost+tre_cost+rem_cost)->total_date_costs_upper
-canary_costs %>%
-  filter(run==max(run)) %>%
-  mutate(management_costs=rep_cost+ins_cost+pre_cost+tre_cost+rem_cost)->total_canary_costs_lower
-canary_costs %>%
-  filter(run==min(run)) %>%
-  mutate(management_costs=rep_cost+ins_cost+pre_cost+tre_cost+rem_cost)->total_canary_costs_upper
+
+date_cost_low_vector <- as.vector(date_cost_low$total)
+
+date_cost_low_vector <- append(date_cost_low_vector,rep(0, 6),after=0)
+
+date_cost_high_vector  <- as.vector(date_cost_high$total)
+
+date_cost_high_vector <- append(date_cost_high_vector,rep(0, 6),after=0)
+
+canary_cost_low_vector  <- as.vector(canary_cost_low$total)
+
+canary_cost_low_vector <- append(canary_cost_low_vector,rep(0, 6),after=0)
+
+canary_cost_high_vector  <- as.vector(canary_cost_high$total)
+
+canary_cost_high_vector <- append(canary_cost_high_vector,rep(0, 6),after=0)
+
 total_costs <- data_frame(time,
                           gov_cost_present,
-                          total_date_costs_upper$management_costs,
-                          total_canary_costs_upper$management_costs,
-                          total_date_costs_lower$management_costs,
-                          total_canary_costs_lower$management_costs)
+                          date_cost_low_vector,
+                          date_cost_high_vector,
+                          canary_cost_low_vector,
+                          canary_cost_high_vector)
 
 names(total_costs) <- c("time",
                            "gov_cost_present",
-                           "upper_date",
-                           "upper_canary",
                            "lower_date",
-                           "lower_canary")
+                           "upper_date",
+                           "lower_canary",
+                           "upper_canary")
+
+
 ```
+
+```{r total costs table, echo=FALSE}
+total_costs%>%
+   set_names(c("Year","GenCat","Lower date","Upper date","Lower canary","Upper canary"))%>%
+  kable(
+    caption = "\\label{tab:total_costs}Total costs.",
+    booktabs = T,
+    escape = F,
+    linesep= ""
+  ) %>%
+  kable_styling(latex_options = c("hold_position"))
+```
+
 
 ```{r costs_combined_total plots, include=FALSE}
 total_costs %>%
@@ -1687,10 +1657,11 @@ total_costs %>%
   guides( color = FALSE,
            fill = guide_legend(title = "Cost type"))+
   labs(
-    title = "Total costs lower bound (run=6)",
+    title = "Lower bound",
     x = "Time",
     y = "Euros"
-  )+theme(legend.position = "top") -> lower_costs_plot
+  )+theme(legend.position = "top",
+          text = element_text(size=20)) -> lower_costs_plot
 
 total_costs %>%
   dplyr::select(time,gov_cost_present,upper_date,upper_canary)%>%
@@ -1706,62 +1677,126 @@ total_costs %>%
   guides( color = FALSE,
            fill = guide_legend(title = "Cost type"))+
   labs(
-    title = "Total costs upper bound (run=1)",
+    title = "Upper bound",
     x = "Time",
     y = "Euros"
-  )+theme(legend.position = "top") -> upper_costs_plot
+  )+theme(legend.position = "top",
+          text = element_text(size=20)) -> upper_costs_plot
 
 costs_combined_total<- arrangeGrob(lower_costs_plot,upper_costs_plot, nrow=2)
-ggsave("costs_combined_total.png",costs_combined_total,width = 14,height=8,limitsize = FALSE,bg="transparent")
+ggsave("costs_combined_total.png",
+       costs_combined_total,
+       width = 14,
+       height=16,
+       limitsize = FALSE,
+       bg="transparent")
 ```
+
+\begin{figure}[!htb]
+\centerline{\includegraphics[width=30pc]{costs_combined_total.png}}
+\caption{Total costs.}
+\label{fig:costs_combined_total} 
+\end{figure}
+
+
+#### Benefits
+
+```{r  carbon sequestration benefits, include=FALSE}
+#Constants
+net_carbon <- 0.000191 #Define the net carbon sequestration capacity per tree (tonnes/tree)
+SCC_carbon_upper <-SCC_table$PV[2] #Define the upper social cost of carbon per one tonne (euros)  
+SCC_carbon_lower <- SCC_table$PV[1] #Define the upper social cost of carbon per one tonne (euros)  
+
+date_lower <- df_date %>%
+  filter(run==low_run)%>%
+  mutate(total=sHeal+sInf+sTre)
+  
+date_upper <- df_date %>%
+  filter(run==high_run)%>%
+    mutate(total=sHeal+sInf+sTre)
+
+canary_lower <- df_canary %>%
+  filter(run==low_run)%>%
+    mutate(total=sHeal+sInf+sTre)
+
+canary_upper <- df_canary %>%
+  filter(run==high_run)%>% 
+  mutate(total=sHeal+sInf+sTre)
+
+carbon_lower_date <- date_lower$total*SCC_carbon_lower*net_carbon
+carbon_lower_date <-future_value(carbon_lower_date,
+                                 real_rate = real_rate,
+                                 periods = (year(Sys.Date())-time))
+
+carbon_upper_date <- date_upper$total*SCC_carbon_upper*net_carbon
+carbon_upper_date <-future_value(carbon_upper_date,
+                                 real_rate = real_rate,
+                                 periods = (year(Sys.Date())-time))
+
+carbon_lower_canary <- canary_lower$total*SCC_carbon_lower*net_carbon
+carbon_lower_canary <-future_value(carbon_lower_canary,
+                                 real_rate = real_rate,
+                                 periods = (year(Sys.Date())-time))
+
+carbon_upper_canary <- canary_upper$total*SCC_carbon_upper*net_carbon
+carbon_upper_canary <-future_value(carbon_upper_canary,
+                                 real_rate = real_rate,
+                                 periods = (year(Sys.Date())-time))
+
+
+carbon_benefits <- data.frame(time,
+                              carbon_lower_date,
+                              carbon_upper_date,
+                              carbon_lower_canary,
+                              carbon_upper_canary)
+
+
+```
+
+```{r carbon benefits table}
+carbon_benefits%>%
+  set_names(c("Year","Carbon Date Low","Carbon Date High","Carbon Canary Low","Carbon Canary High"))%>%
+kable(
+    caption = "\\label{tab:carbon_costs}Carbon sequestration values.",
+    booktabs = T,
+    escape = F,
+    linesep= ""
+  ) %>%
+  kable_styling(latex_options = c("hold_position"))
+```
+
+
+
+#### Property values OMIT THIS SECTION FOR NOW. 
+
+
+
+
+
+
+
+
+#### Total costs and benefits 
+
 
 ```{r total costs summary, include=FALSE}
 total_costs %>%
   mutate(total_lower=gov_cost_present+lower_date+lower_canary,
          total_upper=gov_cost_present+upper_date+upper_canary) -> total_costs
+
+carbon_benefits%>%
+  mutate(total_lower=  carbon_lower_date+carbon_lower_canary,
+         total_upper=carbon_lower_canary+carbon_upper_canary) -> total_benefits
 ```
 
 
 
-
-
-
-```{r  carbon sequestration benefits, include=FALSE}
-#Constants
-net_carbon <- 0.000191 #Define the net carbon sequestration capacity per tree (tonnes/tree)
-SCC_carbon_upper <-107.27 #Define the upper social cost of carbon per one tonne (euros)  
-SCC_carbon_lower <- 11.75 #Define the upper social cost of carbon per one tonne (euros)  
-
-date_lower <- df_date %>%
-  filter(run==max(run))%>%
-  mutate(total=sHeal+sInf+sTre)
-  
-date_upper <- df_date %>%
-  filter(run==min(run))%>%
-    mutate(total=sHeal+sInf+sTre)
-
-canary_lower <- df_canary %>%
-  filter(run==max(run))%>%
-    mutate(total=sHeal+sInf+sTre)
-
-canary_upper <- df_canary %>%
-  filter(run==min(run))%>% 
-  mutate(total=sHeal+sInf+sTre)
-
-carbon_lower <- (date_lower$total+canary_lower$total)*SCC_carbon_lower*net_carbon
-carbon_upper <- (date_upper$total+canary_upper$total)*SCC_carbon_upper*net_carbon
-
-carbon_benefits <- data.frame(time,carbon_lower,carbon_upper)
-
-
-
-cb_lower <- data.frame(time, total_costs$total_lower,carbon_lower)
+```{r costs and benefits summary, include=FALSE}
+cb_lower <- data.frame(time, total_costs$total_lower,total_benefits$total_lower)
 names(cb_lower) <- c("time","costs","benefits")
-cb_upper <- data.frame(time, total_costs$total_upper,carbon_upper)
+cb_upper <- data.frame(time, total_costs$total_upper,total_benefits$total_lower)
 names(cb_upper) <- c("time","costs","benefits")
-```
 
-```{r carbon benefits summary, include=FALSE}
 cb_lower%>%
   summarise(sum(costs),sum(benefits)) ->cb_total_lower
 
@@ -1769,7 +1804,8 @@ cb_upper%>%
   summarise(sum(costs),sum(benefits))->cb_total_upper
 ```
 
-```{r carbon benefits plotted, include=FALSE}
+
+```{r cost benefits plotted, include=FALSE}
 
 cb_lower %>%
   mutate(costs=costs/1000)%>%
@@ -1791,7 +1827,8 @@ gather(key = "type",value="amount",2:3)%>%
     subtitle = "Costs were divided by 1,000 to allow benefits to appear in the plot.",
     x = "Time",
     y = "Euros"
-  )+theme(legend.position = "top") -> cb_lower_plot
+  )+theme(legend.position = "top",
+           text = element_text(size=20)) -> cb_lower_plot
 
 
 cb_upper %>%
@@ -1814,25 +1851,24 @@ gather(key = "type",value="amount",2:3)%>%
     subtitle = "Costs were divided by 1,000 to allow benefits to appear in the plot.",
     x = "Time",
     y = "Euros"
-  )+theme(legend.position = "top") -> cb_upper_plot
+  )+theme(legend.position = "top",
+          text = element_text(size=20)) -> cb_upper_plot
 
 cost_benefit_plot<- arrangeGrob(cb_lower_plot,cb_upper_plot, nrow=2)
 ggsave("cost_benefit_plot.png",
        cost_benefit_plot,
-       width = 16,
-       height=9,
+       width = 14,
+       height=16,
        limitsize = FALSE,
        bg="transparent")
 ```
 
 
-#### Property values OMIT THIS SECTION FOR NOW. 
-
-
-
-#### Total costs and benefits 
-
-
+\begin{figure}[!htb]
+\centerline{\includegraphics[width=30pc]{cost_benefit_plot.png}}
+\caption{Costs vs. benefits.}
+\label{fig:cost_benefit} 
+\end{figure}
 
 
 
@@ -1920,6 +1956,91 @@ colnames(df_flow) <- c("Flow")
 kable(df_flow, caption = "\\label{tab:flows}Flows.", booktabs = T,escape = F) %>%
 kable_styling(latex_options = c("hold_position"))
 ```
+
+```{r gencat cost tables, echo=FALSE}
+gencat%>%
+  set_names(c("Year","GenCat cost","GenCat cost present"))%>%
+kable(
+  caption = "\\label{tab:gencat_table}GenCat costs. Source: GENCAT, 2018.",
+  booktabs = T,
+  escape = F,
+  linesep= ""
+) %>%
+  kable_styling(latex_options = c("hold_position"))
+```
+
+```{r date_cost_low table}
+date_cost_low%>%
+  set_names(c("Year","Replanting","Inspection","Prevention","Treatment","Removal","Total"))%>%
+  kable(
+    caption = "\\label{tab:date_costs_low}Date management costs lower bound.",
+    booktabs = T,
+    escape = F,
+    linesep= ""
+  ) %>%
+  kable_styling(latex_options = c("hold_position"))%>%
+  footnote(general=paste("Total value for all years is ",round(sum(date_cost_low$total),digits = 0)))
+```
+
+
+```{r date_cost_high table}
+date_cost_high%>%
+  set_names(c("Year","Replanting","Inspection","Prevention","Treatment","Removal","Total"))%>%
+  kable(
+    caption = "\\label{tab:date_costs_high}Date management costs upper bound.",
+    booktabs = T,
+    escape = F,
+    linesep= ""
+  ) %>%
+  kable_styling(latex_options = c("hold_position"))%>%
+  footnote(general=paste("Total value for all years is ",round(sum(date_cost_high$total),digits=0)))
+
+
+```
+
+
+```{r canary_cost_low table}
+canary_cost_low%>%
+  set_names(c("Year","Replanting","Inspection","Prevention","Treatment","Removal","Total"))%>%
+  kable(
+    caption = "\\label{tab:canary_costs_low}Canary management lower bound.",
+    booktabs = T,
+    escape = F,
+    linesep= ""
+  ) %>%
+  kable_styling(latex_options = c("hold_position"))%>%
+  footnote(general=paste("Total value for all years is ",round(sum(canary_cost_low$total),digits = 0)))
+
+```
+
+
+```{r canary_cost_high table}
+canary_cost_high%>%
+  set_names(c("Year","Replanting","Inspection","Prevention","Treatment","Removal","Total"))%>%
+  kable(
+    caption = "\\label{tab:canary_costs_high}Canary management costs upper bound.",
+    booktabs = T,
+    escape = F,
+    linesep= ""
+  ) %>%
+  kable_styling(latex_options = c("hold_position"))%>%
+  footnote(general=paste("Total value for all years is ",round(sum(canary_cost_high$total),digits=0)))
+
+```
+
+
+\begin{figure}[!htb]
+\centerline{\includegraphics[width=30pc]{date_costs.png}}
+\caption{Management costs for date palms.}
+\label{fig:date_costs} 
+\end{figure}
+
+\begin{figure}[!htb]
+\centerline{\includegraphics[width=30pc]{canary_costs.png}}
+\caption{Management costs for canary palms.}
+\label{fig:canary_costs} 
+\end{figure}
+
 
 \pagebreak
 References {#references .unnumbered}
