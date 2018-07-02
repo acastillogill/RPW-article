@@ -455,7 +455,7 @@ Since public tree inventory is decentralised and private owners have agency to c
 \label{eq:2005stock}S_{2005}=S_{2018}+S_{2017-2005}^L
 \end{equation}
 
-As previously mentioned, the availability of both palm trees in the region of study is human-mediated given its almost exclusive ornamental use. Due to this management of palm trees in the region of study, we identified multiple human-centred factors as explanatory variables (namely population, GDP per sector and municipality area). Furthermore, we consulted with two experts in forestry and ornamental plants who suggested distance to the Western Mediterranean Basin plays a key role in the presence of palm trees. Finally, longitude was added in case there was any other spatial pattern in Western vs Eastern Catalonia. A proxy for latitude was already included within distance to the Mediterranean. 
+As previously mentioned, the availability of both palm trees in the region of study is human-mediated given its almost exclusive ornamental use. Due to this management of palm trees in the region of study, we identified multiple human-centred factors as explanatory variables (namely population, GDP per sector and municipality area). Furthermore, we consulted with two experts in forestry and ornamental plants who suggested distance to the Western Mediterranean Basin plays a key role in the presence of palm trees.
 
 Data for aforementioned variables was retrieved from the Catalonian statistical department (IDESCAT) for all municipalities. Distance was calculated using polygon centroids. GDP per sector was not available for all 947 municipalities, however, it was available for all 'comarcas', which are a higher administrative level made up of 42 divisions. 'Comarcas' GDP per sector was used for municipalities lacking these data. 
 
@@ -469,7 +469,7 @@ We collected data on tree stocks using static maps from Google Maps. The followi
 \label{fig:grids} 
 \end{figure}
 
-Once observations were collected, we ran a linear model under Bayes model averaging for outlier detection. At this point we had no criteria to select one model over another so Bayes model averaging was useful as this model averages multiple models according to their posterior probability. The model was specified as follows: all seven explanatory variables were included, a uniform distribution was asigned as the model prior, and the Bayes Information Criterion ($BIC$)[^2] was used as the prior distribution for regression coefficients since we were in a non-informative situation. Using this model, the three observations with largest absolute residuals were removed to leave a sample size of 70, leaving ten observations for each of the seven aforementioned variables. 
+Once observations were collected, we ran a linear model under Bayes model averaging. At this point we had no criteria to select one model over another so Bayes model averaging was useful as this model averages multiple models according to their posterior probability. The model was specified as follows: all seven explanatory variables were included, a uniform distribution was asigned as the model prior, and the Bayes Information Criterion ($BIC$)[^2] was used as the prior distribution for regression coefficients since we were in a non-informative situation. 
 
 ```{r reading collected data, include=FALSE}
 #Read palm data
@@ -506,41 +506,17 @@ boxplot_canary<- ggplot(palms,aes(x=,y=canary))+
   coord_flip()
 ```
 
-
-```{r outliers, include=FALSE}
-BMA_date <-  bas.lm(date ~ ag+ser+cons+indu+distance+population+area, data = palms,
-                      prior = "BIC",
-                      modelprior = uniform())
-
-plot(BMA_date, which=1)
-
-BMA_canary <-  bas.lm(canary ~ ag+ser+cons+indu+distance+population+area, data = palms,
-                      prior = "BIC",
-                      modelprior = uniform())
-
-plot(BMA_canary, which=1)
-
-```
-
-```{r outlier_removal, include=FALSE }
-top_three_date <- c(60,73,68)
-palms_date <- palms[-top_three_date,]
-
-top_three_canary <- c(60,67,68)
-palms_canary <- palms[-top_three_canary,]
-```
-
 ```{r ape, include=FALSE }
 set.seed(42)
-n <-  nrow(palms_date)
+n <-  nrow(palms)
 n_cv <-  50
 ape_date <-  matrix(NA, ncol=4, nrow=n_cv)
 colnames(ape_date) = c("BMA", "BPM", "HPM", "MPM")
 
 for (i in 1:n_cv) {
   train = sample(1:n, size=round(.90*n), replace=FALSE)
-  date_train = palms_date[train,]
-  date_test = palms_date[-train,]
+  date_train = palms[train,]
+  date_test = palms[-train,]
   
   bma_train_date = bas.lm(date ~ ag+ser+cons+indu+distance+population+area, data=date_train, 
                           prior="BIC", modelprior=uniform(), initprobs="eplogp")
@@ -559,15 +535,15 @@ boxplot(ape_date)
 apply(ape_date, 2, mean)
 
 set.seed(42)
-n <-  nrow(palms_canary)
+n <-  nrow(palms)
 n_cv <-  50
 ape_canary <-  matrix(NA, ncol=4, nrow=n_cv)
 colnames(ape_canary) = c("BMA", "BPM", "HPM", "MPM")
 
 for (i in 1:n_cv) {
   train = sample(1:n, size=round(.90*n), replace=FALSE)
-  canary_train = palms_canary[train,]
-  canary_test = palms_canary[-train,]
+  canary_train = palms[train,]
+  canary_test = palms[-train,]
   
   bma_train_canary = bas.lm(canary ~ ag+ser+cons+indu+distance+area+population, data=canary_train, 
                           prior="BIC", modelprior=uniform(), initprobs="eplogp")
@@ -589,10 +565,17 @@ apply(ape_canary, 2, mean)
 During the model selection stage, we considered several estimators: best predictive model (BPM), median probability model (MPM) and, highest probability model (HPM). In order to select amongst estimators, we computed the average predictive error (APE) for each one. BPM, the estimator that has predictions closest to BMA and corresponding posterior standard deviations, was selected for date palms and HPM, the model with the lowest $BIC$ was selected for canary palms. In terms of coefficients this meant, distance, population, fraction of GDP from agriculture and industry, for date palms; and distance, population, and fraction of GDP from industry, for canary palms.
 
 ```{r coefficients, include=FALSE}
+BMA_date <-  bas.lm(date ~ ag+ser+cons+indu+distance+population+area, data = palms,
+                      prior = "BIC",
+                      modelprior = uniform())
 BPM_pred_date =  predict(BMA_date, estimator="BPM", se.fit=TRUE)
 BMA_date$namesx[BPM_pred_date$bestmodel+1]
 
-lm_canary = lm(canary ~ ag+ser+cons+indu+distance+population+area, data=palms_canary)
+lm_canary = lm(canary ~ ag+ser+cons+indu+distance+population+area, data=palms)
+
+BMA_canary <-  bas.lm(canary ~ ag+ser+cons+indu+distance+population+area, data = palms,
+                      prior = "BIC",
+                      modelprior = uniform())
 n <- length(BMA_canary)
 stepAIC(object=lm_canary, k =log(n))
 ```
@@ -600,9 +583,9 @@ stepAIC(object=lm_canary, k =log(n))
 [^2]:$BIC= -2*log(likelihood)+log(n)*\#parameters$, where $n$ is the sample size. We will have a tradeoff between the goodness of fit (the extent to which observed data matches the values expected by theory) $n*log(1-R^2)$ and the model complexity represented with $log(n)*\#parameters$. We choose the model that has the smallest $BIC$. 
 
 ```{r tree models, include=FALSE}
-lm_date <- lm(date ~ indu+distance+population+ag, data=palms_date)
+lm_date <- lm(date ~ indu+distance+population+ag, data=palms)
  
-lm_canary <- lm(canary ~ indu+distance+population, data=palms_canary)
+lm_canary <- lm(canary ~ indu+distance+population, data=palms)
 ```
 
 ```{r date predictions, include=FALSE}
@@ -647,8 +630,9 @@ test_canary%>%
 date_mean <- ggplot(test_date, aes(
  x = distance,
   y = date,
+color = cut(indu, breaks = 4),
     size= population)) +
-  geom_jitter(alpha = 0.5, color="darkgreen") +
+  geom_jitter(alpha=0.5) +
   geom_text(
     aes(x = test_date$distance, y = test_date$date),
     label = test_date$Nom,
@@ -661,11 +645,12 @@ date_mean <- ggplot(test_date, aes(
   scale_x_continuous(limits = c(-5, 200)) +
   theme_classic() +
   guides(
-    size = guide_legend(title = "Population")
+    size = guide_legend(title = "Population"),
+      color=guide_legend(title = "Fraction of GDP from industry")
   ) +
   labs(
     title= paste("Date palm trees 2018,","n =",sum_date$sum_2018,sep = " "),
-   subtitle = "Vs. distance and population.",
+   subtitle = "Vs. distance, population and fraction of GDP from services.",
     x = "Distance to coastline (km)",
     y = "Date palms"
   )
@@ -679,9 +664,10 @@ ggsave(
 canary_mean <- ggplot(test_canary, aes(
   x = distance,
   y = canary,
+color = cut(indu, breaks = 4),
   size = population)
 ) +
-  geom_jitter(alpha = 0.5, color="darkgreen") +
+  geom_jitter(alpha=0.5) +
   geom_text(
     aes(x = test_canary$distance, y = test_canary$canary),
     label = test_canary$Nom,
@@ -694,11 +680,12 @@ canary_mean <- ggplot(test_canary, aes(
   scale_x_continuous(limits = c(-5, 200)) +
   theme_classic() +
   guides(
-    size= guide_legend(title="Population")
+    size= guide_legend(title="Population"),
+  color=guide_legend(title = "Fraction of GDP from industry")
   ) +
   labs(
     title = paste("Canary palm trees 2018,","n =",sum_canary$sum_2018,sep = " "),
-    subtitle = "Vs. distance and population.",
+    subtitle = "Vs. distance, population and fraction of GDP from services.",
     x = "Distance to coastline (km)",
     y = "Canary palms"
   )
@@ -713,13 +700,16 @@ predictions <- arrangeGrob(date_mean,canary_mean,nrow=1)
 ggsave("predictions.png",predictions,width = 14,height=5,limitsize = FALSE,bg="transparent")
 ```
 
-Using these models, we estimated the number of date and canary palms in Catalonia. Predictions appear in Figure \ref{fig:predictions}. Finally, recall that these estimates correspond to 2018 estimates. To obtain 2005 estimates, we added the reported loss for date (14) and canary palms (8946) provided by GenCat. Final estimates por date and canary palms were `r sum_date$sum_2018+14` and `r sum_canary$sum_2018+8946`. 
+Using these models, we estimated the number of date and canary palms in Catalonia. Predictions appear in Figure \ref{fig:predictions} as a function of distance, population, and fraction of GDP for industry. We can see that for most species, palm trees are located closest to the coast, have a positive relationship with population and negative relationship with fraction of GDP from industry. If we consider industry to be opposed to services, it is likely this variable serves as a proxy for tourism.
 
 \begin{figure}[!htb] 
 \centerline{\includegraphics[width=30pc]{predictions.png}} 
 \caption{Palm predictions according to species.}
 \label{fig:predictions} 
 \end{figure}
+
+Finally, recall that these estimates correspond to 2018 estimates. To obtain 2005 estimates, we added the reported loss for date (14) and canary palms (8946) provided by GenCat. Final estimates por date and canary palms were `r sum_date$sum_2018+14` and `r sum_canary$sum_2018+8946`. 
+
 
 #### Infested stock 2005
 
@@ -987,9 +977,7 @@ mutate_at(ceiling,.vars=c("sHeal",
                         "Successful_treatment")) -> df_canary
 ```
 
-\begin{figure}[ht]
-\centerline{\includegraphics[width=30pc]{simulations_combined.png}} \caption{Sensitivity analysis for each species.}
-\label{fig:simulations} \end{figure}
+
 
 ```{r simulations date plots, include=FALSE}
 #Creating breaks for years
@@ -1180,7 +1168,11 @@ simulations_combined<- arrangeGrob(simulations_date,simulations_canary, nrow=2)
 ggsave("simulations_combined.png",simulations_combined,width = 14,height=8,limitsize = FALSE,bg="transparent")
 ```
 
-To initialise our model, we needed to estimate the number of infested trees at the beginning of the epidemic (2005). Since no information was available, we did this by running several simulations whilst varying the infested stock. As reference, we used reports for the infested stock per year. If the simulations contained the reported infested stock, then it is likely the initialisation parameters are appropriate. For this process, we implemented the model using the deSolve package for R Software [@soetaertSolvingDifferentialEquations2010] and ran a sensitivy analysis. The method that is used here is the Latin Hypercube Sampling (LHS) [@mckayComparisonThreeMethods1979] implemented with the R FME package [@soetaertSolvingDifferentialEquations2010a]. The reference for these estimates was government records collected by GenCat on the evolution of the pest between 2005 and 2014. According to interviews to GenCat officials, these were collected through non-structured communications. For example, private owners or municipalities would contact GenCat and report their RPW observations. This is to say that these reports do not accurately reflect the RPW's spatio-temporal infestation pattern, but rather, they provide a minimum volume of affected palm trees per species. Four simulations with random values for each parameter are presented in figure \ref{fig:simulations}. Any number of simulations could have been ran but for clarity, four were included in the figure. By looking at the infested stock for canary palms, we can see that simulation four, best fits the reports up to 2008. Afterwards, there is a decline in the reports, including a sharp decline in 2011. We believe this occurs due to the reporting methods and not to a sudden change in the actual patterns of infestation. This is supported by the reports from the subsequent year (2012), where reports increase and fit the third simulation. From this observation, we infer that the most appropiate initialization parameters for infested stock are between those of simulations three and four, summarised along with other parameters in table \ref{tab:initpar}. These will be used for our cost calculations. 
+To initialise our model, we needed to estimate the number of infested trees at the beginning of the epidemic (2005). Since no information was available, we did this by running several simulations whilst varying the infested stock. As reference, we used reports for the infested stock per year. If the simulations contained the reported infested stock, then it is likely the initialisation parameters are appropriate. For this process, we implemented the model using the deSolve package for R Software [@soetaertSolvingDifferentialEquations2010] and ran a sensitivy analysis. The method that is used here is the Latin Hypercube Sampling (LHS) [@mckayComparisonThreeMethods1979] implemented with the R FME package [@soetaertSolvingDifferentialEquations2010a]. The reference for these estimates was government records collected by GenCat on the evolution of the pest between 2005 and 2014. According to interviews to GenCat officials, these were collected through non-structured communications. For example, private owners or municipalities would contact GenCat and report their RPW observations. This is to say that these reports do not accurately reflect the RPW's spatio-temporal infestation pattern, but rather, they provide a minimum volume of affected palm trees per species. Four simulations with random values for each parameter are presented in Figure \ref{fig:simulations}. 
+\begin{figure}[!htb]
+\centerline{\includegraphics[width=30pc]{simulations_combined.png}} \caption{Sensitivity analysis for each species.}
+\label{fig:simulations} \end{figure}
+Any number of simulations could have been ran but for clarity, four were included in the figure. By looking at the infested stock for canary palms, we can see that simulation four (yellow), best fits the reports up to 2008. Afterwards, there is a decline in the reports, including a sharp decline in 2011. We believe this occurs due to the reporting methods and not to a sudden change in the actual patterns of infestation. This is supported by the reports from the subsequent year (2012), where reports increase and fit the third simulation. From this observation, we infer that the most appropiate initialization parameters for infested stock are between those of simulations three and four, summarised along with other parameters in table \ref{tab:initpar}. These will be used for our cost calculations. 
 
 ```{r ranges for infested stock 2005, eval=FALSE,include=FALSE}
 df_canary%>%
@@ -1229,7 +1221,7 @@ kable(parameter_table,
 
 #### Costs
 
-We now present the costs per species and management category brought to net present value. We present a lower and upper bound. It is important to remember that before 2011, all costs, including management are within the GenCat costs. After 2011 private owners and municipalties assume management costs in addition to replanting which is not included in GenCat costs. 
+We now present the costs per species and management category brought to present value. We present a lower and upper bound. It is important to remember that before 2011, research, outreach and management costs (with the exception of replanting) are within the GenCat costs, these are summarised in Table \ref{tab:gencat_table} and brought to present value with a discount rate of `r discount_rate` and inflation rate of `r inflation_rate`. After 2011 private owners and municipalties assume management costs in addition to replanting.
 
 ```{r gencat costs, include=FALSE}
 #Add GenCat costs. 
@@ -1270,7 +1262,39 @@ kable(
   kable_styling(latex_options = c("hold_position"))
 ```
 
+```{r gencast costs plots, include=FALSE}
+gencat %>%
+  dplyr::select(time,gov_cost_present)%>%
+  gather(key="cost",
+         value="amount",
+         2)%>%
+  ggplot(aes(x=time,
+             y=amount,
+             color=cost))+
+  geom_area(aes(fill=cost),
+            position = "dodge",
+            alpha=0.5,linetype="dashed",size=1)+
+  theme_classic()+
+  scale_x_continuous(breaks = int_breaks)+
+  guides( color = FALSE,
+           fill = guide_legend(title = "Cost type"))+
+  labs(
+    title = "GenCat costs",
+    x = "Time",
+    y = "Euros"
+  )+theme(legend.position = "top") -> gencat_plot
 
+ggsave("gencat_plot.png",gencat_plot,width = 14,height=8,limitsize = FALSE,bg="transparent")
+```
+In Figure \ref{fig:gencat_plot}, we can see that GenCat costs are slowly rising from 2005 but in 2009 they peak and then decline with a further rise around 2014.
+
+\begin{figure}[!htb]
+\centerline{\includegraphics[width=30pc]{gencat_plot.png}}
+\caption{GenCat costs}
+\label{fig:gencat_plot} 
+\end{figure}
+
+Equation \ref{eq:management_costs} was applied to the lower and upper estimates of date palms. Tables \ref{tab:date_costs_low} and \ref{tab:date_costs_high} summarise each activity along with the total. The footnote shows an all year total. 
 ```{r Management costs for date palms, include=FALSE}
 #Management costs for date palms
 unit_replanting <- 500 #Define the unitary cost of replanting (euros)
@@ -1337,13 +1361,12 @@ date_costs%>%
 date_cost_low%>%
   set_names(c("Year","Replanting","Inspection","Prevention","Treatment","Removal","Total"))%>%
   kable(
-    caption = "\\label{tab:date_costs_low}Date lower bound.",
+    caption = "\\label{tab:date_costs_low}Date management costs lower bound.",
     booktabs = T,
     escape = F,
     linesep= ""
   ) %>%
   kable_styling(latex_options = c("hold_position"))%>%
-  add_header_above(c(" ","Lower bound"=6))%>%
   footnote(general=paste("Total value for all years is ",round(sum(date_cost_low$total),digits = 0)))
 
 date_costs%>%
@@ -1381,16 +1404,16 @@ date_costs%>%
 date_cost_high%>%
   set_names(c("Year","Replanting","Inspection","Prevention","Treatment","Removal","Total"))%>%
   kable(
-    caption = "\\label{tab:date_costs_high}Date higher bound.",
+    caption = "\\label{tab:date_costs_high}Date management costs upper bound.",
     booktabs = T,
     escape = F,
     linesep= ""
   ) %>%
   kable_styling(latex_options = c("hold_position"))%>%
-  add_header_above(c(" ","Upper bound"=6))%>%
   footnote(general=paste("Total value for all years is ",round(sum(date_cost_high$total),digits=0)))
 ```
 
+The same procedure was applied for canary costs and results appear summarised in Tables \ref{tab:canary_costs_low} and \ref{tab:canary_costs_high}.         
 ```{r date costs plots, include=FALSE}
 
 date_cost_low%>%
@@ -1505,7 +1528,6 @@ canary_cost_low%>%
     linesep= ""
   ) %>%
   kable_styling(latex_options = c("hold_position"))%>%
-  add_header_above(c(" ","Lower bound"=6))%>%
   footnote(general=paste("Total value for all years is ",round(sum(canary_cost_low$total),digits = 2)))
 
 canary_costs%>%
@@ -1543,16 +1565,15 @@ canary_costs%>%
 canary_cost_high%>%
   set_names(c("Year","Replanting","Inspection","Prevention","Treatment","Removal","Total"))%>%
   kable(
-    caption = "\\label{tab:canary_costs_high}Canary higher bound.",
+    caption = "\\label{tab:canary_costs_high}Canary upper bound.",
     booktabs = T,
     escape = F,
     linesep= ""
   ) %>%
   kable_styling(latex_options = c("hold_position"))%>%
-  add_header_above(c(" ","Upper bound"=6))%>%
-  footnote(general=paste("Total value for all years is ",round(sum(canary_cost_high$total),digits=2)))
+  footnote(general=paste("Total value for all years is ",round(sum(canary_cost_high$total),digits=0)))
 ```
-
+To better understand the differences betwee each management activity, costs for both species are illustrated in Figure \ref{fig:costs_combined}. In date palms, the costliest management activities are inspection and prevention, which makes sense since this species has been less reported. For canary palms, removal of infested trees has been the most expensive activity. 
 ```{r canary costs plots, include=FALSE}
 
 canary_cost_low%>%
@@ -1571,7 +1592,7 @@ canary_cost_low%>%
   guides( color = FALSE,
           fill = guide_legend(title = "Cost type"))+
   labs(
-    title = "Canary palm costs lower bound",
+    title = "Canary management costs lower bound",
     x = "Time",
     y = "Euros")+
   theme(legend.position = "top") -> canary_1
@@ -1593,7 +1614,7 @@ canary_cost_high%>%
   guides( color = FALSE,
           fill = guide_legend(title = "Cost type"))+
   labs(
-    title = "Canary palm costs upper bound",
+    title = "Canary management costs upper bound",
     x = "Time",
     y = "Euros"
   ) +theme(legend.position = "top")-> canary_6
@@ -1603,17 +1624,22 @@ canary_costs_plots<- arrangeGrob(canary_1,canary_6,nrow=1)
 ggsave("canary_costs.png",canary_costs_plots,width = 14,height=8,limitsize = FALSE,bg="transparent")
 ```
 
-
 ```{r combining management costs plots, include=FALSE}
 costs_combined<- arrangeGrob(date_costs_plots,canary_costs_plots, nrow=2)
 ggsave("costs_combined.png",costs_combined,width = 14,height=8,limitsize = FALSE,bg="transparent")
 ```
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
 \centerline{\includegraphics[width=30pc]{costs_combined.png}}
 \caption{Management costs for date and canary palms.}
 \label{fig:costs_combined} 
 \end{figure}
+
+
+
+#### Benefits
+In our total benefits calculation, we will present ranges using the lowest (USD 12) and highest (USD 125) social cost of carbon $SCC$. The lowest bound for each species will be combined with lowest cost. By applying Equation \label{eq:social_cost} using a value of 0.191 tonnes per year for 1000 trees [@aguaronComparisonMethodsEstimating2012; @chaparroEcologicalServicesUrban2009].
+
 
 ```{r Create total costs for both species including GenCat costs, include=FALSE}
 #Create total costs for both species including GenCat costs
@@ -1697,9 +1723,6 @@ total_costs %>%
 
 
 
-
-#### Benefits
-In our total benefits calculation, we will present ranges using the lowest (USD 12) and highest (USD 125) social cost of carbon. The two select species are estimated to sequester similar amounts of carbon at 0.191 tonnes per year for 1000 trees [@aguaronComparisonMethodsEstimating2012], add#ChaparroTerradas.
 
 
 
@@ -1803,15 +1826,11 @@ ggsave("cost_benefit_plot.png",
 ```
 
 
-
-
-#### Property values
+#### Property values OMIT THIS SECTION FOR NOW. 
 
 
 
 #### Total costs and benefits 
-
-
 
 
 
