@@ -1,0 +1,1908 @@
+---
+title: "Cost-benefit analysis of a conservation policy under climate change: The red palm weevil beetle in Catalonia, Spain"
+
+author:
+  - name: Ángela Delgado Castillo
+    email: LuzAngela.Delgado@uab.cat
+    affiliation: a
+    footnote: Corresponding Author
+  - name: Jeroen C.J.M.van den Bergh
+    email: jeroen.bergh@uab.cat
+    affiliation: a,b,c
+  - name: Víctor Sarto i Monteys
+    email: victor.sarto@uab.cat
+    affiliation: a
+
+address:
+  - code: a
+    address: Institute of Environmental Science and Technology, Universitat Autònoma de Barcelona, (ICTA-UAB), Edifici Z, 08193, Bellaterra, Spain.
+  - code: b
+    address: ICREA, Barcelona, Spain.
+  - code: c
+    address: Faculty of Economics and Business Administration, and Institute for Environmental Studies, VU University Amsterdam, The Netherlands.
+
+
+abstract: |
+  Invasive insects are the costliest species amongst invasive species. It is estimated that more than half of potential insect invasions have not taken place. With limited budgets for biological invasions, multiple frameworks for prioritizing have recently risen, but are current policies effectively integrating these frameworks? In this article we evaluated a set of conservation policies designed in response to the arrival of the invasive Red Palm Weevil (*Rhynchophorus ferrugineus*). The purpose of the selected policies was to preserve non-native and non-threatened palm species exclusively used for ornamental purposes, in Catalonia, Spain. Through a comprehensive cost-benefit analysis based on the total economic value framework, we found that the policies were not monetarily justified. In a region with both a large portion of land dedicated to agricultural activities and densely populated areas, budgets for biological invasions could be assigned elsewhere. This, however, requires recognition and support from wider international policies. 
+
+  
+journal: "Ecological Economics"
+date: "`r Sys.Date()`"
+bookdown:
+  fig_caption: yes
+bibliography: library1.bib
+header-includes:
+   - \usepackage{caption}
+      \usepackage[section]{placeins}
+      \captionsetup[table]{font=normalsize,labelfont=normalsize}
+output: rticles::elsevier_article
+
+---
+
+_Keywords: Environmental valuation, insects, ecosystem services, Rhynchophorus ferrugineus._
+
+```{r setup, include=FALSE}
+x <-
+  c("tidyverse",
+    "officer",
+    "bookdown",
+    "fcuk",
+    "knitr",
+    "kableExtra",
+    "kable",
+    "formatR",
+    "gridExtra",
+    "jsonlite",
+    "httr",
+    "base64enc",
+    "rlist",
+    "RefManageR",
+    "openxlsx",
+    "BMA",
+    "BAS",
+    "statsr",
+    "MASS",
+    "deSolve",
+    "FME",
+    "RUnit",
+    "plyr",
+    "gdata",
+    "citr",
+    "FinancialMath",
+    "quantmod",
+    "lubridate")
+
+
+lapply(x, require, character.only = TRUE)
+
+opts_chunk$set(echo = FALSE)
+options(knitr.table.format = "latex")
+```
+
+1. Introduction
+==========================
+
+The introduction of invasive alien species (IAS) can be considered as an important feature of the Anthropocene [@capinhaDispersalAlienSpecies2015; @lewisDefiningAnthropocene2015]. A worldwide growth in trade and transport for the past two centuries has increased the rate at which new IAS appear [@costelloUnintendedBiologicalInvasions2007; @pysekInvasiveSpeciesEnvironmental2010]. 1-16% of all species on Earth, depending on the taxonomic classification, qualify as potential alien species. For most taxonomic groups, the greater part of potential invasions has yet to occur [@seebensGlobalRiseEmerging2018].  
+
+IAS often have a negative impact on human health, the economy and ecosystems
+[@bradshawMassiveGrosslyUnderestimated2016; @colauttiCharacterisedProjectedCosts2006; @painiGlobalThreatAgriculture2016; @pimentelUpdateEnvironmentalEconomic2005; @vazquez-prokopecUnforeseenCostsCutting2010; @williamsEconomicCostInvasive2010].
+Invasive insects (II) are likely to be the costliest species to humans with an annual minimum estimation of USD 70 billion globally [@bradshawMassiveGrosslyUnderestimated2016]. There are about 1.84 to 2.57 million insects species [@moraHowManySpecies2011]and to date, only an approximate 24% of potential insect invasions have taken place [@seebensGlobalRiseEmerging2018]. Depending on the policy implemented to lessen the impact of these invasions, the cost will be typically assumed by taxpayers, private entities, and residential property owners [@fenichelControlInvasiveSpecies2014; @funkBroadeningCaseInvasive2014; @lovettNonnativeForestInsects2016; @martelliEconomicImpactDengue2015; @vandammeOutofpocketHealthExpenditure2004].
+
+To minimise costs borne by II, often the best policies are preventative which include measures in exporting countries and inspections of shipments at ports of entry [@lovettNonnativeForestInsects2016]. In instances of effective II introduction, governments can apply post-entry measures such as quarantines, surveillance and eradication programs [@kellerInternationalPolicyOptions2011; @thompsoncampbellFadingForestsNorth1994]. But when budgets to address biological invasions are limited and invasions are rising, what should governments and individuals do? Prioritisation of which species, pathways, or sites to address is key [@mcgeochPrioritizingSpeciesPathways2016], as stated in Target 9 of the Aichi Biodiversity Targets of Convention on Biological Diversity [@conventiononbiologicaldiversityAichiBiodiversityTargets]. 
+
+In this article we explore a set conservation policies designed to address the arrival of an invasive insect. Our aim is to understand to what extent the crucial concept of prioritisation is being implemented in current policies. This assessment supports policy makers at a local, regional and international level to improve resource allocation by considering the environmental and possibly socio-economic impacts [@blackburnUnifiedClassificationAlien2014; @kumschickConceptualFrameworkPrioritization2012] and selecting the actions that best avoid or lessen the impact of invasive species [@mcgeochPrioritizingSpeciesPathways2016].
+
+The conservation policies selected [^1] were designed to preserve two non-native and non-threatened [@beechPhoenixCanariensisIUCN2017] palm species susceptible to an invasive insect in Catalonia, Spain. These two species have come under pressure in the region of study due to the arrival of II, namely the red palm weevil (*Rhynchophorus ferrugineus*, Coleoptera: Dryophthoridae) or as it is known locally, the ‘morrut de les palmeres’ (Catalan for palm weevil). II like the red palm weevil (RPW) are introduced through trade and transport [@costelloUnintendedBiologicalInvasions2007; @margolisHowTradePolitics2005; @meyersonInvasiveAlienSpecies2007]. A relationship between the accumulation of non-nonative species and merchandise imports has been found [@levineForecastingBiologicalInvasions2003] and economic and demographic variables have been found to influence invasion levels [@pysekDisentanglingRoleEnvironmental2010].
+
+In the region of study, Catalonia, Spain, there are over 800 gardens, nurseries and plant traders combined of which 205 or 24% trade with palm trees. Table \ref{tab:nurseries} shows that each of the five main regions in Catalonia are trading with palm species increasing the risk for expansion. Sites with large volumes of trade and transport and adjacent to high human population densities such as Catalonia, likely benefit from prioritizing invasions [@mcgeochPrioritizingSpeciesPathways2016].
+
+[^1]: The selected policies are Ordre ARP/343/2006, Ordre AAR/226/2009, Ordre AAR/2802/2010, and Ordre AAM/56/2011. These are explained in furter detail in the appendix.
+
+```{r nurseries table, echo=FALSE}
+options(scipen = 999, digits = 2)
+all_nurseries <- c(348, 162, 148, 98, 106, 862)
+palm_nurseries <- c(59, 63, 10, 36, 37, 205)
+region <-  c("Barcelona",
+             "Girona",
+             "Lleida",
+             "Tarragona",
+             "Terres de l'Ebre",
+             "Total")
+df_nurseries <- data_frame(region,
+                           palm_nurseries,
+                           all_nurseries)
+df_nurseries$region <- as.factor(df_nurseries$region)
+colnames(df_nurseries) <- c("Region",
+                            "With palms",
+                            "All")
+df_nurseries <- df_nurseries %>%
+  mutate(Ratio = `With palms` / All)
+kable(
+  df_nurseries,
+  caption = "\\label{tab:nurseries}Gardens, nurseries, and traders per region. Source: GENCAT, 2018.",
+  booktabs = T,
+  escape = F
+) %>%
+  kable_styling(latex_options = c("hold_position"))
+```
+
+
+Broadly, the selected policies have the aim of mitigating the insect's impact on susceptible palm species. Multiple methods of assessment have been proposed within the invasive species prioritisation literature [@faulknerSimpleRapidMethodology2014; @iucnConsultationDocumentIUCN2017]. A tool that is widely used to assess public policies is the cost-benefit analysis. Recently, the application of this tool to prioritise biological invasions has been highlighted to overcome "pitfalls" present in other methods: (1) prioritisations are sometimes based on expert judgements and scores are debatable, (2) summation of the scores is tricky, (3) inclusion of management expenditure is not usual and (4) relationships between species are often excluded [@courtoisCostBenefitApproach2018]. To correct these deficiencies, we will use a cost-benefit analysis as a tool to assess the selected policies. 
+
+1.1 The RPW around the world and in Catalonia
+==========================
+
+The RPW is essentially a pest of palms (Arecaceae), with 29 species listed as host plants by CABI (2017). It has also been mentioned from sugarcane, Saccharum officinarum, (Poaceae) and sentry plant or maguey, Agave americana (Agavaceae) [@cabiDatasheetRhynchophorusFerrugineus2017] although this would require confirmation. The RPW is native to Southeast Asia and Polynesia [@wattanapongsiriRevisionGeneraRhynchophorus1966]. It was introduced in other parts of the world mainly through import of palm trees from these regions. Evidence suggests that weevils entered Spain through adult palms imported from Egypt in the early 1990’s [@ferryRedPalmWeevil2002]. In turn, Egypt is suspected to have come into contact with the RPW through the importation of palm tree offshoots from the United Arab Emirates in 1992 [@ferryRedPalmWeevil2002].	
+
+The RPW attacks palm trees by laying eggs on their crown. Larvae then penetrate it eventually reaching the crown core where the meristematic tissue resides. Subsequent feeding on this tissue will eventually kill the palm tree. Because the whole larval stage occurs within the palm tree, it is concealed from plain eyesight and hence hard to detect. 
+In Spain, palm damage by this beetle was first observed in 1993 on the coastal front of the Granada province [@barrancoNuevoCurculionidoTropical1996]. In 2004, it reached the Autonomous Community of Valencia [@eppoRhynchophorusFerrugineus2008]. It was officially declared  a pest in Catalonia in 2006 [@generalitatdecatalunyaOrdreARP3412006] while it is estimated to have arrived between 2003 and 2004 to the Ebro river delta and Tarragona region (South Catalonia). The Catalan Department of Agriculture has made efforts to identify in what regions (“comarques”) the beetle is present, resulting in the pattern shown in Figure \ref{fig:catalonia}. This illustration, provided by GENCAT, colors the areas where the RPW has been reported upto November 2016. The colored area is along the coast since this is where most palm trees are present, although a few inner regions are also included. 
+
+\captionsetup[figure]{font=normalsize,labelfont=normalsize}
+\begin{figure}[!htb]
+\centerline{\includegraphics[width=20pc]{2016invasion.png}} 
+\caption{2016 invasion status. [Source:@GENCAT2017]}
+\label{fig:catalonia} 
+\end{figure}
+
+Some areas in the Mediterranean have also been colonised. Sicily, for instance, was reached in 2005 where palm damage was categorised as a threat to cultural heritage [@manachiniExoticInsectPests2013; @periRedPalmWeevil2013]. Other countries where it appeared for the first time in this period include Turkey (2005), Cyprus (2006), Greece (2006) and Malta (2007) [@mizziRedPalmWeevil2009; @yuezhongRedPalmWeevil2009].
+The beetle has also invaded other parts of the world. In Japan, it was first observed in 1975 in the island of Okinawa, and later (in 1998) spread north to the island of Kyushu [@abeLifeHistoryRed2009]. During the 1990s, the RPW was intercepted on several occasions in China. In 2007, several cases in the Zhejiang province were detected signalling a spread throughout Southern China [@yuezhongRedPalmWeevil2009]. Other Asian countries where the RPW is present include: India, Pakistan, Sri Lanka, Myanmar, Indonesia, the Philippines, and the Gulf states [@abeLifeHistoryRed2009]. In the Americas, the red palm weevil was detected in the Caribbean islands of Aruba and Curacao in 2009 which meant a risk of the weevil being exported to South America [@rodaRedPalmWeevil2011]. On October 2010, the USDA’s Animal and Plant Health Inspection Service (APHIS) announced the arrival of the RPW to the city of Laguna Beach, California. Today, the RPW is present in over 70 countries [@cabiDatasheetRhynchophorusFerrugineus2017]. 
+
+
+2. Model
+============
+
+2.1 Approach
+============
+As mentioned in the introducion, we will perform a cost-benefit analysis assessing a set of conservation policies put into place to protect susceptible species from the RPW.  
+The first step is to define what constitutes as costs and benefits. We interpret as costs all expenditure with the direct aim of protecting and preserving palm trees in presence of the RPW as a direct output of the conservation policies set into place.
+The following activities fall into the management category and include: prevention and inspection of healthy palms, treatment of infested palms and removal of palms that are too infested to be salvaged. However, a full assessment should include not only management expenditure, but also, government expenditure associated to survey, research, regulation, management and outreach [@aukemaEconomicImpactsNonNative2011]. To better understand the rationale behind the accouting used in this study, a few points are made on the policies. 
+The main variation in terms of the funding agent is that in 2011, inspection, prevention, treatment and removal costs were transfered from the Catalonian goverment (GENCAT), to municipalities and private owners. From 2005 to 2011, GenCat was responsible for research and outreach in addition to the management activities described (excluding replanting). From 2011, onwards, municipalities and property owners are responsible for management activities while GenCat continues funding research and outreach for the pest. Although replanting is not explicit in the Orders, between 2005 to present, replanting has not been null albeit total stock or rates unknown [@congostrinaBarcelonaPlantaPalmeras2017; @puricaroBarcelonaAtesora242017], we therefore include replanting on behalf of municipalities and property owners throughout the entire period.
+
+To define benefits, we will use the total economic value (TEV) framework [@ledouxValuingOceanCoastal2002]. The TEV framework classifies the value of an asset into two main categories: use and non-use values.The main difference between these values is that use values are related to the use of the asset while non-use values relate to the motivation for conserving the asset for future generations or for its own sake. Figure \ref {fig:tev} further illustrates this point by listing indirect and direct values derived from palm trees. The former includes aesthetic benefits and carbon sequestration. Although in some places palm trees have direct values (i.e. cultivation), as will be described in the following paragraphs, in the scope of this article, no direct values were identified. 
+
+\begin{figure}[!htb]
+\centerline{\includegraphics[width=30pc]{tev.png}} 
+\caption{Total economic value framework.}
+\label{fig:tev}
+\end{figure}
+
+Based on the conservation policies selected, two species appear: *Phoenix canariensis*, from here on, canary palm, and *Phoenix dactylifera*, from here on date palm [@generalitatdecatalunyaORDERARP3432006]. The former was reported in 99.69% and the latter in 0.23% of RPW cases in the region [@generalitatdecatalunyaPrevencioLluitaContra2011]. Although date palms currently represent a small fraction of reports, we include them because in absence of canary palms, the RPW would infest date palms. 
+
+Canary and date palms are non-native to the Iberian Peninsula. They were introduced in ancient times as evidenced by depictions of late Iberian pottery and coinage dating back to the third to first century BC [@al-khayriDatePalmGenetic2015]. Although canary palms produce edible fruits they are not used in agriculture, as opposed to date palms. In Spain, the land area dedicated to date cultivation is marginal with an average of ~600 hectares since 1961 to present [@faostatFAO2018]. In Catalonia, our region of study, date cultivation is virtually non-existent. Palms are planted in urban areas, resorts, public spaces and private gardens mainly near the coast [@al-khayriDatePalmGenetic2015]. Currently, they are classified as as species of "least concern" on the IUCN Red List of Threatened Species [@beechPhoenixCanariensisIUCN2017]. This means that they do not qualify as threatened, near threatened or conservation dependent before 2001.
+
+Given this context and its almost exclusive ornamental use, we define benefits as follows. We identify two indirect use values as benefits: carbon sequestration and enhanced aesthetic value, the latter being the main reason behind palm tree availability in Catalonia. 
+
+
+2.2 The model
+============
+
+We modelled the evolution of tree stocks over time as a system dynamics problem since this approach allows us to understand nonlinear behavior over time using stocks, flows and feedback loops [@forresterBeginningSystemDynamics1989]. The two palm species have similar processes with different initialisation values so we implemented two separate modules. From this point onward, susceptible palm species will be referred to as ‘tree’. The model was designed with three stocks: healthy, infested and treated trees. It is graphically illustrated with Figure \ref{fig:model}, created using Vensim software.
+
+\begin{figure}[!htb]\centerline{\includegraphics[width=30pc]{model.png}} \caption{Model representation.}\label{fig:model}\end{figure}
+
+The total amount of trees at time $S_t$ will be the sum of healthy trees, $S_t^H$, the sum of infested trees, $S_t^I$, and the sum of trees in treatment, $S_t^T$.
+
+\begin{equation} \label{eq:total_stock}
+S_t=S_t^H+S_t^I+S_t^T
+\end{equation}
+
+Healthy trees, $S_t^H$, are all susceptible trees with two incoming flows: replanted trees, $F_{t,t-1}^R$, and successfully treated trees, $F_{t,t-1}^{ST}$. Prevention consists on a series of chemical applications to protect the tree from the RPW. Outgoing flows are trees in which prevention has failed, $F_{t,t-1}^{FP}$. Therefore, the equation for the healthy net flow, $S_t^H-S_{t-1}^H$, between $t-1$ and $t$ is:
+
+\begin{equation} \label{eq:stock_healthy}
+S_t^H-S_{t-1}^H=F_{t,t-1}^R+F_{t,t-1}^{ST}-F_{t,t-1}^{FP}
+\end{equation}
+
+The outflow, $F_{t,t-1}^{FP}$, depends on the force of infestation, denoted by lambda ($\lambda_t$). The force of infestation is the rate at which susceptible trees become infested per unit time. It is adapted from the force of infection [@vynnyckyIntroductionInfectiousDisease2010]. The rate of infestation is related to the number of infested trees, $S_t^I$, the more trees are infested, the more likely more trees will become infested and to the average number of trees that are planted next to each other, denoted with Beta ($\beta_t$). 
+
+Thus, the force of infestation, $\lambda_t$, at time $t$ is:
+
+\begin{equation} \label{eq:lambda}
+\lambda_t=\beta_t*S_t^I
+\end{equation}						 
+
+Beta ($\beta_t$) in turn, depends on the effective contact rate ($C_E$), defined as the contact rate sufficient to lead to transmission if it occurs between an infested and a susceptible tree [@vynnyckyIntroductionInfectiousDisease2010] with units $\frac{palms}{(palm/year)}$ and on the total stock, $S_t$, at time $t$.
+
+\begin{equation} \label{eq:beta}
+\beta_t=\frac{C_E}{S_t}		
+\end{equation}	
+
+The failed prevention outflow, $F_{t,t-1}^{FP}$, is the outflow of trees in which prevention has failed ($FP$) product of the number of healthy trees,$S_t^H$, and lambda, $\lambda_t$, the force of infection at time $t$.
+
+\begin{equation} \label{eq: failed prevention}
+F_{t,t-1}^{FP}=S_t^H*\lambda_t
+\end{equation}
+
+Failed prevention, $F_{t,t-1}^{FP}$, is an incoming flow to the infested tree stock, $S_t^I$. Infested trees are either treated, $F_{t,t-1}^{TR}$, or not treated, $F_{t,t-1}^{UTR}$, leading to two outgoing flows for this stock. Therefore, the equation for the net infested flow between $t-1$ and $t$ is:
+
+\begin{equation} \label{eq: stock_infested}
+S_t^I-S_{t-1}^I=F_{t,t-1}^{FP}-F_{t,t-1}^{UTR}-F_{t,t-1}^{TR}
+\end{equation}
+
+Both treated, $F_{t,t-1}^{TR}$, and untreated flows, $F_{t,t-1}^{UTR}$ depend on the probability, ($\tau$), of being treated. Thus,
+
+\begin{equation} \label{eq: treated_prob}
+F_{t,t-1}^{TR}=S_{t-1}^I*\tau
+\end{equation}
+
+\begin{equation} \label{eq: untreated_prob}
+F_{t,t-1}^{UTR}=S_{t-1}^I-F_{t,t-1}^{TR}
+\end{equation}
+
+Treated trees, $F_{t,t-1}^{TR}$,is an incoming flow to treated trees, $S_t^T$. Treated trees has outgoing flows representing either failed, $F_{t,t-1}^{FT}$, or successful treatment, $F_{t,t-1}^{ST}$. Thus,
+
+\begin{equation} \label{eq: stock_treated}
+S_t^T-S_{t-1}^T=F_{t,t-1}^{TR}-F_{t,t-1}^{FT}-F_{t,t-1}^{ST}
+\end{equation}
+
+Both successful, $F_{t,t-1}^{ST}$, and failed treatment flows, $F_{t,t-1}^{FT}$, depend on the probability of successful treatment sigma ($\sigma$). Thus,
+
+\begin{equation} \label{eq: successful_treatment}
+F_{t,t-1}^{ST}=S_t^T*\sigma
+\end{equation}
+\begin{equation} \label{eq: failed_treatment}
+F_{t,t-1}^{FT}=S_t^T-F_{t,t-1}^{ST}
+\end{equation}
+
+Finally, to keep track of trees that were lost each year, $S_t^L$, due to lack of treatment, $F_{t,t-1}^{UTR}$ or failed treatment, $F_{t,t-1}^{FT}$, we define the lost stock, $S_t^L-S_{t-1}^L$, between $t-1$ and $t$ as:
+
+\begin{equation} \label{eq: lost_stock}
+S_t^L-S_{t-1}^L=F_{t,t-1}^{UTR}+F_{t,t-1}^{FT}
+\end{equation}
+
+Similarly to keep track of trees that have been replanted each year, $S_t^R$, due to the incoming flow of replanted trees, $F_{t,t-1}^R$, we define the stock of replanted trees $S_t^R-S_{t-1}^R$, between $t-1$ and $t$ as:
+
+\begin{equation} \label{eq: replanted_stock}
+S_t^R-S_{t-1}^R=F_{t,t-1}^R
+\end{equation}
+
+#### Costs
+
+We now introduce equations to calculate the costs. They correspond to management costs, $M_t$, \ref{eq:management_costs} for trees in year $t$ described as the sum of inspection, $C_t^{inspect}$, prevention, $C_t^{prevent}$, treatment costs, $C_t^{treat}$, replanting, $C_t^{replant}$, and removal costs, $C_t^{remove}$. Recall, these costs were assumed by municipalities and private owners from 2011 onwards, therefore, these formulas are applied from 2011 onwards with the exception of replanting which we calculate from 2005. From 2005 to 2018, we use the costs provided by GenCat which include management costs but also additional activities such as research and outreach. No specific breakdown was provided by GenCat so they are added as a lump sum.
+
+\begin{equation} \label{eq:management_costs} 
+M_t=C_t^{inspect}+C_t^{prevent}+C_t^{treat}+C_t^{replant}+C_t^{removal}
+\end{equation} 
+    	
+Inspection costs, $C_t^{inspect}$, are the costs of inspecting healthy trees in year $t$.
+
+\begin{equation} \label{eq:inspection_costs} 
+C_t^{inspect}=S_t^H*c^{inspect}
+ \end{equation} 						
+ 								 
+Here, $S_t^H$, is the number of healthy trees ($H$)in year $t$ and $c^{inspect}$ is the inspection unit cost. 
+Prevention costs, $C_t^{prevent}$, are the costs of applying preventative treatments to healthy trees in year $t$.
+
+\begin{equation} \label{eq:prevention_costs} 
+C_t^{prevent}=S_t^H*c^{prevent}
+\end{equation} 
+  												
+Here, $S_t^H$ is the number of healthy trees ($H$)in year $t$ and $c^{prevent}$ is the prevention unit cost. 
+
+Treatment costs, $C_t^{treat}$, are the costs of treating a tree selected for treatment ($T$) to improve its health in year $t$.
+
+\begin{equation} \label{eq:treatment_costs} 
+C_t^{treat}=S_t^T*c^{treat}
+\end{equation} 									
+
+Here, $S_t^T$ is the number of treated trees ($T$) in year $t$ and $c^{treat}$ is the treatment unit cost. 
+
+Replanting costs, $C_t^{replant}$, are the costs of replanting trees in year $t$.
+
+\begin{equation} \label{eq:replanting_costs} 
+C_t^{replant}=S_t^R*c^{replant}
+\end{equation} 	
+
+Here, $S_t^R$, is the number of replanted trees ($R$) in year $t$ and $c^{replant}$ is the unit cost of replanting a new tree. 
+
+$C_t^{remove}$, corresponds to the costs of permanently removing a tree in year $t$, which the RPW has damaged beyond the point of treatment, $S_t^L$.
+
+\begin{equation} \label{eq:removal_costs} 
+C_t^{remove}=S_t^L*c^{remove}
+\end{equation} 						     	
+
+Here, $S_t^L$ is the number of lost trees in year $t$ and $c^{remove}$ is the unit cost of removing a lost tree.
+
+Unitary costs along with their frequencies are summarised in table \ref{tab:unitary_costs}
+```{r unitary cost table, echo=FALSE}
+
+Type <- as.vector(c("$c^{inspect}$",
+                  "$c^{prevent}$",
+                  "$c^{treat}$",
+                  "$c_t^{replant}$",
+                  "$c_t^{removal}$"))
+
+`Value €`  <- as.vector(c(10,20,30,500,500))
+`Yearly frequency` <- as.vector(c(2,2,5,1,1))
+unit_costs <- data_frame(Type,`Value €` ,`Yearly frequency`)
+
+kable(unit_costs,
+    caption = "\\label{tab:unitary_costs}Unitary costs for management activities.", 
+    booktabs = T,
+    escape = F) %>% 
+    kable_styling(latex_options = c("hold_position"))
+```
+
+
+#### Benefits
+
+As mentioned in the introduction, trees provide different benefits ($VB$). We will consider two benefits provided by palm trees in Catalonia (Eq. \ref{eq:benefits}), (1) those derived from carbon sequestration and (2) those derived from forestry adjacency.
+
+\begin{equation} 
+\label{eq:benefits}VB=VCS+VPA
+\end{equation}
+
+Where, $VCS$  is the value derived from carbon sequestration by palm trees in Catalonia and $VPA$  is the value derived from palm tree adjacency. The benefits of carbon sequestration, $VCS$, will be calculated using the social cost of carbon dioxide. The social cost of carbon ($SCC$) is an economic indicator that represents the net impacts from the global climate change that result from a one tonne increase in carbon dioxide emissions [@iawgTechnicalUpdateSocial2016].
+
+\begin{equation} 
+\label{eq:social_cost}VCS=SCC*c_s*S_t 
+\end{equation}
+
+					           	    	
+Where, $SCC$ is the social cost of carbon dioxide, $c_s$ is the amount of carbon sequestered by a tree; and $S_t$ is the total stock in year $t$.
+
+```{r exchange rates and money params, echo=FALSE,include=FALSE}
+options(digits = 3)
+discount_rate <- 0.05
+inflation_rate <- 0.02
+real_rate <- (1+discount_rate)/(1+inflation_rate)-1
+
+
+USD <-  as.vector(c(12,125))
+Date <- as.vector(c(2007,2014))
+exchange_rate_eur <-quantmod::getQuote("USDEUR=X")
+EUR <- USD*exchange_rate_eur$Last
+```
+
+
+In order to estimate the benefits associated to carbon sequestration, as described in Equation \ref{eq:benefits}, we provide an interval per tonne for the $SCC$, reflecting uncertainty about its value. A value of 12 USD was used as the lower bound since this was the lowest $SCC$ found [@iawgTechnicalUpdateSocial2016]. Similarly, the upper bound is 125 USD [@vandenberghLowerBoundSocial2014], as it was the highest found. These values were converted to euros at an exchange rate `r exchange_rate_eur$Last` and brought to present value with a discount rate of `r discount_rate` and inflation rate of `r inflation_rate`. Table \ref{tab:scc}, summarises the original values, publication date, the values converted to euros and present value according to source, the present value. 
+
+
+```{r future value function, include=FALSE,echo=FALSE}
+
+future_value <- function(pv,real_rate,periods){
+
+pv*(1+real_rate)^periods
+
+}
+
+```
+
+
+```{r SCC table, echo=FALSE}
+PV <- future_value(USD,real_rate = real_rate,periods = (year(Sys.Date())-Date))
+Source <- as.vector(c("IAWG, 2016","van den Bergh \\& Botzen, 2014"))
+SCC_table <- data_frame(Source,USD,Date,EUR,PV)
+
+SCC_table%>%
+set_names(c("Source","USD","Published date","EUR", "Present value"))%>%
+kable(
+    caption = "\\label{tab:scc}Social cost of carbon dioxide per tonne.", 
+    booktabs = T,
+    escape = F) %>% 
+    kable_styling(latex_options = c("hold_position"))
+```
+
+
+
+#### Property values OMIT THIS SECTION FOR NOW
+
+To capture the aesthetic value of palm trees, we used property prices that either contained or were adjacent to canary or date palms. 
+
+Idealista [(https://www.idealista.com/en/)] is an online platform that, amongst other things, connects property buyers and sellers in Spain. The company offers an application programming interface (API) to use free of charge. Between May 31st 2018 and June 10th 2018, API requests were sent querying single-detached houses in the region of study. Single-detached houses allowed to better link properties to palm trees. 100 listings were obtained (maximum quota) of which XX proved to be unique listings. Often, several listings correspond to the same property due to competition amongst real estate brokers. The following variables were obtained for each unique listing: latitude, longitude, price (euros), terrain size ($m^2$), built size ($m^2$), number of floors, number of rooms, url, and distance to the coastline ($km^2$). 
+
+Satellite imagery for each listing was searched, in some instances the latitude and longitude provided did not match the url pictures. In these cases the listing was discarded as having imagery is essential for the following step. We consider this image unavailability to be random, thus we assume it does not introduce bias into the set. Once each house was identified, adjacent date and canary palms were counted and it was noted whether the palms were on the property or on contiguous homes.
+
+#### Total costs and benefits 
+
+The net social benefits (NSB) of the current management policy against the RPW in Catalonia is the difference between benefits and costs brought to present value \ref{eq:nsb}.
+
+\begin{equation} 
+\label{eq:nsb} NSB=\sum_{t}\frac{B_{t}-C_{t}}{(1-r)^t}
+\end{equation}
+
+Here, $B_{t}$ denotes the monetary benefits of the policy, $C_{t}$, management costs and, $r$ discount rate in year $t$. 
+						
+
+2.3 Estimation of Parameter Values
+========================
+
+Table \ref{tab:auxvar} summarises the three parameters whose values are required to run the model. In this section, the process to estimate each parameter is explained.
+
+```{r echo=FALSE}
+
+Summary_Aux <- as.vector(c("Effective contact rate", 
+    "Probability of being treated", 
+    "Probability of successful treatment"))
+Aux <- as.vector(c("$C_E$", 
+    "$\\tau$",
+    "$\\sigma$"))
+df_aux <- as_tibble(Aux, 
+    Summary_Aux)
+colnames(df_aux) <- c("Auxiliary variables")
+kable(df_aux,
+    caption = "\\label{tab:auxvar}Auxiliary variables.", 
+    booktabs = T,
+    escape = F) %>% 
+    kable_styling(latex_options = c("hold_position"))
+
+```
+
+
+#### Effective contact rate 
+
+Effective contact rate, $C_E$, is defined as the contact rate sufficient to lead to transmission if it occurs between an infested and a susceptible tree [@vynnyckyIntroductionInfectiousDisease2010] with units $\frac{palms}{(palm/year)}$ 
+It can take up values [1,$\infty$] to which we assigned [1,2] since a single infested tree can lead to infestation of a susceptible tree within a certain radius.
+
+#### Probability of being treated ($\tau$) 
+
+Interviews with three government officials and two local independent firms offering pest management services (inspection, prevention, treatment, and removal) were conducted with the goal of eliciting treatment success probabilities. Parameter ($\tau$) has been defined as the probability that an affected tree is treated. $\tau$ can take values between [0,1] to which we assigned the interval [0.5, 1]. Since legislation states that treatment of all affected trees is mandatory, we have assigned the upper boundary as 1 for the case in which 100% of affected trees are treated. According to interviewees, there are instances where treatment of affected trees does not occur. This may happen deliberately or accidentally. Furthermore, no official data exists describing the behaviour of private owners while municipality reports are compromised since they must reflect compliance with the law, which means treatment in all cases. In order to account for this unknown behaviour where treatment doesn't occurr but is unknown, the lower boundary was set to a probability of 0.5 (i.e. coin toss).
+
+#### Probability of successful treatment ($\sigma$)
+Sigma ($\sigma$) is the probability that treatment is successful. Again, as it is a probability, it can take values between [0,1]. Success is defined as a tree being sufficiently recovered to rejoin the healthy stock. Interviewees were consistent in their responses stating that once a tree becomes infested, survival probability is slim to none. For this reason, the interval [0,0.5] was assigned as it reflects the pessimistic outlook on infested trees under treatment from null recovery rates up to 0.5 (i.e. coin toss).
+
+
+
+2.4 Model calibration
+========================
+
+In order to run the model, two initial stock values had to be defined for $t=2005$, healthy, $S_{2005}^H$, and infested, $S_{2005}^I$, stock. 
+
+#### Healthy stock 2005
+
+Since public tree inventory is decentralised and private owners have agency to change their landscape, public and private tree records were unavailable. Instead, we estimated tree stocks. To estimate total stock in 2005 (Eq. \ref{eq:2005stock}), $S_{2005}$, we first estimated values for 2018, $S_{2018}$, and added the minimum loss of stock during the invasion period, $S_{2017-2005}^L$. The minimum loss was provided by the regional government. The process for estimating stock in 2018 in will be now explained with more detail. 
+
+\begin{equation} 
+\label{eq:2005stock}S_{2005}=S_{2018}+S_{2017-2005}^L
+\end{equation}
+
+As previously mentioned, the availability of both palm trees in the region of study is human-mediated given its almost exclusive ornamental use. Due to this management of palm trees in the region of study, we identified multiple human-centred factors as explanatory variables (namely population, GDP per sector and municipality area). Furthermore, we consulted with two experts in forestry and ornamental plants who suggested distance to the Western Mediterranean Basin plays a key role in the presence of palm trees. Finally, longitude was added in case there was any other spatial pattern in Western vs Eastern Catalonia. A proxy for latitude was already included within distance to the Mediterranean. 
+
+Data for aforementioned variables was retrieved from the Catalonian statistical department (IDESCAT) for all municipalities. Distance was calculated using polygon centroids. GDP per sector was not available for all 947 municipalities, however, it was available for all 'comarcas', which are a higher administrative level made up of 42 divisions. 'Comarcas' GDP per sector was used for municipalities lacking these data. 
+
+We selected a stratified sampling strategy to collect data on the both species. This strategy was selected because we wanted all comarcas to be represented within the sample. We set out to collect a sample size of 50 municipalities. The total number of municipalities is 947 and they are divided in 42 comarcas, which we defined as the strata. For each strata, we calculated the sample size as: $\frac{Sample\ Size}{Total\ population}*Strata\ size$. For example, for the comarca Baix Camp with 28 municipalities, calculations were: $\frac{50}{947}*28=1.48\approx 2\ municipalities$. Repeating this process for all comarcas and rounding decimals upwards yielded 73 municipalities. 
+
+We collected data on tree stocks using static maps from Google Maps. The following procedure was done for each of the 73 municipalities. First, using a shapefile for the region and the R Packages sf and GGMap [@kahleGgmapSpatialVisualization2013], a grid for each municipality was produced where each cell in the grid represented a separate image. Examples of the grids are shown in Figure \ref{fig:grids} where the upper row is the municipality polygon layered on to a satellite image and the lower row is the corresponding grid. Over 25,000 images were individually assessed for palms trees of each species. 
+
+\begin{figure}[!htb]
+\centerline{\includegraphics[width=30pc]{grids.png}} 
+\caption{Example of municipality grids for palm tree estimation.}
+\label{fig:grids} 
+\end{figure}
+
+Once observations were collected, we ran a linear model under Bayes model averaging for outlier detection. At this point we had no criteria to select one model over another so Bayes model averaging was useful as this model averages multiple models according to their posterior probability. The model was specified as follows: all seven explanatory variables were included, a uniform distribution was asigned as the model prior, and the Bayes Information Criterion ($BIC$)[^2] was used as the prior distribution for regression coefficients since we were in a non-informative situation. Using this model, the three observations with largest absolute residuals were removed to leave a sample size of 70, leaving ten observations for each of the seven aforementioned variables. 
+
+```{r reading collected data, include=FALSE}
+#Read palm data
+palms <- read.xlsx("palm_counts.xlsx")
+palms <- palms[1:73,] #rows 1 through 73
+#Create ser, ag, indu and cons variables.
+#Aggregate by ownership
+palms <- palms %>%
+  mutate(canary=canary_priv+canary_pub,
+         date=date_priv+date_pub,
+         ag=Agriculture/Total,
+         indu=Industry/Total,
+         cons=Construction/Total,
+         ser=Services/Total)
+
+#Read spreadsheet for all municipalities
+final<- read.xlsx("final.xlsx")
+#Create ser, ag, indu and cons variables.
+final <- final %>%
+    mutate(
+         ag=Agriculture/Total,
+         indu=Industry/Total,
+         cons=Construction/Total,
+         ser=Services/Total)
+```
+
+```{r Looking at distributions, include=FALSE}
+boxplot_date<- ggplot(palms,aes(x=,y=date))+
+  geom_boxplot()+
+  coord_flip()
+
+boxplot_canary<- ggplot(palms,aes(x=,y=canary))+
+  geom_boxplot()+
+  coord_flip()
+```
+
+
+```{r outliers, include=FALSE}
+BMA_date <-  bas.lm(date ~ ag+ser+cons+indu+distance+population+area, data = palms,
+                      prior = "BIC",
+                      modelprior = uniform())
+
+plot(BMA_date, which=1)
+
+BMA_canary <-  bas.lm(canary ~ ag+ser+cons+indu+distance+population+area, data = palms,
+                      prior = "BIC",
+                      modelprior = uniform())
+
+plot(BMA_canary, which=1)
+
+```
+
+```{r outlier_removal, include=FALSE }
+top_three_date <- c(60,73,68)
+palms_date <- palms[-top_three_date,]
+
+top_three_canary <- c(60,67,68)
+palms_canary <- palms[-top_three_canary,]
+```
+
+```{r ape, include=FALSE }
+set.seed(42)
+n <-  nrow(palms_date)
+n_cv <-  50
+ape_date <-  matrix(NA, ncol=4, nrow=n_cv)
+colnames(ape_date) = c("BMA", "BPM", "HPM", "MPM")
+
+for (i in 1:n_cv) {
+  train = sample(1:n, size=round(.90*n), replace=FALSE)
+  date_train = palms_date[train,]
+  date_test = palms_date[-train,]
+  
+  bma_train_date = bas.lm(date ~ ag+ser+cons+indu+distance+population+area, data=date_train, 
+                          prior="BIC", modelprior=uniform(), initprobs="eplogp")
+  yhat_bma = predict(bma_train_date, date_test, estimator="BMA")$fit
+  yhat_hpm = predict(bma_train_date, date_test, estimator="HPM")$fit
+  yhat_mpm = predict(bma_train_date, date_test, estimator="MPM")$fit
+  yhat_bpm = predict(bma_train_date, date_test, estimator="BPM")$fit
+  ape_date[i, "BMA"] = cv.summary.bas(yhat_bma, date_test$date)
+  ape_date[i, "BPM"] = cv.summary.bas(yhat_bpm, date_test$date)
+  ape_date[i, "HPM"] = cv.summary.bas(yhat_hpm, date_test$date)
+  ape_date[i, "MPM"] = cv.summary.bas(yhat_mpm, date_test$date)
+}
+
+boxplot(ape_date)
+
+apply(ape_date, 2, mean)
+
+set.seed(42)
+n <-  nrow(palms_canary)
+n_cv <-  50
+ape_canary <-  matrix(NA, ncol=4, nrow=n_cv)
+colnames(ape_canary) = c("BMA", "BPM", "HPM", "MPM")
+
+for (i in 1:n_cv) {
+  train = sample(1:n, size=round(.90*n), replace=FALSE)
+  canary_train = palms_canary[train,]
+  canary_test = palms_canary[-train,]
+  
+  bma_train_canary = bas.lm(canary ~ ag+ser+cons+indu+distance+area+population, data=canary_train, 
+                          prior="BIC", modelprior=uniform(), initprobs="eplogp")
+  yhat_bma = predict(bma_train_canary, canary_test, estimator="BMA")$fit
+  yhat_hpm = predict(bma_train_canary, canary_test, estimator="HPM")$fit
+  yhat_mpm = predict(bma_train_canary, canary_test, estimator="MPM")$fit
+  yhat_bpm = predict(bma_train_canary, canary_test, estimator="BPM")$fit
+  ape_canary[i, "BMA"] = cv.summary.bas(yhat_bma, canary_test$canary)
+  ape_canary[i, "BPM"] = cv.summary.bas(yhat_bpm, canary_test$canary)
+  ape_canary[i, "HPM"] = cv.summary.bas(yhat_hpm, canary_test$canary)
+  ape_canary[i, "MPM"] = cv.summary.bas(yhat_mpm, canary_test$canary)
+}
+
+boxplot(ape_canary)
+
+apply(ape_canary, 2, mean)
+```
+
+During the model selection stage, we considered several estimators: best predictive model (BPM), median probability model (MPM) and, highest probability model (HPM). In order to select amongst estimators, we computed the average predictive error (APE) for each one. BPM, the estimator that has predictions closest to BMA and corresponding posterior standard deviations, was selected for date palms and HPM, the model with the lowest $BIC$ was selected for canary palms. In terms of coefficients this meant, distance, population, fraction of GDP from agriculture and industry, for date palms; and distance, population, and fraction of GDP from industry, for canary palms.
+
+```{r coefficients, include=FALSE}
+BPM_pred_date =  predict(BMA_date, estimator="BPM", se.fit=TRUE)
+BMA_date$namesx[BPM_pred_date$bestmodel+1]
+
+lm_canary = lm(canary ~ ag+ser+cons+indu+distance+population+area, data=palms_canary)
+n <- length(BMA_canary)
+stepAIC(object=lm_canary, k =log(n))
+```
+
+[^2]:$BIC= -2*log(likelihood)+log(n)*\#parameters$, where $n$ is the sample size. We will have a tradeoff between the goodness of fit (the extent to which observed data matches the values expected by theory) $n*log(1-R^2)$ and the model complexity represented with $log(n)*\#parameters$. We choose the model that has the smallest $BIC$. 
+
+```{r tree models, include=FALSE}
+lm_date <- lm(date ~ indu+distance+population+ag, data=palms_date)
+ 
+lm_canary <- lm(canary ~ indu+distance+population, data=palms_canary)
+```
+
+```{r date predictions, include=FALSE}
+
+date_BMA_prediction<-predict(lm_date,newdata= final) #Apply model to new date
+date_BMA_df<- as_tibble(date_BMA_prediction) 
+names(date_BMA_df) <- c("date") 
+date_BMA_df%>%
+  mutate(date=if_else(date>0,date,0) #Remove negatives 
+         )->date_BMA_df #Store in new dataframe
+test_final <- rownames_to_column(final,var="index") #Adding id to new data
+test_interval <- rownames_to_column(date_BMA_df,var="index") #Adding id to predictions
+test_date<- test_final %>%
+ left_join(test_interval,by="index") #Joining predictions with more info
+```
+
+```{r canary predictions, include=FALSE}
+
+canary_BMA_prediction<-predict(lm_canary,newdata= final) #Apply model to new canary
+canary_BMA_df<- as_tibble(canary_BMA_prediction) 
+names(canary_BMA_df) <- c("canary") 
+canary_BMA_df%>%
+  mutate(canary=if_else(canary>0,canary,0) #Remove negatives 
+  )->canary_BMA_df #Store in new dataframe
+test_final <- rownames_to_column(final,var="index") #Adding id to new data
+test_interval <- rownames_to_column(canary_BMA_df,var="index") #Adding id to predictions
+test_canary<- test_final %>%
+  left_join(test_interval,by="index") #Joining predictions with more info
+```
+
+```{r predictions summary, include=FALSE}
+#Count how many trees we have of each
+test_date%>%
+  summarise(sum=ceiling(sum(date)),
+            sum_2018=ceiling(sum(date)))->sum_date
+test_canary%>%
+  summarise(sum=ceiling(sum(canary)),
+            sum_2018=ceiling(sum(canary)))->sum_canary
+```
+
+```{r prediction plots, include=FALSE}
+date_mean <- ggplot(test_date, aes(
+ x = distance,
+  y = date,
+    size= population)) +
+  geom_jitter(alpha = 0.5, color="darkgreen") +
+  geom_text(
+    aes(x = test_date$distance, y = test_date$date),
+    label = test_date$Nom,
+    size = 3,
+    check_overlap = TRUE,
+    inherit.aes = FALSE,
+    hjust = 0,
+    nudge_x = 0.005
+  ) +
+  scale_x_continuous(limits = c(-5, 200)) +
+  theme_classic() +
+  guides(
+    size = guide_legend(title = "Population")
+  ) +
+  labs(
+    title= paste("Date palm trees 2018,","n =",sum_date$sum_2018,sep = " "),
+   subtitle = "Vs. distance and population.",
+    x = "Distance to coastline (km)",
+    y = "Date palms"
+  )
+ggsave(
+  "Date_palms.png",
+  width = 10,
+  height = 2,
+  bg = "transparent"
+)
+
+canary_mean <- ggplot(test_canary, aes(
+  x = distance,
+  y = canary,
+  size = population)
+) +
+  geom_jitter(alpha = 0.5, color="darkgreen") +
+  geom_text(
+    aes(x = test_canary$distance, y = test_canary$canary),
+    label = test_canary$Nom,
+    size = 3,
+    check_overlap = TRUE,
+    inherit.aes = FALSE,
+    hjust = 0,
+    nudge_x = 0.005
+  ) +
+  scale_x_continuous(limits = c(-5, 200)) +
+  theme_classic() +
+  guides(
+    size= guide_legend(title="Population")
+  ) +
+  labs(
+    title = paste("Canary palm trees 2018,","n =",sum_canary$sum_2018,sep = " "),
+    subtitle = "Vs. distance and population.",
+    x = "Distance to coastline (km)",
+    y = "Canary palms"
+  )
+ggsave(
+  "canary_palms.png",
+  width = 10,
+  height = 2,
+  bg = "transparent"
+)
+
+predictions <- arrangeGrob(date_mean,canary_mean,nrow=1)
+ggsave("predictions.png",predictions,width = 14,height=5,limitsize = FALSE,bg="transparent")
+```
+
+Using these models, we estimated the number of date and canary palms in Catalonia. Predictions appear in Figure \ref{fig:predictions}. Finally, recall that these estimates correspond to 2018 estimates. To obtain 2005 estimates, we added the reported loss for date (14) and canary palms (8946) provided by GenCat. Final estimates por date and canary palms were `r sum_date$sum_2018+14` and `r sum_canary$sum_2018+8946`. 
+
+\begin{figure}[!htb] 
+\centerline{\includegraphics[width=30pc]{predictions.png}} 
+\caption{Palm predictions according to species.}
+\label{fig:predictions} 
+\end{figure}
+
+#### Infested stock 2005
+
+
+<!-- We first define the simulation time constraints and store it in a simulation vector simtime. -->
+```{r init model, include=FALSE}
+START <- 2005
+FINISH <- 2017
+YEARS <- FINISH-START+1
+STEP <- 1
+simtime <- seq(START,FINISH,by=STEP) #simulation time vector
+min_trees <- 0 #Min replanting
+max_trees <- 100L #Max replanting 
+s_Heal <- 19500L
+s_Inf <- 500L
+p_tau <- 0.5
+```
+
+<!-- Now, we define the stocks along with their initial values.  -->
+<!-- sHeal stands for healthy trees. -->
+<!-- sInf, infested trees. -->
+<!-- sTre, for treated trees.  -->
+
+```{r stocks, include=FALSE}
+stocks<- c(sHeal=s_Heal, #healthy trees
+           sInf=s_Inf, #infested trees
+           sTre=0L #treated trees
+           )
+```
+
+<!-- We now define the auxiliary variables: -->
+<!-- aProb_arrival: Probability of arrival of RPW in year t.  -->
+<!-- aInsfreq: Inspection frequency. -->
+<!-- aTau_prob: Treatment probability. -->
+<!-- aSigma_prob: Probability of succesful treatment. -->
+
+```{r auxs, include=FALSE}
+auxs <- c(
+  aTau_prob = 0.8, # Treatment probability
+  aSigma_prob = 0.2, #Probability of succesful treatment
+  aDelay=1, #Number of years to recover from an infestation
+  aEffective_Contact_Rate= 2 #Number of weevils a palm tree is exposed to per year (weevils/tree/year)
+)
+```
+
+<!-- The model is a function that will take three parameters. -->
+
+```{r model, include=FALSE }
+model <-
+  function(time, stocks, auxs) {
+    #Three parameters for the model.
+    with(as.list(c(stocks, auxs)),
+         {
+           #Set stocks and auxs are defined as lists.
+           
+           aTotal_Population <-
+             sInf + sTre + sHeal #Set the total population as a sum of all three stocks.
+           aBeta <-
+             aEffective_Contact_Rate / aTotal_Population #Set the beta as the effective contact rate divided by the total population.
+           aLambda <- aBeta * sInf
+           aAffected <-  sInf + sTre
+           fReplanting <-
+             round(runif(1, min = min_trees, max = max_trees), 0) #Generate a random uniform.
+           fFail_prev <-
+             aLambda * sHeal#Define the failed prevention flow.
+           fTreat <- sInf * aTau_prob#Define the treated flow.
+           fUntreat <- sInf * (1 - aTau_prob)#Define untreated flow.
+           fFail_treat <-
+             sTre * (1 - aSigma_prob) #Define the unsuccessful treatment flow.
+           fSucc_treat <-
+             sTre * aSigma_prob / aDelay #Define the successfuul treatment flow.
+           
+           dH_dt <-
+             fReplanting - fFail_prev + fSucc_treat #Define the netflow for stock healthy trees.
+           dI_dt <-
+             fFail_prev - fTreat - fUntreat #Define the netflow for stock infested trees.
+           dTr_dt <-
+             fTreat - fSucc_treat - fFail_treat #Define the netflow for stock treated trees.
+        
+           
+           return (
+             list(
+               c(dH_dt, dI_dt, dTr_dt),
+               ForceOfInfestation = aLambda,
+               
+               Treated_prob = aTau_prob,
+               Success_prob = aSigma_prob,
+               #Beta=aBeta,
+               Treated = fTreat,
+               Untreated = fUntreat,
+               Failed_treatment = fFail_treat,
+               Successful_treatment = fSucc_treat,
+               Replanting = fReplanting,
+               Total_population = aTotal_Population,
+               Failed_prevention = fFail_prev,
+               Affected = aAffected
+             )
+           )
+         })
+  }
+o <- data.frame(ode(
+  y = stocks,
+  times = simtime,
+  func = model,
+  parms = auxs,
+  method = "euler"
+))#Defining integration method.
+o$time <- as.integer(o$time)
+o$Treated <- as.integer(o$Treated)
+o$Untreated <- as.integer(o$Untreated)
+o$Failed_treatment <- as.integer(o$Failed_treatment)
+o$sHeal <- as.integer(o$sHeal)
+o$sInf <- as.integer(o$sInf)
+o$sTre <- as.integer(o$sTre)
+o$Successful_treatment <- as.integer(o$Successful_treatment)
+o$Total_population <- as.integer(o$Total_population)
+o$Failed_prevention <- as.integer(o$Failed_prevention)
+```
+
+```{r date simulation, include=FALSE}
+#Date palms model
+options(scipen = 999)
+CE.MIN <- 0.5
+CE.MAX <- 2
+tau.MIN <- 0.5
+tau.MAX <- 1
+sigma.MIN <- 0.01
+sigma.MAX <- 0.5
+sH_2005.MIN <- sum_date$sum_2018+14
+sH_2005.MAX <- sum_date$sum_2018+14
+sI_2005.MIN <- 1
+sI_2005.MAX <- 5
+
+
+parRange <- data.frame(
+  min = c(CE.MIN, tau.MIN, sigma.MIN, sH_2005.MIN, sI_2005.MIN),
+  max = c(CE.MAX, tau.MAX, sigma.MAX, sH_2005.MAX, sI_2005.MAX)
+)
+
+rownames(parRange) <-
+  c(
+    "aEffective_Contact_Rate",
+    "aTau_prob",
+    "aSigma_prob",
+    "initHealthy",
+    "initInfested"
+  )
+
+
+set.seed(123)
+p <- data.frame(Latinhyper(parRange, 5))
+g.simRuns <- list()
+
+
+sensRun <- function(p) {
+  g.simRuns <<- list(length = nrow(p))
+  
+  for (i in 1:nrow(p)) {
+    initHealthy <- p [i, "initHealthy"]
+    initInfested <- p [i, "initInfested"]
+    auxs <- c(aDelay = 1, p[i, 1:5])
+    stocks <-
+      c(sHeal = initHealthy - initInfested,
+        sInf = initInfested,
+        sTre = 0)
+    o <-
+      data.frame(ode(
+        y = stocks,
+        simtime,
+        func = model,
+        parms = auxs,
+        method = "euler"
+      ))
+    o$run <- i
+    g.simRuns[[i]] <<- o
+  }
+}
+
+p <- data.frame(Latinhyper(parRange, 4))
+sensRun(p)
+df_date <- rbind.fill(g.simRuns)
+
+df_date %>%
+mutate_at(ceiling,.vars=c("sHeal",
+                         "sInf",
+                        "sTre",
+                        "Treated",
+                        "Untreated",
+                        "Failed_treatment",
+                        "Successful_treatment")) -> df_date
+ 
+
+
+```
+
+```{r canary simulation, include=FALSE}
+#Canary palms model
+options(scipen = 999)
+CE.MIN <- 1
+CE.MAX <- 2
+tau.MIN <- 0.5
+tau.MAX <- 1
+sigma.MIN <- 0.01
+sigma.MAX <- 0.5
+sH_2005.MIN <- sum_canary$sum_2018+8946
+sH_2005.MAX <- sum_canary$sum_2018+8946
+sI_2005.MIN <- 100
+sI_2005.MAX <- 1000
+
+parRange <- data.frame(
+  min = c(CE.MIN, tau.MIN, sigma.MIN, sH_2005.MIN, sI_2005.MIN),
+  max = c(CE.MAX, tau.MAX, sigma.MAX, sH_2005.MAX, sI_2005.MAX)
+)
+
+rownames(parRange) <-
+  c(
+    "aEffective_Contact_Rate",
+    "aTau_prob",
+    "aSigma_prob",
+    "initHealthy",
+    "initInfested"
+  )
+
+
+set.seed(123)
+p <- data.frame(Latinhyper(parRange, 5))
+g.simRuns <- list()
+
+
+sensRun <- function(p) {
+  g.simRuns <<- list(length = nrow(p))
+  
+  for (i in 1:nrow(p)) {
+    initHealthy <- p [i, "initHealthy"]
+    initInfested <- p [i, "initInfested"]
+    auxs <- c(aDelay = 1, p[i, 1:5])
+    stocks <-
+      c(sHeal = initHealthy - initInfested,
+        sInf = initInfested,
+        sTre = 0)
+    o <-
+      data.frame(ode(
+        y = stocks,
+        simtime,
+        func = model,
+        parms = auxs,
+        method = "euler"
+      ))
+    o$run <- i
+    g.simRuns[[i]] <<- o
+  }
+}
+
+p <- data.frame(Latinhyper(parRange, 4))
+sensRun(p)
+df_canary <- rbind.fill(g.simRuns)
+
+df_canary %>%
+mutate_at(ceiling,.vars=c("sHeal",
+                         "sInf",
+                        "sTre",
+                        "Treated",
+                        "Untreated",
+                        "Failed_treatment",
+                        "Successful_treatment")) -> df_canary
+```
+
+\begin{figure}[ht]
+\centerline{\includegraphics[width=30pc]{simulations_combined.png}} \caption{Sensitivity analysis for each species.}
+\label{fig:simulations} \end{figure}
+
+```{r simulations date plots, include=FALSE}
+#Creating breaks for years
+int_breaks <-
+  function(x, n = 13)
+    pretty(x, n)[pretty(x, n) %% 1 == 0]
+
+#Simulations date
+healthy_sim <- ggplot(df_date,aes(x=time,
+                                    y=sHeal,
+                                    group=run,
+                                    fill=run,
+                                    color=run))+
+  geom_area(
+    position = "dodge",
+    alpha=0.5,linetype="dashed",size=1)+
+  ylab("Healthy")+
+  xlab("Time") +theme_classic()+
+  scale_fill_viridis_c()+
+  scale_color_viridis_c()+
+  scale_x_continuous(breaks = int_breaks)+
+  guides(color=FALSE,
+         fill = guide_legend(title = "Run"))+
+  labs(
+    title = "Healthy date palms",
+    x = "Time",
+    y = "Date palms"
+  )+theme(legend.position = "top")
+
+
+early_date <- read.xlsx("early.xlsx",sheet = 3)
+early_date$year <- as.double(early_date$year)
+jesus_line <- ggplot(early_date,aes(x=year,y=Trees,group=Classification))+
+  geom_line(color="red",
+            size=1)
+
+infested_sim <- ggplot(df_date,aes(x=time,
+                                     y=sInf,
+                                     fill=run,
+                                     group=run,
+                                     color=run))+
+  geom_area(
+    position = "dodge",
+    alpha=0.5,linetype="dashed",size=1)+
+  ylab("Infested")+
+  xlab("Time") +
+  theme_classic()+
+  scale_fill_viridis_c()+
+  scale_color_viridis_c()+
+  geom_line(data=early_date,
+            aes(x=year,
+                y=Trees,
+                group=Classification),
+            color="red",
+            inherit.aes = F,
+            size=2,
+            alpha=0.5)+
+  scale_x_continuous(breaks = int_breaks)+
+  guides(color=FALSE,
+         fill = guide_legend(title = "Run"))+
+  labs(
+    title = "Infested date palms",
+    subtitle = "Red line represents reported volume of infested palms.",
+    x = "Time",
+    y = "Date palms"
+  )+theme(legend.position = "top")
+
+treated_sim <- ggplot(df_date,aes(x=time,
+                                    y=sTre,
+                                    fill=run,
+                                    group=run,
+                                    color=run))+
+  geom_area(
+    position = "dodge",
+    alpha=0.5,
+    linetype="dashed",
+    size=1)+
+  ylab("Treated")+
+  xlab("Time")  +
+  theme_classic()+
+  scale_fill_viridis_c()+
+  scale_color_viridis_c()+
+  scale_x_continuous(breaks = int_breaks)+
+  guides(color=FALSE,
+         fill = guide_legend(title = "Run"))+
+  labs(
+    title = "Date palms under treatment",
+    x = "Time",
+    y = "Date palms"
+  )+theme(legend.position = "top")
+
+simulations_date<- arrangeGrob(healthy_sim,infested_sim,treated_sim, nrow=1)
+ggsave("simulations_date.png",simulations_date,width = 14,height=8,limitsize = FALSE,bg="transparent")
+
+```
+
+```{r simulations canary plots, include=FALSE}
+#Simulations canary
+healthy_sim <- ggplot(df_canary,aes(x=time,
+                                    y=sHeal,
+                                    group=run,
+                                    fill=run,
+                                    color=run))+
+    geom_area(
+            position = "dodge",
+            alpha=0.5,linetype="dashed",size=1)+
+  ylab("Healthy")+
+  xlab("Time") +theme_classic()+
+  scale_fill_viridis_c()+
+  scale_color_viridis_c()+
+  scale_x_continuous(breaks = int_breaks)+
+  guides(color=FALSE,
+           fill = guide_legend(title = "Run"))+
+  labs(
+    title = "Healthy canary palms",
+    x = "Time",
+    y = "Canary palms"
+  )+theme(legend.position = "top")
+
+
+early_canary <- read.xlsx("early.xlsx",sheet = 2)
+early_canary$year <- as.double(early_canary$year)
+jesus_line <- ggplot(early_canary,aes(x=year,y=Trees,group=Classification))+
+  geom_line(color="red",
+            size=1)
+
+infested_sim <- ggplot(df_canary,aes(x=time,
+                                     y=sInf,
+                                     fill=run,
+                                     group=run,
+                                     color=run))+
+   geom_area(
+            position = "dodge",
+            alpha=0.5,linetype="dashed",size=1)+
+  ylab("Infested")+
+  xlab("Time") +
+  theme_classic()+
+  scale_fill_viridis_c()+
+    scale_color_viridis_c()+
+  geom_line(data=early_canary,
+            aes(x=year,
+                y=Trees,
+                group=Classification),
+            color="red",
+            inherit.aes = F,
+            size=2,
+            alpha=0.5)+
+  scale_x_continuous(breaks = int_breaks)+
+   guides(color=FALSE,
+           fill = guide_legend(title = "Run"))+
+  labs(
+    title = "Infested Canary palms",
+    subtitle = "Red line represents reported volume of infested palms.",
+    x = "Time",
+    y = "Canary palms"
+  )+theme(legend.position = "top")
+
+treated_sim <- ggplot(df_canary,aes(x=time,
+                                    y=sTre,
+                                    fill=run,
+                                    group=run,
+                                    color=run))+
+   geom_area(
+            position = "dodge",
+            alpha=0.5,
+            linetype="dashed",
+            size=1)+
+  ylab("Treated")+
+  xlab("Time")  +
+  theme_classic()+
+  scale_fill_viridis_c()+
+  scale_color_viridis_c()+
+  scale_x_continuous(breaks = int_breaks)+
+   guides(color=FALSE,
+           fill = guide_legend(title = "Run"))+
+  labs(
+    title = "Canary palms under treatment",
+    x = "Time",
+    y = "Canary palms"
+  )+theme(legend.position = "top")
+
+simulations_canary<- arrangeGrob(healthy_sim,infested_sim,treated_sim, nrow=1)
+ggsave("simulations_canary.png",simulations_canary,width = 14,height=8,limitsize = FALSE,bg="transparent")
+```
+
+```{r combine simulation plots, include=FALSE}
+simulations_combined<- arrangeGrob(simulations_date,simulations_canary, nrow=2)
+ggsave("simulations_combined.png",simulations_combined,width = 14,height=8,limitsize = FALSE,bg="transparent")
+```
+
+To initialise our model, we needed to estimate the number of infested trees at the beginning of the epidemic (2005). Since no information was available, we did this by running several simulations whilst varying the infested stock. As reference, we used reports for the infested stock per year. If the simulations contained the reported infested stock, then it is likely the initialisation parameters are appropriate. For this process, we implemented the model using the deSolve package for R Software [@soetaertSolvingDifferentialEquations2010] and ran a sensitivy analysis. The method that is used here is the Latin Hypercube Sampling (LHS) [@mckayComparisonThreeMethods1979] implemented with the R FME package [@soetaertSolvingDifferentialEquations2010a]. The reference for these estimates was government records collected by GenCat on the evolution of the pest between 2005 and 2014. According to interviews to GenCat officials, these were collected through non-structured communications. For example, private owners or municipalities would contact GenCat and report their RPW observations. This is to say that these reports do not accurately reflect the RPW's spatio-temporal infestation pattern, but rather, they provide a minimum volume of affected palm trees per species. Four simulations with random values for each parameter are presented in figure \ref{fig:simulations}. Any number of simulations could have been ran but for clarity, four were included in the figure. By looking at the infested stock for canary palms, we can see that simulation four, best fits the reports up to 2008. Afterwards, there is a decline in the reports, including a sharp decline in 2011. We believe this occurs due to the reporting methods and not to a sudden change in the actual patterns of infestation. This is supported by the reports from the subsequent year (2012), where reports increase and fit the third simulation. From this observation, we infer that the most appropiate initialization parameters for infested stock are between those of simulations three and four, summarised along with other parameters in table \ref{tab:initpar}. These will be used for our cost calculations. 
+
+```{r ranges for infested stock 2005, eval=FALSE,include=FALSE}
+df_canary%>%
+  filter(run==3)%>%
+  glimpse()
+df_canary%>%
+  filter(run==4)%>%
+  glimpse()
+#3 is run 4 - 5 is run   3 for date palms 
+
+#365 is run 4 - 975 is run 3 for canary palms
+
+#Filter the datasets for both species
+
+df_date%>%
+  filter(run==3|run==4)->df_date
+df_canary%>%
+  filter(run==3|run==4)->df_canary
+```
+
+```{r init values and parameter table, echo=FALSE}
+#Canary palms model
+options(scipen = 999)
+
+Values <- c("Effective Contact Rate", 
+                              "Treatment prob ($\\tau$)", 
+                              "Successful treatment prob ($\\sigma$)", 
+                              "Healthy stock 2005",
+                              "Infested stock 2005")
+Date <- c("[1,2]","[0.5,1]","[0.0-0.5]",(sum_date$sum_2018+14),"[3-5]")
+Canary <- c("[1,2]","[0.5,1]","[0.0-0.5]",(sum_canary$sum_2018+8946),"[365-975]")
+parameter_table <- data_frame(Values,Date,Canary)
+
+kable(parameter_table, 
+    booktabs = T, 
+    caption = "\\label{tab:initpar}Initialisation and parameter values for both species.", 
+    escape = FALSE) %>% 
+    kable_styling(latex_options = c("hold_position"), 
+        full_width = F)
+
+
+```
+
+3. Results
+============
+
+#### Costs
+
+We now present the costs per species and management category brought to net present value. We present a lower and upper bound. It is important to remember that before 2011, all costs, including management are within the GenCat costs. After 2011 private owners and municipalties assume management costs in addition to replanting which is not included in GenCat costs. 
+
+```{r gencat costs, include=FALSE}
+#Add GenCat costs. 
+gov_cost <-
+  c(
+    30000,
+    100000,
+    500000,
+    600000,
+    1350000,
+    1200000,
+    475000,
+    203820,
+    185232,
+    215110,
+    140000,
+    10545.15,
+    8857.20
+  ) 
+
+time <- 2005:2017
+
+gov_cost_present <- future_value(gov_cost,real_rate=real_rate,periods = (year(Sys.Date())-time))
+
+gencat <- data_frame(time,gov_cost,gov_cost_present)
+
+```
+
+```{r gov_costs table, echo=FALSE}
+gencat%>%
+  set_names(c("Year","GenCat cost","GenCat cost present"))%>%
+kable(
+  caption = "\\label{tab:gencat_table}GenCat costs Source: GENCAT, 2018.",
+  booktabs = T,
+  escape = F,
+  linesep= ""
+) %>%
+  kable_styling(latex_options = c("hold_position"))
+```
+
+
+```{r Management costs for date palms, include=FALSE}
+#Management costs for date palms
+unit_replanting <- 500 #Define the unitary cost of replanting (euros)
+inspection_cost <- 10 #Define the unitary cost of an inspection (dimensionless)
+prevention_cost <- 20 #Define the unitary cost of a prevention (dimensionless)
+treatment_cost <- 30
+removal_cost <- 500
+inspection_freq <- 2 #Define the number of inspections done per year
+prevention_freq <- 2 #Define the number of preventative treatments done per year
+treatment_freq <- 5 #Define the number of treatments per year
+#Equations
+
+df_date %>%
+  mutate(rep_cost = ifelse(time>=2011,Replanting * unit_replanting,0), #Define the replanting cost vector.  
+         ins_cost = ifelse(time>=2011, sHeal * inspection_freq * inspection_cost,0),#Calculate annual inspection costs.
+           pre_cost = ifelse(time>=2011, sHeal * prevention_freq * prevention_cost,0),#Calculate annual prevention costs.
+        tre_cost = ifelse(time>=2011, sTre * treatment_freq * treatment_cost,0),#Calculate annual treatment costs
+        rem_cost = ifelse(time>=2011, (Failed_treatment+Untreated)*removal_cost,0)#Calculate annual removal costs.
+        ) %>%
+  dplyr::select(run,
+         time,
+         rep_cost,
+         ins_cost,
+         pre_cost,
+         tre_cost,
+         rem_cost
+         )-> date_costs #Calculate total management costs.
+```
+
+```{r date_costs table,echo=FALSE}
+
+date_costs%>%
+  filter(run==3,
+         time>=2011)%>%
+  #Bring to present value
+  mutate(rep_cost_low=future_value(rep_cost,
+                                    real_rate = real_rate,
+                                    periods = (year(Sys.Date())-time)),
+         ins_cost_low=future_value(ins_cost,
+                                    real_rate = real_rate,
+                                    periods = (year(Sys.Date())-time)),
+         pre_cost_low=future_value(pre_cost,
+                                    real_rate = real_rate,
+                                    periods = (year(Sys.Date())-time)),
+         tre_cost_low=future_value(tre_cost,
+                                    real_rate = real_rate,
+                                    periods = (year(Sys.Date())-time)),
+         rem_cost_low=future_value(rem_cost,
+                                    real_rate = real_rate,
+                                    periods = (year(Sys.Date())-time)),
+         total=c(rep_cost_low+
+                   ins_cost_low+
+                   pre_cost_low+
+                   tre_cost_low+
+                   rem_cost_low))%>%
+  dplyr::select(time,
+                rep_cost_low,
+                ins_cost_low,
+                pre_cost_low,
+                tre_cost_low,
+                rem_cost_low,
+                total)->date_cost_low
+
+date_cost_low%>%
+  set_names(c("Year","Replanting","Inspection","Prevention","Treatment","Removal","Total"))%>%
+  kable(
+    caption = "\\label{tab:date_costs_low}Date lower bound.",
+    booktabs = T,
+    escape = F,
+    linesep= ""
+  ) %>%
+  kable_styling(latex_options = c("hold_position"))%>%
+  add_header_above(c(" ","Lower bound"=6))%>%
+  footnote(general=paste("Total value for all years is ",round(sum(date_cost_low$total),digits = 0)))
+
+date_costs%>%
+  filter(run==4,
+         time>=2011)%>%
+  #Bring to present value
+  mutate(rep_cost_high=future_value(rep_cost,
+                                   real_rate = real_rate,
+                                   periods = (year(Sys.Date())-time)),
+         ins_cost_high=future_value(ins_cost,
+                                   real_rate = real_rate,
+                                   periods = (year(Sys.Date())-time)),
+         pre_cost_high=future_value(pre_cost,
+                                   real_rate = real_rate,
+                                   periods = (year(Sys.Date())-time)),
+         tre_cost_high=future_value(tre_cost,
+                                   real_rate = real_rate,
+                                   periods = (year(Sys.Date())-time)),
+         rem_cost_high=future_value(rem_cost,
+                                   real_rate = real_rate,
+                                   periods = (year(Sys.Date())-time)),
+         total=c(rep_cost_high+
+                ins_cost_high+
+                pre_cost_high+
+                tre_cost_high+
+                rem_cost_high))%>%
+  dplyr::select(time,
+                rep_cost_high,
+                ins_cost_high,
+                pre_cost_high,
+                tre_cost_high,
+                rem_cost_high,
+                total)->date_cost_high
+
+date_cost_high%>%
+  set_names(c("Year","Replanting","Inspection","Prevention","Treatment","Removal","Total"))%>%
+  kable(
+    caption = "\\label{tab:date_costs_high}Date higher bound.",
+    booktabs = T,
+    escape = F,
+    linesep= ""
+  ) %>%
+  kable_styling(latex_options = c("hold_position"))%>%
+  add_header_above(c(" ","Upper bound"=6))%>%
+  footnote(general=paste("Total value for all years is ",round(sum(date_cost_high$total),digits=0)))
+```
+
+```{r date costs plots, include=FALSE}
+
+date_cost_low%>%
+  gather(key = "cost",value="amount",2:6)%>%
+  ggplot(
+    aes(x=time,
+        y=amount,
+        color=cost))+
+  geom_area(aes(fill=cost),
+            position = "dodge",
+            alpha=0.5,linetype="dashed",size=1)+
+  theme_classic()+
+  scale_color_viridis_d()+
+  scale_fill_viridis_d()+
+  scale_x_continuous(breaks = int_breaks)+
+  guides( color = FALSE,
+          fill = guide_legend(title = "Cost type"))+
+  labs(
+    title = "Date palm costs lower bound",
+    x = "Time",
+    y = "Euros")+
+  theme(legend.position = "top") -> date_1
+
+#Filter for run 6
+date_cost_high%>%
+  gather(key = "cost",value="amount",2:6)%>%
+  ggplot(
+    aes(x=time,
+        y=amount,
+        color=cost))+
+  geom_area(aes(fill=cost),
+            position = "dodge",
+            alpha=0.5,linetype="dashed",size=1)+
+  theme_classic()+
+  scale_color_viridis_d()+
+  scale_fill_viridis_d()+
+  scale_x_continuous(breaks = int_breaks)+
+  guides( color = FALSE,
+          fill = guide_legend(title = "Cost type"))+
+  labs(
+    title = "Date palm costs upper bound",
+    x = "Time",
+    y = "Euros"
+  ) +theme(legend.position = "top")-> date_6
+
+
+date_costs_plots<- arrangeGrob(date_1,date_6,nrow=1)
+ggsave("date_costs.png",date_costs_plots,width = 14,height=8,limitsize = FALSE,bg="transparent")
+```
+
+```{r Management costs for canary palms, include=FALSE}
+#Management costs for canary palms
+
+#Equations
+df_canary %>%
+  mutate(rep_cost = ifelse(time>=2011,Replanting * unit_replanting,0), #Define the replanting cost vector.  
+         ins_cost = ifelse(time>=2011, sHeal * inspection_freq * inspection_cost,0),#Calculate annual inspection costs.
+         pre_cost = ifelse(time>=2011, sHeal * prevention_freq * prevention_cost,0),#Calculate annual prevention costs.
+         tre_cost = ifelse(time>=2011, sTre * treatment_freq * treatment_cost,0),#Calculate annual treatment costs
+         rem_cost = ifelse(time>=2011, (Failed_treatment+Untreated)*removal_cost,0)#Calculate annual removal costs.
+         ) %>%
+  dplyr::select(run,
+         time,
+         rep_cost,
+         ins_cost,
+         pre_cost,
+         tre_cost,
+         rem_cost
+  )-> canary_costs #Calculate total management costs.
+```
+
+```{r canary_costs table,echo=FALSE}
+
+canary_costs%>%
+  filter(run==3,
+         time>=2011)%>%
+  #Bring to present value
+  mutate(rep_cost_low=future_value(rep_cost,
+                                   real_rate = real_rate,
+                                   periods = (year(Sys.Date())-time)),
+         ins_cost_low=future_value(ins_cost,
+                                   real_rate = real_rate,
+                                   periods = (year(Sys.Date())-time)),
+         pre_cost_low=future_value(pre_cost,
+                                   real_rate = real_rate,
+                                   periods = (year(Sys.Date())-time)),
+         tre_cost_low=future_value(tre_cost,
+                                   real_rate = real_rate,
+                                   periods = (year(Sys.Date())-time)),
+         rem_cost_low=future_value(rem_cost,
+                                   real_rate = real_rate,
+                                   periods = (year(Sys.Date())-time)),
+         total=c(rep_cost_low+
+                   ins_cost_low+
+                   pre_cost_low+
+                   tre_cost_low+
+                   rem_cost_low))%>%
+  dplyr::select(time,
+                rep_cost_low,
+                ins_cost_low,
+                pre_cost_low,
+                tre_cost_low,
+                rem_cost_low,
+                total)->canary_cost_low
+
+canary_cost_low%>%
+  set_names(c("Year","Replanting","Inspection","Prevention","Treatment","Removal","Total"))%>%
+  kable(
+    caption = "\\label{tab:canary_costs_low}Canary lower bound.",
+    booktabs = T,
+    escape = F,
+    linesep= ""
+  ) %>%
+  kable_styling(latex_options = c("hold_position"))%>%
+  add_header_above(c(" ","Lower bound"=6))%>%
+  footnote(general=paste("Total value for all years is ",round(sum(canary_cost_low$total),digits = 2)))
+
+canary_costs%>%
+  filter(run==4,
+         time>=2011)%>%
+  #Bring to present value
+  mutate(rep_cost_high=future_value(rep_cost,
+                                    real_rate = real_rate,
+                                    periods = (year(Sys.Date())-time)),
+         ins_cost_high=future_value(ins_cost,
+                                    real_rate = real_rate,
+                                    periods = (year(Sys.Date())-time)),
+         pre_cost_high=future_value(pre_cost,
+                                    real_rate = real_rate,
+                                    periods = (year(Sys.Date())-time)),
+         tre_cost_high=future_value(tre_cost,
+                                    real_rate = real_rate,
+                                    periods = (year(Sys.Date())-time)),
+         rem_cost_high=future_value(rem_cost,
+                                    real_rate = real_rate,
+                                    periods = (year(Sys.Date())-time)),
+         total=c(rep_cost_high+
+                   ins_cost_high+
+                   pre_cost_high+
+                   tre_cost_high+
+                   rem_cost_high))%>%
+  dplyr::select(time,
+                rep_cost_high,
+                ins_cost_high,
+                pre_cost_high,
+                tre_cost_high,
+                rem_cost_high,
+                total)->canary_cost_high
+
+canary_cost_high%>%
+  set_names(c("Year","Replanting","Inspection","Prevention","Treatment","Removal","Total"))%>%
+  kable(
+    caption = "\\label{tab:canary_costs_high}Canary higher bound.",
+    booktabs = T,
+    escape = F,
+    linesep= ""
+  ) %>%
+  kable_styling(latex_options = c("hold_position"))%>%
+  add_header_above(c(" ","Upper bound"=6))%>%
+  footnote(general=paste("Total value for all years is ",round(sum(canary_cost_high$total),digits=2)))
+```
+
+```{r canary costs plots, include=FALSE}
+
+canary_cost_low%>%
+  gather(key = "cost",value="amount",2:6)%>%
+  ggplot(
+    aes(x=time,
+        y=amount,
+        color=cost))+
+  geom_area(aes(fill=cost),
+            position = "dodge",
+            alpha=0.5,linetype="dashed",size=1)+
+  theme_classic()+
+  scale_color_viridis_d()+
+  scale_fill_viridis_d()+
+  scale_x_continuous(breaks = int_breaks)+
+  guides( color = FALSE,
+          fill = guide_legend(title = "Cost type"))+
+  labs(
+    title = "Canary palm costs lower bound",
+    x = "Time",
+    y = "Euros")+
+  theme(legend.position = "top") -> canary_1
+
+#Filter for run 6
+canary_cost_high%>%
+  gather(key = "cost",value="amount",2:6)%>%
+  ggplot(
+    aes(x=time,
+        y=amount,
+        color=cost))+
+  geom_area(aes(fill=cost),
+            position = "dodge",
+            alpha=0.5,linetype="dashed",size=1)+
+  theme_classic()+
+  scale_color_viridis_d()+
+  scale_fill_viridis_d()+
+  scale_x_continuous(breaks = int_breaks)+
+  guides( color = FALSE,
+          fill = guide_legend(title = "Cost type"))+
+  labs(
+    title = "Canary palm costs upper bound",
+    x = "Time",
+    y = "Euros"
+  ) +theme(legend.position = "top")-> canary_6
+
+
+canary_costs_plots<- arrangeGrob(canary_1,canary_6,nrow=1)
+ggsave("canary_costs.png",canary_costs_plots,width = 14,height=8,limitsize = FALSE,bg="transparent")
+```
+
+
+```{r combining management costs plots, include=FALSE}
+costs_combined<- arrangeGrob(date_costs_plots,canary_costs_plots, nrow=2)
+ggsave("costs_combined.png",costs_combined,width = 14,height=8,limitsize = FALSE,bg="transparent")
+```
+
+\begin{figure}[ht]
+\centerline{\includegraphics[width=30pc]{costs_combined.png}}
+\caption{Management costs for date and canary palms.}
+\label{fig:costs_combined} 
+\end{figure}
+
+```{r Create total costs for both species including GenCat costs, include=FALSE}
+#Create total costs for both species including GenCat costs
+date_costs %>%
+  filter(run==max(run)) %>%
+  mutate(management_costs=rep_cost+ins_cost+pre_cost+tre_cost+rem_cost)->total_date_costs_lower
+date_costs %>%
+  filter(run==min(run)) %>%
+  mutate(management_costs=rep_cost+ins_cost+pre_cost+tre_cost+rem_cost)->total_date_costs_upper
+canary_costs %>%
+  filter(run==max(run)) %>%
+  mutate(management_costs=rep_cost+ins_cost+pre_cost+tre_cost+rem_cost)->total_canary_costs_lower
+canary_costs %>%
+  filter(run==min(run)) %>%
+  mutate(management_costs=rep_cost+ins_cost+pre_cost+tre_cost+rem_cost)->total_canary_costs_upper
+total_costs <- data_frame(time,
+                          gov_cost_present,
+                          total_date_costs_upper$management_costs,
+                          total_canary_costs_upper$management_costs,
+                          total_date_costs_lower$management_costs,
+                          total_canary_costs_lower$management_costs)
+
+names(total_costs) <- c("time",
+                           "gov_cost_present",
+                           "upper_date",
+                           "upper_canary",
+                           "lower_date",
+                           "lower_canary")
+```
+
+```{r costs_combined_total plots, include=FALSE}
+total_costs %>%
+  dplyr::select(time,gov_cost_present,lower_date,lower_canary)%>%
+  gather(key="cost",
+         value="amount",
+         2:4)%>%
+  ggplot(aes(x=time,
+             y=amount,
+             color=cost))+
+  geom_area(aes(fill=cost),
+            position = "dodge",
+            alpha=0.5,linetype="dashed",size=1)+
+  theme_classic()+
+  scale_x_continuous(breaks = int_breaks)+
+  guides( color = FALSE,
+           fill = guide_legend(title = "Cost type"))+
+  labs(
+    title = "Total costs lower bound (run=6)",
+    x = "Time",
+    y = "Euros"
+  )+theme(legend.position = "top") -> lower_costs_plot
+
+total_costs %>%
+  dplyr::select(time,gov_cost_present,upper_date,upper_canary)%>%
+  gather(key="cost", value="amount",2:4)%>%
+  ggplot(aes(x=time,
+             y=amount,
+             color=cost))+
+  geom_area(aes(fill=cost),
+            position = "dodge",
+            alpha=0.5,linetype="dashed",size=1 )+
+  theme_classic()+
+  scale_x_continuous(breaks = int_breaks)+
+  guides( color = FALSE,
+           fill = guide_legend(title = "Cost type"))+
+  labs(
+    title = "Total costs upper bound (run=1)",
+    x = "Time",
+    y = "Euros"
+  )+theme(legend.position = "top") -> upper_costs_plot
+
+costs_combined_total<- arrangeGrob(lower_costs_plot,upper_costs_plot, nrow=2)
+ggsave("costs_combined_total.png",costs_combined_total,width = 14,height=8,limitsize = FALSE,bg="transparent")
+```
+
+```{r total costs summary, include=FALSE}
+total_costs %>%
+  mutate(total_lower=gov_cost_present+lower_date+lower_canary,
+         total_upper=gov_cost_present+upper_date+upper_canary) -> total_costs
+```
+
+
+
+
+#### Benefits
+In our total benefits calculation, we will present ranges using the lowest (USD 12) and highest (USD 125) social cost of carbon. The two select species are estimated to sequester similar amounts of carbon at 0.191 tonnes per year for 1000 trees [@aguaronComparisonMethodsEstimating2012], add#ChaparroTerradas.
+
+
+
+```{r  carbon sequestration benefits, include=FALSE}
+#Constants
+net_carbon <- 0.000191 #Define the net carbon sequestration capacity per tree (tonnes/tree)
+SCC_carbon_upper <-107.27 #Define the upper social cost of carbon per one tonne (euros)  
+SCC_carbon_lower <- 11.75 #Define the upper social cost of carbon per one tonne (euros)  
+
+date_lower <- df_date %>%
+  filter(run==max(run))%>%
+  mutate(total=sHeal+sInf+sTre)
+  
+date_upper <- df_date %>%
+  filter(run==min(run))%>%
+    mutate(total=sHeal+sInf+sTre)
+
+canary_lower <- df_canary %>%
+  filter(run==max(run))%>%
+    mutate(total=sHeal+sInf+sTre)
+
+canary_upper <- df_canary %>%
+  filter(run==min(run))%>% 
+  mutate(total=sHeal+sInf+sTre)
+
+carbon_lower <- (date_lower$total+canary_lower$total)*SCC_carbon_lower*net_carbon
+carbon_upper <- (date_upper$total+canary_upper$total)*SCC_carbon_upper*net_carbon
+
+carbon_benefits <- data.frame(time,carbon_lower,carbon_upper)
+
+
+
+cb_lower <- data.frame(time, total_costs$total_lower,carbon_lower)
+names(cb_lower) <- c("time","costs","benefits")
+cb_upper <- data.frame(time, total_costs$total_upper,carbon_upper)
+names(cb_upper) <- c("time","costs","benefits")
+```
+
+```{r carbon benefits summary, include=FALSE}
+cb_lower%>%
+  summarise(sum(costs),sum(benefits)) ->cb_total_lower
+
+cb_upper%>%
+  summarise(sum(costs),sum(benefits))->cb_total_upper
+```
+
+```{r carbon benefits plotted, include=FALSE}
+
+cb_lower %>%
+  mutate(costs=costs/1000)%>%
+gather(key = "type",value="amount",2:3)%>%
+   ggplot(aes(x=time,
+             y=amount,
+             color=type))+
+  geom_area(aes(fill=type),
+            position = "dodge",
+            alpha=0.5,linetype="dashed",size=1 )+
+  theme_classic()+
+  scale_x_continuous(breaks = int_breaks)+
+  guides( color = FALSE,
+           fill = guide_legend(title = "Cost type"))+
+   scale_fill_manual(values=c("#00BA38","#F8766D"))+
+  scale_color_manual(values=c("#00BA38","#F8766D"))+
+  labs(
+    title = "Costs vs. benefits (lower bound)",
+    subtitle = "Costs were divided by 1,000 to allow benefits to appear in the plot.",
+    x = "Time",
+    y = "Euros"
+  )+theme(legend.position = "top") -> cb_lower_plot
+
+
+cb_upper %>%
+  mutate(costs=costs/1000)%>%
+gather(key = "type",value="amount",2:3)%>%
+   ggplot(aes(x=time,
+             y=amount,
+             color=type))+
+  geom_area(aes(fill=type),
+            position = "dodge",
+            alpha=0.5,linetype="dashed",size=1 )+
+  theme_classic()+
+  scale_fill_manual(values=c("#00BA38","#F8766D"))+
+  scale_color_manual(values=c("#00BA38","#F8766D"))+
+  scale_x_continuous(breaks = int_breaks)+
+  guides( color = FALSE,
+           fill = guide_legend(title = "Cost type"))+
+  labs(
+    title = "Costs vs. benefits (upper bound)",
+    subtitle = "Costs were divided by 1,000 to allow benefits to appear in the plot.",
+    x = "Time",
+    y = "Euros"
+  )+theme(legend.position = "top") -> cb_upper_plot
+
+cost_benefit_plot<- arrangeGrob(cb_lower_plot,cb_upper_plot, nrow=2)
+ggsave("cost_benefit_plot.png",
+       cost_benefit_plot,
+       width = 16,
+       height=9,
+       limitsize = FALSE,
+       bg="transparent")
+```
+
+
+
+
+#### Property values
+
+
+
+#### Total costs and benefits 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4. Discussion and conclusions
+============
+
+
+```{r eval=FALSE, echo=FALSE}
+wordcountaddin::text_stats(filename = "Version 5 RPW.Rmd")
+```
+
+
+The combined costs of pest management, eradication and replacement of RPW infested palms as well as loss of benefits were previously estimated for Italy, Spain and France. Up to 2013, the combined costs for all three countries were estimated to be €90 million, and estimations increase to €200 million by 2023 (FAO, 2017b). Although this initial costing is a good start, a full costing is required where not only direct values (damage and management) are accounted for but also indirect and non-use values are included. 
+
+On 31 March 2017, the director of the Food and Agricultural Organization (FAO) made a statement about the RPW noting that because it had spread to at least 60 countries, it had become a global threat. He therefore called for its eradication (FAO, 2017a). This statement came after the International Plant Protection Convention organised a seminar on 29th March 2017 exclusively dedicated to discuss strategies to ‘prevent the spread of this pest’(IPPC, 2017). Later that year, several news articles communicated a sense of urgency to act on this beetle. For example, the British newspaper The Guardian claimed the city of Los Angeles will lose its ‘iconic’ palm trees and that they would not be replaced (Carroll, 2017). Another example came from Tunisia where the country’s economy largely depends on date exports and allegedly the RPW is a major threat (Speakman Cordall, 2017). So far, one of the most prominent examples of successful eradication of the RPW was that of the Canary Islands of Spain (Gobierno de Canarias, 2016). In these islands, the RPW was detected in 2007 and declared completely eradicated by 2016. Eradication efforts included the inspection of 706,081 palms, of which 209,537 were treated, 659 removed and destroyed, and 681 weevils were caught. The total costs of these activities amounted to €12,000,000 (Rodríguez Luengo, 2017). Another example was that of the city of Laguna Beach in California, USA, although here the palm weevil eradicated was not the RPW but a closely related species, also from tropical Asia, called Rhynchophorus vulneratus. The estimated costs for the program that eradicated this weevil from Laguna Beach between September 2010 to January 2015 were approximately $1,000,000, mainly associated with labour and public outreach (Hoddle et al., 2017).	
+
+
+5. Acknowledgements
+==========
+
+Servei de Sanitat Vegetal de la Generalitat de Catalunya provided interviews, records and further informatoin on the pest in Catalonia. Dr Martí Boada and Dr Jaume Marlès Magre kindly gave feedback on the estimation of the number of palm trees. Joan Freixa Gaspar and Josep Muntaner shared insights on private palm tree owners and their behaviour. Cristian E. Nuno from the University of Chicago Urban Labs provided guidance on calculating distances to the coastline. 
+
+
+Funding
+==========
+
+This research was funded by the "María de Maeztu" Unit of Excellence 2016 from the Spanish Ministry of Economy and Competitiveness (MINECO), project number MDM-2015-0552.
+
+\newpage
+
+
+Appendix 
+==========
+
+-   Order ARP/343/2006: On July 3rd 2006, the presence of the RPW in Catalonia is confirmed. Pest prevention and management is declared in the public’s interest. This declaration is done based on Article 15 from Spanish Law 43/2002 which states that when a potential pest (i.e. economic or environmental impacts) is identified for the first time it should be immediately declared. The management against this pest is considered in the public’s utility or greater good if it meets several criteria, including that it is present in areas that were previously declared pest free [INSERT HERE BOE citation.] Costing implications based on articles 8, 9 and 12 of this order include prospection, detection, destruction and indemnification to property owners begin. The total costs for these activities have been provided by the regional government, which also include survey, research, regulation, management, and outreach costs [citation]. 
+
+-   2007/365/CE: On 25th May 2007, the EU Commission published a decision based on previous legislation for plant protection and the RPW spread along the Iberian Peninsula. This decision specifies the vulnerability of palm trees and announces a series of measures to be taken by member countries, including the delineation of areas that are in danger. 
+
+-   2008/776/CE: On 6th October 2008, a subsequent decision was reached by the EU where the 2007 decision is modified to expand the range of palm trees vulnerable to the RPW.
+
+-   Order AAR/226/2009: Based on the EU commission, the GenCat updates the 2006 order by redefining and specifying actions to be taken, namely delimitation, inspections, pruning, treatment, and destruction of affected palm trees. It restates that all costs continue to be borne by the GenCat.
+
+-   2010/467/UE: On 28th August 2010, a correction to the 17th August 2010 decision is published that states that if routine inspections from the past three years show that eradication seems to not be feasible within a year, then local measures should focus on pest contention and suppression within the selected area but maintaining eradication as a long-term objective. 
+
+-   Order AAR/2802/2010 and Resolution AAR/2802/2010: On 20th October 2010, a delimited area for the pest is published in the form of municipalities. 
+
+-   Order AAM/56/2011: On April 12th 2011, a modification to the 2006 order was published. The main changes are done to articles 8, 9, 11, 12. The key change made from this final order is that GenCat from this year onwards continues to perform annual inspections, publish the delimited area and inform local authorities through outreach activities, but treatment and removal costs are transferred to municipalities and private owners. These activities transferred are mandatory and procedure are carefully described including the type of chemicals to be used, times of the year when they should be done and specific places where trees should be destroyed. 
+
+```{r stock table summary, echo=FALSE}
+Summary_Stock <- as.vector(c("Healthy","Infested","In treatment","Lost","Replanted","Total population"))
+Stock <- as.vector(c("$S_t^H$","$S_t^I$","$S_t^{T}$","$S_t^L$","$S_t^R$","$S_t$"))
+df_stock <- as_tibble(Stock,Summary_Stock)
+
+colnames(df_stock) <- c("Stock")
+kable(df_stock, caption = "\\label{tab:stocks}Stocks.", booktabs = T,escape = F) %>%
+kable_styling(latex_options = c("hold_position"))
+```
+
+
+```{r flows table summary, echo=FALSE}
+
+Summary_Flow <- as.vector(c("Replanted",
+                            "Failed prevention",
+                            "Untreated",
+                            "Treated",
+                            "Failed treatment",
+                            "Successful treatment"))
+Flow <- as.vector(c("$F_{t,t-1}^R$",
+                    "$F_{t,t-1}^{FP}$",
+                    "$F_{t,t-1}^{UTR}$",
+                    "$F_{t,t-1}^{TR}$",
+                    "$F_{t,t-1}^{FT}$",
+                    "$F_{t,t-1}^{ST}$"
+                    ))	
+
+df_flow <- as_tibble(Flow,Summary_Flow)
+colnames(df_flow) <- c("Flow")
+kable(df_flow, caption = "\\label{tab:flows}Flows.", booktabs = T,escape = F) %>%
+kable_styling(latex_options = c("hold_position"))
+```
+
+\pagebreak
+References {#references .unnumbered}
+==========
+
