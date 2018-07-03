@@ -1,0 +1,276 @@
+```{r setup, include=FALSE}
+x <-
+  c("tidyverse",
+    "officer",
+    "bookdown",
+    "fcuk",
+    "knitr",
+    "kableExtra",
+    "formatR",
+    "gridExtra",
+    "EBImage",
+    "jsonlite",
+    "httr",
+    "base64enc",
+    "rlist",
+    "GGally",
+    "ggmap",
+    "geosphere")
+
+lapply(x, require, character.only = TRUE)
+
+opts_chunk$set(echo = TRUE)
+
+```
+
+```{r eval=FALSE, include=FALSE}
+key <- "pxnhjaz4pc71p0qa1emffiqvkxnhj2v6"
+secret <- "7UUnRQ4yGfeH"
+
+
+#Use basic auth
+secret <- jsonlite::base64_enc(paste(key,secret, sep = ":"))
+request_31_05_2018_3<- httr::POST("https://api.idealista.com/oauth/token",
+                  httr::add_headers(
+                    "Authorization" = paste("Basic", gsub("\n", "", secret)),
+                    "Content-Type" = "application/x-www-form-urlencoded;charset=UTF-8"
+                  ),
+                  body = "grant_type=client_credentials"
+)
+
+url <- paste("https://api.idealista.com/3.5/es/search?",
+              
+"operation=sale",
+"propertyType=homes",
+"center=41.118883,1.244491",
+"distance=100000",
+"country=es",
+"maxItems=50",
+"numPage=2",
+#"swimmingPool=TRUE",
+"typology=chalet",
+"typology=countryHouse",
+"garage=TRUE",
+"order=price",
+"sort=desc",
+sep = "&"
+)
+  
+token <- paste("Bearer", httr::content(request_31_05_2018_3)$access_token)
+request_4_06_2018<- httr::POST(url=url, httr::add_headers("Authorization" = token))
+
+
+
+
+```
+
+```{r load property_values,include=FALSE}
+holle <-  readRDS("property_values.RData")
+```
+
+###List of things to save
+```{r eval=FALSE, include=FALSE}
+to_save <- list(holle[[1]],holle[[2]],holle[[3]],request_4_06_2018)
+saveRDS(file = "property_values.RData",to_save)
+```
+
+```{r include=FALSE}
+#str(content(req), max.level = 4)
+
+revs <- as.list(typeof("list"))
+
+
+revs[[1]] <- content(holle[[1]])$elementList
+revs[[2]] <- content(holle[[2]])$elementList
+revs[[3]] <- content(holle[[3]])$elementList
+revs[[4]] <- content(holle[[4]])$elementList
+
+property <- as.list(typeof("list"))
+
+for ( i in seq_along(revs)) {
+  
+  property[[i]] <- list.select(revs[[i]],
+                               price,
+                               size,
+                               rooms,
+                               bathrooms,
+                               province,
+                               municipality,
+                               url,
+                               parkingSpace$hasParkingSpace,
+                               latitude,
+                               longitude,
+                               priceByArea,
+                               propertyCode,
+                               address)
+  
+  property[[i]] <- list.stack(property[[i]])
+  
+}
+
+```
+
+```{r include=FALSE}
+df_property <- bind_rows(property[[1]],property[[2]],property[[3]],property[[4]]) 
+
+#save(df_property,file="150_idealista.Rdata")
+```
+
+```{r include=FALSE}
+df_property <- unique(df_property)
+df_property$province <- as.factor(df_property$province)
+df_property$municipality <- as.factor(df_property$municipality)
+```
+
+
+
+```{r}
+lonlat <- df_property%>%
+  dplyr::select(longitude,latitude)
+```
+
+
+```{r}
+xy.list <- split(lonlat, seq(nrow(lonlat)))
+
+```
+
+```{r } 
+register_google(key = "AIzaSyAbx-RkFrUxMq_PH3nj9wO8WW20XTuFiqE", account_type = "premium", day_limit = 1000000)
+houses <-  lapply(xy.list,
+                  function(x)
+                    get_map(location = x,
+                            zoom = 18, 
+                            maptype = "satellite", 
+                            source = "google")) 
+```
+
+```{r }
+for (i in seq_along(houses)) {
+  filename <-str_c("idealista",i,".png")
+  png(filename = filename,width=1000, height=1000) 
+m <-ggmap(houses[[i]]) 
+print(m)
+dev.off()
+
+}
+```
+
+```{r}
+distance <-
+  apply(
+    X = do.call( what = "rbind", args =lonlat )
+    , MARGIN = 2
+    , FUN = function( i )
+      lapply(
+        X = .GlobalEnv$western.basin.polygon.coordinates
+        , FUN = function( j )
+          distGeo(
+            p1 = i
+            , p2 = j
+          ) / 1000 # to transform results into kilometers
+      )
+  )
+
+distance.min <-
+  lapply(
+    X = distance
+    , FUN = function( i )
+      lapply(
+        X = i
+        , FUN = function( j )
+          min( j )
+      )
+  )
+```
+
+```{r}
+df <- data.frame(matrix(unlist(distance.min), nrow=103, byrow=T))
+df_property$distance <- df$X1
+
+```
+
+
+
+```{r echo=FALSE}
+ggcorr(df_property, method = c("pairwise","pearson"),hjust = .85, size = 3,
+       layout.exp=2,nbreaks = 10,label=TRUE,label_alpha = 0.5,label_size = 4)
+```
+
+```{r}
+lm_property <- lm(price~ rooms+size+bathrooms+distance, data = df_property)
+summary(lm_property)
+```
+
+
+
+```{r echo=FALSE}
+
+ggplot(df_property,aes(x = size,y=price,color=bathrooms,size=rooms)) +
+  geom_jitter(alpha=0.5)+
+  geom_text(aes(x=df_property$size,y=df_property$price),
+            label=df_property$address,
+            size=3,
+            check_overlap = TRUE,
+            inherit.aes = FALSE,
+            hjust = 1, nudge_x = 0.005)+
+  scale_x_continuous(limits = c(-3000, 6000))+
+  theme_classic()+
+  guides(color=guide_legend(title="Bathrooms"),
+         size=guide_legend(title="Rooms"))+
+  labs(title = "Property prices", subtitle = "VS. Size, # Bathrooms and # Rooms",x="Size (m2)",y="Price (€)")
+```
+
+
+```{r}
+ggplot(df_property,aes(x=province))+
+         geom_bar()
+```
+
+```{r}
+df_export <- df_property%>%
+  dplyr::select(propertyCode,address,price,size,rooms,bathrooms,province,municipality,
+                V1,longitude,latitude,distance,url)
+openxlsx::write.xlsx(df_export,"houses.xlsx")
+```
+
+
+```{r}
+str(typeof(content(holle[[1]])[[1]][[1]]))
+```
+
+```{r}
+names(content(holle[[1]])[[1]][[1]])
+```
+
+```{r}
+houses <- read.xlsx("houses_count.xlsx")
+houses <- houses[1:8,]
+houses <- houses %>%
+  mutate(canary=canary_own+canary_around,
+         date=date_own+date_around)
+```
+
+```{r}
+independent <- houses[c("size",
+                       "distance",
+                       "rooms",
+                       "floors",
+                       "terrain",
+                       "canary",
+                       "date"
+                       
+)]
+
+independent <- as.matrix(independent)
+houses_price <- as.vector(houses$price)
+houses_BMA <- bicreg(independent,houses_price)
+
+summary(houses_BMA)
+#plot(houses_BMA)
+imageplot.bma(houses_BMA)
+
+```
+
+
+
