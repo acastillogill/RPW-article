@@ -7,10 +7,8 @@ author:
     affiliation: a
     footnote: Corresponding Author
   - name: Jeroen C.J.M.van den Bergh
-    email: jeroen.bergh@uab.cat
     affiliation: a,b,c
   - name: Víctor Sarto i Monteys
-    email: victor.sarto@uab.cat
     affiliation: a
 
 address:
@@ -25,8 +23,8 @@ address:
 abstract: |
   Invasive insects are the costliest species amongst invasive species. It is estimated that more than half of potential insect invasions have not taken place. With limited budgets for biological invasions, multiple frameworks for prioritizing have recently risen, but are current policies effectively integrating these frameworks? In this article we evaluated a set of conservation policies designed in response to the arrival of the invasive Red Palm Weevil (*Rhynchophorus ferrugineus*). The purpose of the selected policies was to preserve non-native and non-threatened palm species exclusively used for ornamental purposes, in Catalonia, Spain. Through a comprehensive cost-benefit analysis based on the total economic value framework, we found that the policies were not monetarily justified. In a region with both a large portion of land dedicated to agricultural activities and densely populated areas, budgets for biological invasions could be assigned elsewhere. This, however, requires recognition and support from wider international policies since the conservation policy assessed was designed for EU member states despite its heterogenous site-specific impacts.
 
+keywords: "Environmental valuation, insects, ecosystem services, Rhynchophorus ferrugineus."
   
-journal: "Ecological Economics"
 date: "`r Sys.Date()`"
 bookdown:
   fig_caption: yes
@@ -34,12 +32,25 @@ bibliography: library1.bib
 header-includes:
    - \usepackage{caption}
       \usepackage[section]{placeins}
+      \usepackage[left=3cm, right=3cm, top=3cm]{geometry}
       \captionsetup[table]{font=normalsize,labelfont=normalsize}
+      \usepackage{setspace}
+      \doublespacing
+      \usepackage[format=plain,
+            font=it]{caption}
+      \usepackage{lipsum}
+
 output: rticles::elsevier_article
-
 ---
+\makeatletter
+\def\ps@pprintTitle{%
+\let\@oddhead\@empty
+\let\@evenhead\@empty
+\def\@oddfoot{\reset@font\hfil\thepage\hfil}
+\let\@evenfoot\@oddfoot
+}
+\makeatother
 
-_Keywords: Environmental valuation, insects, ecosystem services, Rhynchophorus ferrugineus._
 
 ```{r setup, include=FALSE}
 x <-
@@ -1858,7 +1869,7 @@ The larger mandate that underpins the conservation policy here analysed is 2007/
 
 Understandably, an argument against the type of cost-benefit analysis here performed is that social and cultural values are hard to quantify. Here, we tried to capture these by way of property values. Granted, these values are important, as we acknowledged by including the TEV framework. In a world with unlimited resources, conservation of natural assets without any direct or indirect benefits, could be possible. Alas, when dealing with biological insect invasions and possible impacts on crops and human health that quite critically affect the livelihoods of millions around the world, prioritisation of human health, farmer livelihoods, threatened species, etc. is necessary. We suggest the EU should allow each member state to perform its own analysis and decide if these types of policies are locally justified.
 
-5. Acknowledgements
+Acknowledgements
 ==========
 
 Servei de Sanitat Vegetal de la Generalitat de Catalunya provided interviews, records and further information on the pest in Catalonia. Dr Martí Boada and Dr Jaume Marlès Magre kindly gave feedback on the estimation of the number of palm trees. Joan Freixa Gaspar and Josep Muntaner shared insights on private palm tree owners and their behaviour. Cristian E. Nuno from the University of Chicago Urban Labs provided guidance on calculating distances to the coastline. 
@@ -2043,6 +2054,10 @@ kable(
 ```
 
 \pagebreak
+\setlength{\parindent}{-0.5in}
+      \setlength{\leftskip}{0.5in}
+      \setlength{\parskip}{8pt}
+      
 References {#references .unnumbered}
 ==========
 
