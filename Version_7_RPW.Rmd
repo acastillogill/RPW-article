@@ -1,19 +1,17 @@
 ---
-title: "Cost-benefit analysis of a conservation policy under climate change: The red palm weevil beetle in Catalonia, Spain"
+title: "Cost-benefit analysis of a conservation policy under climate change: Palm trees in Catalonia, Spain"
 
 author:
   - name: Ángela Delgado Castillo
-    email: LuzAngela.Delgado@uab.cat
     affiliation: a
-    footnote: Corresponding Author
+    footnote: "Corresponding Author: LuzAngela.Delgado@uab.cat"
   - name: Jeroen C.J.M.van den Bergh
     affiliation: a,b,c
   - name: Víctor Sarto i Monteys
     affiliation: a
-
 address:
   - code: a
-    address: Institute of Environmental Science and Technology, Universitat Autònoma de Barcelona, (ICTA-UAB), Edifici Z, 08193, Bellaterra, Spain.
+    address: Institute of Environmental Science and Technology, Universitat Autònoma de Barcelona, Edifici Z, 08193 Bellaterra, Spain.
   - code: b
     address: ICREA, Barcelona, Spain.
   - code: c
@@ -21,25 +19,22 @@ address:
 
 
 abstract: |
-  Invasive insects are the costliest species amongst invasive species. It is estimated that more than half of potential insect invasions have not taken place. With limited budgets for biological invasions, multiple frameworks for prioritizing have recently risen, but are current policies effectively integrating these frameworks? In this article we evaluated a set of conservation policies designed in response to the arrival of the invasive Red Palm Weevil (*Rhynchophorus ferrugineus*). The purpose of the selected policies was to preserve non-native and non-threatened palm species exclusively used for ornamental purposes, in Catalonia, Spain. Through a comprehensive cost-benefit analysis based on the total economic value framework, we found that the policies were not monetarily justified. In a region with both a large portion of land dedicated to agricultural activities and densely populated areas, budgets for biological invasions could be assigned elsewhere. This, however, requires recognition and support from wider international policies since the conservation policy assessed was designed for EU member states despite its heterogenous site-specific impacts.
+   Invasive species are costly for human health, the environment and the economy. This burden is expected to rise. With limited budgets to address biological invasions, prioritisation is key for resource allocation. Recently, multiple frameworks have emerged to support this budget assignment, but are current strategies effectively integrating these frameworks? Amongst invasive species, insects are the costliest. In this article we evaluated a set of conservation policies in response to the arrival of the invasive beetle, the Red Palm Weevil (*Rhynchophorus ferrugineus*). The purpose of the selected schemes was to preserve non-native and non-threatened palm species exclusively used for ornamental purposes, in Catalonia, Spain. Through a comprehensive cost-benefit analysis based on the total economic value framework, we found that the policies were not justified as the net social benefits were negative. In other words, the costs exceeded the benefits. In a region with a large portion of land dedicated to agricultural activities, densely populated coastal areas with high volumes of trade, budgets to address biological invasions should be carefully assigned. 
 
-keywords: "Environmental valuation, insects, ecosystem services, Rhynchophorus ferrugineus."
+keywords: "Environmental valuation, *Phoenix. spp*, ecosystem services, *Rhynchophorus ferrugineus*."
   
 date: "`r Sys.Date()`"
 bookdown:
   fig_caption: yes
 bibliography: library1.bib
 header-includes:
-   - \usepackage{caption}
+   - \usepackage{caption,setspace,titlesec}
       \usepackage[section]{placeins}
       \usepackage[left=3cm, right=3cm, top=3cm]{geometry}
       \captionsetup[table]{font=normalsize,labelfont=normalsize}
-      \usepackage{setspace}
+      \captionsetup[figure]{font={normalsize,it},labelfont={normalsize,it}}
       \doublespacing
-      \usepackage[format=plain,
-            font=it]{caption}
-      \usepackage{lipsum}
-
+     
 output: rticles::elsevier_article
 ---
 \makeatletter
@@ -97,9 +92,9 @@ The introduction of invasive alien species (IAS) can be considered as an importa
 
 IAS often have a negative impact on human health, the economy and ecosystems
 [@bradshawMassiveGrosslyUnderestimated2016; @colauttiCharacterisedProjectedCosts2006; @painiGlobalThreatAgriculture2016; @pimentelUpdateEnvironmentalEconomic2005; @vazquez-prokopecUnforeseenCostsCutting2010; @williamsEconomicCostInvasive2010].
-Invasive insects (II) are likely to be the costliest species to humans with an annual minimum estimation of USD 70 billion globally [@bradshawMassiveGrosslyUnderestimated2016]. There are about 1.84 to 2.57 million insects species [@moraHowManySpecies2011]and to date, only an approximate 24% of potential insect invasions have taken place [@seebensGlobalRiseEmerging2018]. Depending on the policy implemented to lessen the impact of these invasions, the cost will be typically assumed by taxpayers, private entities, and residential property owners [@fenichelControlInvasiveSpecies2014; @funkBroadeningCaseInvasive2014; @lovettNonnativeForestInsects2016; @martelliEconomicImpactDengue2015; @vandammeOutofpocketHealthExpenditure2004].
+Invasive insects (II) are likely to be the costliest species to humans with an annual minimum estimation of USD 70 billion globally [@bradshawMassiveGrosslyUnderestimated2016]. There are about 1.84 to 2.57 million insects species [@moraHowManySpecies2011] and to date, only an approximate 24% of potential insect invasions have taken place [@seebensGlobalRiseEmerging2018]. Depending on the policy implemented to lessen the impact of these invasions, the cost will be typically assumed by taxpayers, private entities, and residential property owners [@fenichelControlInvasiveSpecies2014; @funkBroadeningCaseInvasive2014; @lovettNonnativeForestInsects2016; @martelliEconomicImpactDengue2015; @vandammeOutofpocketHealthExpenditure2004].
 
-To minimise costs borne by II, often the best policies are preventative which include measures in exporting countries and inspections of shipments at ports of entry [@lovettNonnativeForestInsects2016]. In instances of effective II introduction, governments can apply post-entry measures such as quarantines, surveillance and eradication programs [@kellerInternationalPolicyOptions2011; @thompsoncampbellFadingForestsNorth1994]. But when budgets to address biological invasions are limited and invasions are rising, what should governments and individuals do? Prioritisation of which species, pathways, or sites to address is key [@mcgeochPrioritizingSpeciesPathways2016], as stated in Target 9 of the Aichi Biodiversity Targets of Convention on Biological Diversity [@conventiononbiologicaldiversityAichiBiodiversityTargets]. 
+To minimise costs borne by II, often the best policies are preventive which include measures in exporting countries and inspections of shipments at ports of entry [@lovettNonnativeForestInsects2016]. In instances of effective II introduction, governments can apply post-entry measures such as quarantines, surveillance and eradication programs [@kellerInternationalPolicyOptions2011; @thompsoncampbellFadingForestsNorth1994]. However, when budgets to address biological invasions are limited and invasions are rising, what should governments and individuals do? Prioritisation of which species, pathways, or sites to address is key [@mcgeochPrioritizingSpeciesPathways2016], as stated in Target 9 of the Aichi Biodiversity Targets of Convention on Biological Diversity [@conventiononbiologicaldiversityAichiBiodiversityTargets]. 
 
 In this article we explore a set conservation policies designed to address the arrival of an invasive insect. Our aim is to understand to what extent the crucial concept of prioritisation is being implemented in current policies. This assessment supports policy makers at a local, regional and international level to improve resource allocation by considering the environmental and possibly socio-economic impacts [@blackburnUnifiedClassificationAlien2014; @kumschickConceptualFrameworkPrioritization2012] and selecting the actions that best avoid or lessen the impact of invasive species [@mcgeochPrioritizingSpeciesPathways2016].
 
@@ -107,7 +102,7 @@ The conservation policies selected [^1] were designed to preserve two non-native
 
 In the region of study, Catalonia, Spain, there are over 800 gardens, nurseries and plant traders combined of which 205 or 24% trade with palm trees. Table \ref{tab:nurseries} shows that each of the five main regions in Catalonia are trading with palm species increasing the risk for expansion. Sites with large volumes of trade and transport and adjacent to high human population densities such as Catalonia, likely benefit from prioritizing invasions [@mcgeochPrioritizingSpeciesPathways2016].
 
-[^1]: The selected policies are Ordre ARP/343/2006, Ordre AAR/226/2009, Ordre AAR/2802/2010, and Ordre AAM/56/2011. These are explained in furter detail in the Appendix.
+[^1]: The selected policies are Ordre ARP/343/2006, Ordre AAR/226/2009, Ordre AAR/2802/2010, and Ordre AAM/56/2011. These are explained in further detail in the Appendix A.
 
 ```{r nurseries table, echo=FALSE}
 options(scipen = 999, digits = 2)
@@ -130,11 +125,14 @@ df_nurseries <- df_nurseries %>%
   mutate(Ratio = `With palms` / All)
 kable(
   df_nurseries,
-  caption = "\\label{tab:nurseries}Gardens, nurseries, and traders per region. Source: GENCAT, 2018.",
+  caption = "\\label{tab:nurseries}Gardens, nurseries, and traders per region.",
   booktabs = T,
   escape = F
 ) %>%
-  kable_styling(latex_options = c("hold_position"))
+  kable_styling(latex_options = c("hold_position"))%>%
+  footnote(general="GENCAT, 2018.",
+           general_title = "Source: ",
+                     footnote_as_chunk = T)
 ```
 
 
@@ -148,7 +146,7 @@ The RPW is essentially a pest of palms (Arecaceae), with 29 species listed as ho
 The RPW attacks palm trees by laying eggs on their crown. Larvae then penetrate it eventually reaching the crown core where the meristematic tissue resides. Subsequent feeding on this tissue will eventually kill the palm tree. Because the whole larval stage occurs within the palm tree, it is concealed from plain eyesight and hence hard to detect. 
 In Spain, palm damage by this beetle was first observed in 1993 on the coastal front of the Granada province [@barrancoNuevoCurculionidoTropical1996]. In 2004, it reached the Autonomous Community of Valencia [@eppoRhynchophorusFerrugineus2008]. It was officially declared  a pest in Catalonia in 2006 [@generalitatdecatalunyaOrdreARP3412006] while it is estimated to have arrived between 2003 and 2004 to the Ebro river delta and Tarragona region (South Catalonia). The Catalan Department of Agriculture has made efforts to identify in what regions (“comarques”) the beetle is present, resulting in the pattern shown in Figure \ref{fig:catalonia}. This illustration, provided by GENCAT, colors the areas where the RPW has been reported upto November 2016. The colored area is along the coast since this is where most palm trees are present, although a few inner regions are also included. 
 
-\captionsetup[figure]{font=normalsize,labelfont=normalsize}
+
 \begin{figure}[!htb]
 \centerline{\includegraphics[width=20pc]{2016invasion.png}} 
 \caption{2016 invasion status. [Source:@GENCAT2017]}
@@ -162,11 +160,10 @@ The beetle has also invaded other parts of the world. In Japan, it was first obs
 2. Model
 ============
 
-2.1 Approach
+2.1 Cost-benefit analysis
 ============
-As mentioned in the introducion, we will perform a cost-benefit analysis assessing a set of conservation policies put into place to protect susceptible species from the RPW.  
-The first step is to define what constitutes as costs and benefits. We interpret as costs all expenditure with the direct aim of protecting and preserving palm trees in presence of the RPW as a direct output of the conservation policies set into place.
-The following activities fall into the management category and include: prevention and inspection of healthy palms, treatment of infested palms and removal of palms that are too infested to be salvaged. However, a full assessment should include not only management expenditure, but also, government expenditure associated to survey, research, regulation, management and outreach [@aukemaEconomicImpactsNonNative2011]. To better understand the rationale behind the accouting used in this study, a few points are made on the policies. 
+As mentioned in the introducion, we will perform a cost-benefit analysis assessing a set of conservation policies put into place to protect susceptible species from the RPW. Based on the policies selected, two species appear: *Phoenix canariensis*, from here on, canary palm, and *Phoenix dactylifera*, from here on date palm [@generalitatdecatalunyaORDERARP3432006]. The former was reported in 99.69% and the latter in 0.23% of RPW cases in the region [@generalitatdecatalunyaPrevencioLluitaContra2011]. Although date palms currently represent a small fraction of reports, we include them because in absence of canary palms, the RPW would likely shift to infesting date palms. 
+The first step of a cost benefit analysis is to define what constitute as costs and benefits. We interpret as costs all expenditures with the direct aim of protecting and preserving palm trees in presence of the RPW as a direct output of the conservation policies set into place. The following activities fall into the management category and include: prevention and inspection of healthy palms, treatment of infested palms and removal of palms that are too infested to be salvaged. However, a full assessment should include not only management expenditure, but also, government expenditure associated to survey, research, regulation, management and outreach [@aukemaEconomicImpactsNonNative2011]. To better understand the rationale behind the accouting used in this study, a few points are made on the policies. 
 The main variation in terms of the funding agent is that in 2011, inspection, prevention, treatment and removal costs were transfered from the Catalonian goverment (GENCAT), to municipalities and private owners. From 2005 to 2011, GenCat was responsible for research and outreach in addition to the management activities described (excluding replanting). From 2011, onwards, municipalities and property owners are responsible for management activities while GenCat continues funding research and outreach for the pest. Although replanting is not explicit in the Orders, between 2005 to present, replanting has not been null albeit total stock or rates unknown [@congostrinaBarcelonaPlantaPalmeras2017; @puricaroBarcelonaAtesora242017], we therefore include replanting on behalf of municipalities and property owners throughout the entire period.
 
 To define benefits, we will use the total economic value (TEV) framework [@ledouxValuingOceanCoastal2002]. The TEV framework classifies the value of an asset into two main categories: use and non-use values.The main difference between these values is that use values are related to the use of the asset while non-use values relate to the motivation for conserving the asset for future generations or for its own sake. Figure \ref {fig:tev} further illustrates this point by listing indirect and direct values derived from palm trees. The former includes aesthetic benefits and carbon sequestration. Although in some places palm trees have direct values (i.e. cultivation), as will be described in the following paragraphs, in the scope of this article, no direct values were identified. 
@@ -177,14 +174,12 @@ To define benefits, we will use the total economic value (TEV) framework [@ledou
 \label{fig:tev}
 \end{figure}
 
-Based on the conservation policies selected, two species appear: *Phoenix canariensis*, from here on, canary palm, and *Phoenix dactylifera*, from here on date palm [@generalitatdecatalunyaORDERARP3432006]. The former was reported in 99.69% and the latter in 0.23% of RPW cases in the region [@generalitatdecatalunyaPrevencioLluitaContra2011]. Although date palms currently represent a small fraction of reports, we include them because in absence of canary palms, the RPW would infest date palms. 
-
 Canary and date palms are non-native to the Iberian Peninsula. They were introduced in ancient times as evidenced by depictions of late Iberian pottery and coinage dating back to the third to first century BC [@al-khayriDatePalmGenetic2015]. Although canary palms produce edible fruits they are not used in agriculture, as opposed to date palms. In Spain, the land area dedicated to date cultivation is marginal with an average of ~600 hectares since 1961 to present [@faostatFAO2018]. In Catalonia, our region of study, date cultivation is virtually non-existent. Palms are planted in urban areas, resorts, public spaces and private gardens mainly near the coast [@al-khayriDatePalmGenetic2015]. Currently, they are classified as as species of "least concern" on the IUCN Red List of Threatened Species [@beechPhoenixCanariensisIUCN2017]. This means that they do not qualify as threatened, near threatened or conservation dependent before 2001.
 
 Given this context and its almost exclusive ornamental use, we define benefits as follows. We identify two indirect use values as benefits: carbon sequestration and enhanced aesthetic value, the latter being the main reason behind palm tree availability in Catalonia. 
 
 
-2.2 The model
+2.2 A model of tree stocks under RPW infestation
 ============
 
 We modelled the evolution of tree stocks over time as a system dynamics problem since this approach allows us to understand nonlinear behavior over time using stocks, flows and feedback loops [@forresterBeginningSystemDynamics1989]. The two palm species have similar processes with different initialisation values so we implemented two separate modules. From this point onward, susceptible palm species will be referred to as ‘tree’. The model was designed with three stocks: healthy, infested and treated trees. It is graphically illustrated with Figure \ref{fig:model}, created using Vensim software.
@@ -266,9 +261,10 @@ Similarly to keep track of trees that have been replanted each year, $S_t^R$, du
 S_t^R-S_{t-1}^R=F_{t,t-1}^R
 \end{equation}
 
-#### Costs
+Costs
+=======
 
-We now introduce equations to calculate the costs. They correspond to management costs, $M_t$, \ref{eq:management_costs} for trees in year $t$ described as the sum of inspection, $C_t^{inspect}$, prevention, $C_t^{prevent}$, treatment costs, $C_t^{treat}$, replanting, $C_t^{replant}$, and removal costs, $C_t^{remove}$. Recall, these costs were assumed by municipalities and private owners from 2011 onwards, therefore, these formulas are applied from 2011 onwards with the exception of replanting which we calculate from 2005. From 2005 to 2018, we use the costs provided by GenCat which include management costs but also additional activities such as research and outreach. No specific breakdown was provided by GenCat so they are added as a lump sum.
+We now introduce equations to calculate the costs. These are divided into two main groups. The first is management costs assumed by municipalities and private palm owners from 2011 onwards. These management costs, $M_t$, for trees in year $t$ are described as the sum of inspection, $C_t^{inspect}$, prevention, $C_t^{prevent}$, treatment costs, $C_t^{treat}$, replanting, $C_t^{replant}$, and removal costs, $C_t^{remove}$. The second group is GenCat costs which includes management costs (except replanting) but also additional activities such as research and outreach. These were provided from 2005 to 2017 and since no specific breakdown was provided by GenCat so they are added as a lump sum.
 
 \begin{equation} \label{eq:management_costs} 
 M_t=C_t^{inspect}+C_t^{prevent}+C_t^{treat}+C_t^{replant}+C_t^{removal}
@@ -313,30 +309,10 @@ C_t^{remove}=S_t^L*c^{remove}
 
 Here, $S_t^L$ is the number of lost trees in year $t$ and $c^{remove}$ is the unit cost of removing a lost tree.
 
-Unitary costs along with their frequencies are summarised in table \ref{tab:unitary_costs}
-```{r unitary cost table, echo=FALSE}
 
-Type <- as.vector(c("$c^{inspect}$",
-                  "$c^{prevent}$",
-                  "$c^{treat}$",
-                  "$c_t^{replant}$",
-                  "$c_t^{removal}$"))
-
-`Value €`  <- as.vector(c(10,20,30,500,500))
-`Yearly frequency` <- as.vector(c(2,2,5,1,1))
-unit_costs <- data_frame(Type,`Value €` ,`Yearly frequency`)
-
-kable(unit_costs,
-    caption = "\\label{tab:unitary_costs}Unitary costs for management activities.", 
-    booktabs = T,
-    escape = F) %>% 
-    kable_styling(latex_options = c("hold_position"))
-```
-
-
-#### Benefits
-
-As mentioned in the introduction, trees provide different benefits ($VB$). We will consider two benefits provided by palm trees in Catalonia (Eq. \ref{eq:benefits}), (1) those derived from carbon sequestration and (2) those derived from forestry adjacency.
+Benefits of palm trees
+==========
+As mentioned in the introduction, trees provide different benefits ($VB$). We will consider two benefits provided by palm trees in Catalonia (Eq. \ref{eq:benefits}), (1) those derived from carbon sequestration and (2) those derived from forestry adjacency or in this instance, palm tree adjacency.
 
 \begin{equation} 
 \label{eq:benefits}VB=VCS+VPA
@@ -351,119 +327,83 @@ Where, $VCS$  is the value derived from carbon sequestration by palm trees in Ca
 					           	    	
 Where, $SCC$ is the social cost of carbon dioxide, $c_s$ is the amount of carbon sequestered by a tree; and $S_t$ is the total stock in year $t$.
 
-```{r exchange rates and money params, echo=FALSE,include=FALSE}
-options(digits = 3)
-discount_rate <- 0.05
-inflation_rate <- 0.02
-real_rate <- (1+discount_rate)/(1+inflation_rate)-1
+Benefits of tree adjacency can be captured by using the hedonic property-value method. This method helps us estimate the value that trees contribute to the sale value of homes. Several studies have focused on quantifying forest adjacency (Donovan & Butry, 2010; Sander et al., 2010; Tyrväinen & Miettinen, 2000) with results stating that trees contribute between 0.29 to 5% of property values of private residences. In this article we attempt to capture the value that, specifically, palm trees contribute to property prices. 
 
+We assume that the total value of a property in Catalonian municipalities, where trees are viable, includes a component of palm trees in addition to other market effects. This component of forestry adjacency is captured in property values, $PV$:
 
-USD <-  as.vector(c(12,125))
-Date <- as.vector(c(2007,2014))
-exchange_rate_eur <- 0.87 #quantmod::getQuote("USDEUR=X")
-EUR <- USD*exchange_rate_eur #$Last
-```
+\begin{equation} 
+\label{eq:property_values}PV=MP+PA
+\end{equation}
+						
+Where, $MP$ is the market price of a property without adjacent palm trees and $PA$ is the value derived from palm tree adjacency.
 
+Percentage changes due to palm tree adjacency, $\%PA$, are linked to the percentage variation in property values associated with forestry adjacency and to the number of palm trees close to a property (Eq. \ref{eq:palm_adjacency})
 
-In order to estimate the benefits associated to carbon sequestration, as described in Equation \ref{eq:benefits}, we provide an interval per tonne for the $SCC$, reflecting uncertainty about its value. A value of 12 USD was used as the lower bound since this was the lowest $SCC$ found [@iawgTechnicalUpdateSocial2016]. Similarly, the upper bound is 125 USD [@vandenberghLowerBoundSocial2014], as it was the highest found. These values were converted to euros at an exchange rate `r exchange_rate_eur` and brought to present value with a discount rate of `r discount_rate` and inflation rate of `r inflation_rate`. Table \ref{tab:scc}, summarises the original values, publication date, the values converted to euros and present value according to source, the present value. 
+\begin{equation} 
+\label{eq:palm_adjacency}\%PA=-\gamma*\frac{S_{2017}-S_{2005}}{S_{2005}}
+\end{equation}
 
+Here, $\gamma$, is the percentage variation in property values associated to forestry adjacency and $S_{2005}$ and $S_{2017}$ are the estimated number of palm trees in 2005 and 2017, respectively. The difference in a property’s property value $PV$ between 2005 and 2017 is derived from three changes: market price ($MP$), inflation ($I$), and palm tree adjacency ($PA$).
 
-```{r future value function, include=FALSE,echo=FALSE}
+\begin{equation} 
+\label{eq:pv_2017}PV_{2017}-PV_{2005}=PV_{2005}*(\%MP+\%I+\%PA)
+\end{equation}
 
-future_value <- function(pv,real_rate,periods){
+Here, $\%MP$, is the percentage change in property value, $\%I$, is the percentage change in inflation, and $\%PA$,  is the percentage change is palm tree adjacency between 2017 and 2005. Solving for $PV_{2005}$ yields Eq. \ref{eq:pv_2016}.
 
-pv*(1+real_rate)^periods
+\begin{equation} 
+\label{eq:pv_2016}PV_{2005}=\frac{PV_{2017}}{1+\%MP+\%I+\%PA}
+\end{equation}    					 
 
-}
+If $\%MP$ and $\%I$ are zero, the property value loss associated to the beetle’s impact on palm tree adjacency in Catalonia between 2017 and 2005 is summarised in Eq. \ref{eq:pv_diff}.
 
-```
+\begin{equation} 
+\label{eq:pv_diff}PV_{2017}-PV_{2005}=PV_{2017}-\frac{PV_{2017}}{1+\%PA}=PV_{2017}*\left(1-\frac{1}{1+\%PA}\right)
+\end{equation}   
 
+Total costs and benefits 
+=========
 
-```{r SCC table, echo=FALSE}
-PV <- future_value(USD,real_rate = real_rate,periods = (year(Sys.Date())-Date))
-Source <- as.vector(c("IAWG, 2016","van den Bergh \\& Botzen, 2014"))
-SCC_table <- data_frame(Source,USD,Date,EUR,PV)
-
-SCC_table%>%
-set_names(c("Source","USD","Published date","EUR", "Present value"))%>%
-kable(
-    caption = "\\label{tab:scc}Social cost of carbon dioxide per tonne.", 
-    booktabs = T,
-    escape = F) %>% 
-    kable_styling(latex_options = c("hold_position"))
-```
-
-
-
-#### Property values OMIT THIS SECTION FOR NOW
-
-To capture the aesthetic value of palm trees, we used property prices that either contained or were adjacent to canary or date palms. 
-
-Idealista [(https://www.idealista.com/en/)] is an online platform that, amongst other things, connects property buyers and sellers in Spain. The company offers an application programming interface (API) to use free of charge. Between May 31st 2018 and June 10th 2018, API requests were sent querying single-detached houses in the region of study. Single-detached houses allowed to better link properties to palm trees. 100 listings were obtained (maximum quota) of which XX proved to be unique listings. Often, several listings correspond to the same property due to competition amongst real estate brokers. The following variables were obtained for each unique listing: latitude, longitude, price (euros), terrain size ($m^2$), built size ($m^2$), number of floors, number of rooms, url, and distance to the coastline ($km^2$). 
-
-Satellite imagery for each listing was searched, in some instances the latitude and longitude provided did not match the url pictures. In these cases the listing was discarded as having imagery is essential for the following step. We consider this image unavailability to be random, thus we assume it does not introduce bias into the set. Once each house was identified, adjacent date and canary palms were counted and it was noted whether the palms were on the property or on contiguous homes.
-
-#### Total costs and benefits 
-
-The net social benefits (NSB) of the current management policy against the RPW in Catalonia is the difference between benefits and costs brought to present value \ref{eq:nsb}.
+The net social benefits (NSB) of the current management policy against the RPW in Catalonia is the difference between benefits and costs brought to present value (Eq. \ref{eq:nsb}).
 
 \begin{equation} 
 \label{eq:nsb} NSB=\sum_{t}\frac{B_{t}-C_{t}}{(1-r)^t}
 \end{equation}
 
-Here, $B_{t}$ denotes the monetary benefits of the policy, $C_{t}$, management costs and, $r$ discount rate in year $t$. 
+Here, $B_{t}$ denotes the monetary benefits of the policy, $C_{t}$, management costs and, $r$, the discount rate in year $t$. 
 						
 
 2.3 Estimation of Parameter Values
 ========================
 
-Table \ref{tab:auxvar} summarises the three parameters whose values are required to run the model. In this section, the process to estimate each parameter is explained.
+As explained, the model has three parameters: effective contact rate ($C_E$), probability of being treated ($\tau$), and probability of successful treatment ($\sigma$). In this section, the process to estimate each parameter is explained.
 
-```{r echo=FALSE}
-
-Summary_Aux <- as.vector(c("Effective contact rate", 
-    "Probability of being treated", 
-    "Probability of successful treatment"))
-Aux <- as.vector(c("$C_E$", 
-    "$\\tau$",
-    "$\\sigma$"))
-df_aux <- as_tibble(Aux, 
-    Summary_Aux)
-colnames(df_aux) <- c("Auxiliary variables")
-kable(df_aux,
-    caption = "\\label{tab:auxvar}Auxiliary variables.", 
-    booktabs = T,
-    escape = F) %>% 
-    kable_styling(latex_options = c("hold_position"))
-
-```
-
-
-#### Effective contact rate 
+\subsubsection{Effective contact rate ($C_E$)}
 
 Effective contact rate, $C_E$, is defined as the contact rate sufficient to lead to transmission if it occurs between an infested and a susceptible tree [@vynnyckyIntroductionInfectiousDisease2010] with units $\frac{palms}{(palm/year)}$ 
 It can take up values [1,$\infty$] to which we assigned [1,2] since a single infested tree can lead to infestation of a susceptible tree within a certain radius.
 
-#### Probability of being treated ($\tau$) 
+\subsubsection{Probability of being treated ($\tau$)}
 
 Interviews with three government officials and two local independent firms offering pest management services (inspection, prevention, treatment, and removal) were conducted with the goal of eliciting treatment success probabilities. Parameter ($\tau$) has been defined as the probability that an affected tree is treated. $\tau$ can take values between [0,1] to which we assigned the interval [0.5, 1]. Since legislation states that treatment of all affected trees is mandatory, we have assigned the upper boundary as 1 for the case in which 100% of affected trees are treated. According to interviewees, there are instances where treatment of affected trees does not occur. This may happen deliberately or accidentally. Furthermore, no official data exists describing the behaviour of private owners while municipality reports are compromised since they must reflect compliance with the law, which means treatment in all cases. In order to account for this unknown behaviour where treatment doesn't occurr but is unknown, the lower boundary was set to a probability of 0.5 (i.e. coin toss).
 
-#### Probability of successful treatment ($\sigma$)
-Sigma ($\sigma$) is the probability that treatment is successful. Again, as it is a probability, it can take values between [0,1]. Success is defined as a tree being sufficiently recovered to rejoin the healthy stock. Interviewees were consistent in their responses stating that once a tree becomes infested, survival probability is slim to none. For this reason, the interval [0,0.5] was assigned as it reflects the pessimistic outlook on infested trees under treatment from null recovery rates up to 0.5 (i.e. coin toss).
+\subsubsection{Probability of successful treatment ($\sigma$)}
 
+Sigma ($\sigma$) is the probability that treatment is successful. Again, as it is a probability, it can take values between [0,1]. Success is defined as a tree being sufficiently recovered to rejoin the healthy stock. Interviewees were consistent in their responses stating that once a tree becomes infested, survival probability is slim to none. For this reason, the interval [0,0.5] was assigned as it reflects the pessimistic outlook on infested trees under treatment from null recovery rates up to 0.5 (i.e. coin toss).
 
 
 2.4 Model calibration
 ========================
 
-In order to run the model, two initial stock values had to be defined for $t=2005$, healthy, $S_{2005}^H$, and infested, $S_{2005}^I$, stock. 
+We implemented the model using the deSolve package in R Software [@soetaertSolvingDifferentialEquations2010]. To run the model, however, two initial stock values had to be defined for $t=2005$, healthy, $S_{2005}^H$, and infested, $S_{2005}^I$, stock. In this section we explain how these two initialisation values were set. 
 
-#### Healthy stock 2005
+Healthy stock 2005
+========
 
-Since public tree inventory is decentralised and private owners have agency to change their landscape, public and private tree records were unavailable. Instead, we estimated tree stocks. To estimate total stock in 2005 (Eq. \ref{eq:2005stock}), $S_{2005}$, we first estimated values for 2018, $S_{2018}$, and added the minimum loss of stock during the invasion period, $S_{2017-2005}^L$. The minimum loss was provided by the regional government. The process for estimating stock in 2018 in will be now explained with more detail. 
+Since public tree inventory is decentralised and private owners have agency to change their landscape, public and private tree records were unavailable. Instead, we estimated tree stocks. To estimate total stock in 2005 (Eq. \ref{eq:2005stock}), $S_{2005}$, we first estimated values for 2017, $S_{2017}$, and added the minimum loss of stock during the invasion period, $S_{2017-2005}^L$. The minimum loss was provided by the regional government. The process for estimating stock in 2017 in will be now explained with more detail. 
 
 \begin{equation} 
-\label{eq:2005stock}S_{2005}=S_{2018}+S_{2017-2005}^L
+\label{eq:2005stock}S_{2005}=S_{2017}+S_{2017-2005}^L
 \end{equation}
 
 As previously mentioned, the availability of both palm trees in the region of study is human-mediated given its almost exclusive ornamental use. Due to this management of palm trees in the region of study, we identified multiple human-centred factors as explanatory variables (namely population, GDP per sector and municipality area). Furthermore, we consulted with two experts in forestry and ornamental plants who suggested distance to the Western Mediterranean Basin plays a key role in the presence of palm trees.
@@ -476,7 +416,7 @@ We collected data on tree stocks using static maps from Google Maps. The followi
 
 \begin{figure}[!htb]
 \centerline{\includegraphics[width=30pc]{grids.png}} 
-\caption{Example of municipality grids for palm tree estimation.}
+\caption{Satellite pictures of municipality polygons (upper row), municipality grids for palm tree estimation (lower row).}
 \label{fig:grids} 
 \end{figure}
 
@@ -631,10 +571,10 @@ test_canary<- test_final %>%
 #Count how many trees we have of each
 test_date%>%
   summarise(sum=ceiling(sum(date)),
-            sum_2018=ceiling(sum(date)))->sum_date
+            sum_2017=ceiling(sum(date)))->sum_date
 test_canary%>%
   summarise(sum=ceiling(sum(canary)),
-            sum_2018=ceiling(sum(canary)))->sum_canary
+            sum_2017=ceiling(sum(canary)))->sum_canary
 ```
 
 ```{r prediction plots, include=FALSE}
@@ -659,7 +599,7 @@ color = cut(indu, breaks = 4),
       color=guide_legend(title = "Fraction of GDP from industry")
   ) +
   labs(
-    title= paste("Date palm trees 2018,","n =",sum_date$sum_2018,sep = " "),
+    title= paste("Date palm trees 2017,","n =",sum_date$sum_2017,sep = " "),
    subtitle = "Vs. distance, population and fraction of GDP from services.",
     x = "Distance to coastline (km)",
     y = "Date palms"
@@ -694,7 +634,7 @@ color = cut(indu, breaks = 4),
   color=guide_legend(title = "Fraction of GDP from industry")
   ) +
   labs(
-    title = paste("Canary palm trees 2018,","n =",sum_canary$sum_2018,sep = " "),
+    title = paste("Canary palm trees 2017,","n =",sum_canary$sum_2017,sep = " "),
     subtitle = "Vs. distance, population and fraction of GDP from services.",
     x = "Distance to coastline (km)",
     y = "Canary palms"
@@ -711,19 +651,19 @@ predictions <- arrangeGrob(date_mean,canary_mean,nrow=2)
 ggsave("predictions.png",predictions,width = 14,height=16,limitsize = FALSE,bg="transparent")
 ```
 
-Using these models, we estimated the number of date and canary palms in Catalonia. Predictions appear in Figure \ref{fig:predictions} as a function of distance, population, and fraction of GDP for industry. We can see that for most species, palm trees are located closest to the coast, have a positive relationship with population and negative relationship with fraction of GDP from industry. If we consider industry to be opposed to services, it is likely this variable serves as a proxy for tourism.
+Using these models, we estimated the number of date and canary palms in Catalonia. Estimations appear in Figure \ref{fig:predictions} as a function of distance, population, and fraction of GDP for industry. We can see that for most species, palm trees are located closest to the coast, have a positive relationship with population and negative relationship with fraction of GDP from industry. If we consider industry to be opposed to services, it is likely this variable serves as a proxy for tourism.
 
 \begin{figure}[!htb] 
 \centerline{\includegraphics[width=30pc]{predictions.png}} 
-\caption{Palm predictions according to species.}
+\caption{Palm estimations according to species.}
 \label{fig:predictions} 
 \end{figure}
 
-Finally, recall that these estimates correspond to 2018 estimates. To obtain 2005 estimates, we added the reported loss for date (14) and canary palms (8946) provided by GenCat. Final estimates por date and canary palms were `r sum_date$sum_2018+14` and `r sum_canary$sum_2018+8946`. 
+Finally, recall that these estimates correspond to 2017 estimates. To obtain 2005 estimates, we added the reported loss for date (14) and canary palms (8946) provided by GenCat. Final estimates por date and canary palms were `r sum_date$sum_2017+14` and `r sum_canary$sum_2017+8946`. 
 
 
-#### Infested stock 2005
-
+Infested stock 2005
+=====
 
 <!-- We first define the simulation time constraints and store it in a simulation vector simtime. -->
 ```{r init model, include=FALSE}
@@ -849,8 +789,8 @@ tau.MIN <- 0.5
 tau.MAX <- 1
 sigma.MIN <- 0.01
 sigma.MAX <- 0.5
-sH_2005.MIN <- sum_date$sum_2018+14
-sH_2005.MAX <- sum_date$sum_2018+14
+sH_2005.MIN <- sum_date$sum_2017+14
+sH_2005.MAX <- sum_date$sum_2017+14
 sI_2005.MIN <- 1
 sI_2005.MAX <- 5
 
@@ -925,8 +865,8 @@ tau.MIN <- 0.5
 tau.MAX <- 1
 sigma.MIN <- 0.01
 sigma.MAX <- 0.5
-sH_2005.MIN <- sum_canary$sum_2018+8946
-sH_2005.MAX <- sum_canary$sum_2018+8946
+sH_2005.MIN <- sum_canary$sum_2017+8946
+sH_2005.MAX <- sum_canary$sum_2017+8946
 sI_2005.MIN <- 100
 sI_2005.MAX <- 1000
 
@@ -1179,11 +1119,15 @@ simulations_combined<- arrangeGrob(simulations_date,simulations_canary, nrow=2)
 ggsave("simulations_combined.png",simulations_combined,width = 14,height=8,limitsize = FALSE,bg="transparent")
 ```
 
-To initialise our model, we needed to estimate the number of infested trees at the beginning of the epidemic (2005). Since no information was available, we did this by running several simulations whilst varying the infested stock. As reference, we used reports for the infested stock per year. If the simulations contained the reported infested stock, then it is likely the initialisation parameters are appropriate. For this process, we implemented the model using the deSolve package for R Software [@soetaertSolvingDifferentialEquations2010] and ran a sensitivy analysis. The method that is used here is the Latin Hypercube Sampling (LHS) [@mckayComparisonThreeMethods1979] implemented with the R FME package [@soetaertSolvingDifferentialEquations2010a]. The reference for these estimates was government records collected by GenCat on the evolution of the pest between 2005 and 2014. According to interviews to GenCat officials, these were collected through non-structured communications. For example, private owners or municipalities would contact GenCat and report their RPW observations. This is to say that these reports do not accurately reflect the RPW's spatio-temporal infestation pattern, but rather, they provide a minimum volume of affected palm trees per species. Four simulations with random values for each parameter are presented in Figure \ref{fig:simulations}. 
+To initialise our model, we needed to estimate the number of infested trees at the beginning of the epidemic (2005). Since no information was available, we tried to estimate the number of infested trees by running several simulations of the model whilst varying the initial infested stock. As reference, we used reports for the infested stock per year. If the simulations contained the reported infested stock, then it is likely the initialisation parameters are appropriate. To run the simulations, we used Latin Hypercube Sampling (LHS) [@mckayComparisonThreeMethods1979] implemented with the R FME package [@soetaertSolvingDifferentialEquations2010a]. The reference for these estimates was government records collected by GenCat on the evolution of the pest between 2005 and 2014. According to interviews to GenCat officials, these were collected through non-systematic communications. For example, private owners or municipalities would contact GenCat and report their RPW observations. This is to say that these reports do not accurately reflect the RPW's spatio-temporal infestation pattern, but rather, they provide a minimum volume of affected palm trees per species. Four simulations with random values for each parameter are presented in Figure \ref{fig:simulations}. 
+
 \begin{figure}[!htb]
-\centerline{\includegraphics[width=30pc]{simulations_combined.png}} \caption{Sensitivity analysis for each species.}
-\label{fig:simulations} \end{figure}
-Any number of simulations could have been ran but for clarity, four were included in the figure. By looking at the infested stock for canary palms, we can see that simulation four (yellow), best fits the reports up to 2008. Afterwards, there is a decline in the reports, including a sharp decline in 2011. We believe this occurs due to the reporting methods and not to a sudden change in the actual patterns of infestation. This is supported by the reports from the subsequent year (2012), where reports increase and fit the third simulation. From this observation, we infer that the most appropiate initialization parameters for infested stock are between those of simulations three and four, summarised along with other parameters in table \ref{tab:initpar}. These will be used for our cost calculations. 
+\centerline{\includegraphics[width=30pc]{simulations_combined.png}}
+\caption{Four simulations of healthy, infested and treated stocks with different parameters and initalisation values.}
+\label{fig:simulations} 
+\end{figure}
+
+By looking at the infested stock for canary palms, we can see that simulation four (yellow), best fits the reports up to 2008. Afterwards, there is a decline in the reports, including a sharp decline in 2011. We believe this is due to the reporting methods and not to a sudden change in the actual patterns of infestation. This is supported by the reports from the subsequent year (2012), where reports increase and fit the third simulation. From this observation, we infer that appropiate initialization parameters for infested stock are between those of simulations three and four, which correspond to values between [3-5] for date palms and [365-975] for canary palms. These selected intialisation values are summarised along with other parameters in Table \ref{tab:initpar}. These will be used for our cost calculations. 
 
 ```{r ranges for infested stock 2005, eval=FALSE,include=FALSE}
 df_canary%>%
@@ -1213,8 +1157,8 @@ Values <- c("Effective Contact Rate",
                               "Successful treatment prob ($\\sigma$)", 
                               "Healthy stock 2005",
                               "Infested stock 2005")
-Date <- c("[1, 2]","[0.5, 1]","[0.0-0.5]",(sum_date$sum_2018+14),"[3-5]")
-Canary <- c("[1, 2]","[0.5, 1]","[0.0-0.5]",(sum_canary$sum_2018+8946),"[365-975]")
+Date <- c("[1, 2]","[0.5, 1]","[0.0-0.5]",(sum_date$sum_2017+14),"[3-5]")
+Canary <- c("[1, 2]","[0.5, 1]","[0.0-0.5]",(sum_canary$sum_2017+8946),"[365-975]")
 parameter_table <- data_frame(Values,Date,Canary)
 
 kable(parameter_table, 
@@ -1227,12 +1171,60 @@ kable(parameter_table,
 
 ```
 
+Finally, unitary costs along with their frequencies are summarised in Table \ref{tab:unitary_costs}.
+```{r unitary cost table, echo=FALSE}
+
+Type <- as.vector(c("$c^{inspect}$",
+                  "$c^{prevent}$",
+                  "$c^{treat}$",
+                  "$c_t^{replant}$",
+                  "$c_t^{removal}$"))
+
+`Value €`  <- as.vector(c(10,20,30,500,500))
+`Yearly frequency` <- as.vector(c(2,2,5,1,1))
+unit_costs <- data_frame(Type,`Value €` ,`Yearly frequency`)
+
+kable(unit_costs,
+    caption = "\\label{tab:unitary_costs}Unitary costs for management activities.", 
+    booktabs = T,
+    escape = F) %>% 
+    kable_styling(latex_options = c("hold_position"))
+```
+
+
 3. Results
 ============
 
-#### Costs
+In this section we will present the calculations for management costs, benefits of palm trees and the related cost-benefit analysis (Eq. \ref{eq:nsb}). Here we present tables and figures for the aggregated results. More detailed tables and figures are included in Appendix C. 
 
-As mentioned in section 2.2, costs include GenCat costs and management costs paid by municipalities and private palm tree owners (Eq.\ref{eq:management_costs}). GenCat costs also included management costs but also research and outreach activities. The total GenCat costs were provided as a lump sum and are presented as such. Figure \ref{fig:gencat_plot} (found in Appendix) illustrates GenCat costs brought to present value. We can see that costs are slowly rising from 2005 but in 2009 they peak and then decline with a further rise around 2014. This is due to the transfer of costs to municipalities and private owners in 2011. Before 2011, research, outreach and management costs (with the exception of replanting) are within the GenCat costs, these are summarised in the Appendix (Table \ref{tab:gencat_table}) and brought to present value with a discount rate of `r discount_rate` and inflation rate of `r inflation_rate`. After 2011 private owners and municipalties assume management costs in addition to replanting.
+Costs
+=====
+
+```{r exchange rates and money params, echo=FALSE,include=FALSE}
+options(digits = 3)
+discount_rate <- 0.05
+inflation_rate <- 0.02
+real_rate <- (1+discount_rate)/(1+inflation_rate)-1
+
+
+USD <-  as.vector(c(12,125))
+Date <- as.vector(c(2007,2014))
+exchange_rate_eur <- 0.87 #quantmod::getQuote("USDEUR=X")
+EUR <- USD*exchange_rate_eur #$Last
+```
+
+```{r future value function, include=FALSE,echo=FALSE}
+
+future_value <- function(pv,real_rate,periods){
+
+pv*(1+real_rate)^periods
+
+}
+
+```
+
+
+As mentioned in section 2.2, costs include GenCat and management costs paid by municipalities and private palm tree owners (Eq.\ref{eq:management_costs}). The total GenCat costs were provided as a lump sum and are presented as such. Figure \ref{fig:gencat_plot} (found in Appendix C) illustrates GenCat costs brought to present value. We can see that costs are slowly rising from 2005 but in 2009 they peak and then decline with a further rise around 2014. This is due to the transfer of costs to municipalities and private owners in 2011. Before 2011, research, outreach and management costs (with the exception of replanting) are within GenCat costs, these are summarised in Appendix C (Table \ref{tab:gencat_table}) and brought to present value with a discount rate of `r discount_rate` and inflation rate of `r inflation_rate`. After 2011 private owners and municipalties assume management costs in addition to replanting.
 
 ```{r gencat costs, include=FALSE}
 #Add GenCat costs. 
@@ -1287,7 +1279,7 @@ gencat %>%
 ggsave("gencat_plot.png",gencat_plot,width = 14,height=8,limitsize = FALSE,bg="transparent")
 ```
 
-We now present the costs per species and management category brought to present value. We present a lower and upper bound derived from Table \ref{tab:initpar}. Equation \ref{eq:management_costs} was applied to the lower and upper tree estimates. Tables \ref{tab:date_costs_low}, \ref{tab:date_costs_high}, \ref{tab:canary_costs_low} and \ref{tab:canary_costs_high} in the Appendix summarise each activity along with a total for management costs. The footnote shows an all year total. To illustrate the breakdown of costs, Figures \ref{fig:date_costs} and \ref{fig:canary_costs} present the breakdown, these are also available in the Appendix. In date palms, the costliest management activities are inspection and prevention, which makes sense since this species has been less reported. For canary palms, removal of infested trees has been the most expensive activity. This is consistent with the decline of trees and the high removal cost per tree. Table \ref{tab:total_costs} summarises the lower and upper bounds for each species in addition to total for both species (table found in Appendix). This total includes GenCat costs since they are fixed in addition to date and canary costs according to lower or upper bound. An illustration of these costs is presented in the Appendix Figure \ref{fig:costs_combined_total}. The lower bound has a less steep decline than the upper bound, canary costs are higher than date costs for all years and it seems that from 2017 onwards, date costs overtake canary costs. In the upper bound were canary decline is stronger, these costs are very high but due to a reduction in overall stock, there is a declie of treatment and removal costs which allow inspection and prevention costs from date trees to become the largest cost.
+We now report the costs per species and management category brought to present value. We include a lower and upper bound derived from Table \ref{tab:initpar}. Equation \ref{eq:management_costs} was applied to the lower and upper tree estimates. Tables \ref{tab:date_costs_low}, \ref{tab:date_costs_high}, \ref{tab:canary_costs_low} and \ref{tab:canary_costs_high} in Appendix C summarise each activity along with a total for management costs. The accompanying note shows an all year total. To illustrate the breakdown of costs, Figures \ref{fig:date_costs} and \ref{fig:canary_costs} present the breakdown, these are also available in Appendix C. For date palms, the costliest management activities are inspection and prevention, which makes sense since infestations for this species have been less reported. For canary palms, removal of infested trees has been the most expensive activity. This is consistent with the decline of trees and the high removal cost per tree. Table \ref{tab:total_costs} summarises the lower and upper bounds for each species in addition to total for both species (see Appendix C). This total includes GenCat costs since they are fixed in addition to date and canary costs according to lower or upper bound. An illustration of these costs is presented in Appendix C Figure \ref{fig:costs_combined_total}. The lower bound has a less steep decline than the upper bound, canary costs are higher than date costs for all years and it seems that from 2017 onwards, date costs overtake canary costs. In the upper bound were canary decline is stronger, these costs are very high but due to a reduction in overall stock, there is a declie of treatment and removal costs which allow inspection and prevention costs from date trees to become the largest cost.
 
 ```{r Management costs for date palms, include=FALSE}
 #Management costs for date palms
@@ -1686,7 +1678,25 @@ ggsave("costs_combined_total.png",
 ```
 
 
-#### Benefits
+Benefits of palm trees
+========
+
+In order to estimate the benefits associated to carbon sequestration, as described in Equation \ref{eq:benefits}, we provide an interval per tonne for the $SCC$, reflecting uncertainty about its value. A value of 12 USD was used as the lower bound since this was the lowest $SCC$ found [@iawgTechnicalUpdateSocial2016]. Similarly, the upper bound is 125 USD [@vandenberghLowerBoundSocial2014], as it was the highest found. These values were converted to euros at an exchange rate `r exchange_rate_eur` and brought to present value with a discount rate of `r discount_rate` and inflation rate of `r inflation_rate`. Table \ref{tab:scc}, summarises the original values, publication date, the values converted to euros and present value according to source, the present value. 
+
+```{r SCC table, echo=FALSE}
+PV <- future_value(USD,real_rate = real_rate,periods = (year(Sys.Date())-Date))
+Source <- as.vector(c("IAWG, 2016","van den Bergh \\& Botzen, 2014"))
+SCC_table <- data_frame(Source,USD,Date,EUR,PV)
+
+SCC_table%>%
+set_names(c("Source","USD","Published date","EUR", "Present value"))%>%
+kable(
+    caption = "\\label{tab:scc}Social cost of carbon dioxide per tonne.", 
+    booktabs = T,
+    escape = F) %>% 
+    kable_styling(latex_options = c("hold_position"))
+```
+
 
 In our total benefits calculation, we will present ranges using the lowest (USD 12) and highest (USD 125) social cost of carbon $SCC$. The lowest bound for each species will be combined with lowest cost. By applying Equation \label{eq:social_cost} using a value of 0.191 tonnes per year for 1000 trees [@aguaronComparisonMethodsEstimating2012; @chaparroEcologicalServicesUrban2009]. Table \ref{tab:carbon_costs} summarises benefits derived from carbon sequestration along with totals for lower and upper estimates. Since carbon sequestration values are directly proportional to the tree stock, the lower and upper bound differ according to the initial tree estimation. For the upper estimates, there is a stronger decline over time, this explains the marked difference between the 2005 and 2017 values. 
 
@@ -1746,16 +1756,9 @@ carbon_benefits <- carbon_benefits%>%
                 carbon_upper_date,carbon_upper_canary,total_upper)
 ```
 
-#### Property values OMIT THIS SECTION FOR NOW
 
-
-
-
-
-
-
-
-#### Total costs and benefits 
+Total costs and benefits 
+=========
 
 ```{r total costs summary, include=FALSE}
 total_costs %>%
@@ -1837,11 +1840,11 @@ ggsave("cost_benefit_plot.png",
        bg="transparent")
 ```
 
-By merging total costs and benefits for each bound, we obtained Figure \ref{fig:cost_benefit}. The costs include GenCat and management costs paid by municipality and private owners from 2011 onwards. The benefits perceived through carbon sequestration are far exceeded by costs for all years. 
+By merging total costs and benefits for each bound, we obtained Figure \ref{fig:cost_benefit}. The costs include GenCat and management costs paid by municipality and private owners from 2011 onwards. The benefits associated to carbon sequestration are far exceeded by total costs.
 
 \begin{figure}[!htb]
 \centerline{\includegraphics[width=30pc]{cost_benefit_plot.png}}
-\caption{Costs vs. benefits.}
+\caption{Costs vs. benefits. GenCat and management costs for date and canary trees are aggregated. Benefits include carbon sequestration for both species.}
 \label{fig:cost_benefit} 
 \end{figure}
 
@@ -1852,9 +1855,9 @@ nsb_high <- round(sum(carbon_benefits$total_upper)-sum(total_costs$total_upper),
 nsb_ratio_high <- round(sum(total_costs$total_upper)/sum(carbon_benefits$total_upper),digits=0)
 ```
 
-As stated earlier, all values presented so far have been brought to present value with the same discount (`r discount_rate`) and inflation (`r inflation_rate`) rates. By applying Equation \ref{eq:nsb}, the net social benefits (NSB) for the lower bound are €`r nsb_low `, in other words, `r nsb_ratio_low` times benefits. For the upper bound, the NSB are €`r nsb_high ` or `r nsb_ratio_high` times the benefits. 
+As stated earlier, all values presented so far have been brought to present value with the same discount (`r discount_rate`) and inflation (`r inflation_rate`) rates. By applying Equation \ref{eq:nsb} between 2005 and 2017, the net social benefits (NSB) for the lower bound are €`r nsb_low `, in other words, `r nsb_ratio_low` times benefits. For the upper bound, the NSB are €`r nsb_high ` or `r nsb_ratio_high` times the benefits. 
 
-4. Discussion and conclusions
+4. Discussion
 ============
 
 ```{r eval=FALSE, echo=FALSE}
@@ -1867,7 +1870,14 @@ Places where a similar cost benefit analysis could yield results that have an ov
 
 The larger mandate that underpins the conservation policy here analysed is 2007/365/CE (Appendix). This policy was released for EU member states with susceptible trees stating the measures to be taken, including the ones here described as management acitivites. No associated cost-benefit analysis was found justifying the EU wide mandate. Prioritisation of budgets for biological invasions should be based on analysis that include species, pathways and sites, and impacts [@mcgeochPrioritizingSpeciesPathways2016]. 
 
-Understandably, an argument against the type of cost-benefit analysis here performed is that social and cultural values are hard to quantify. Here, we tried to capture these by way of property values. Granted, these values are important, as we acknowledged by including the TEV framework. In a world with unlimited resources, conservation of natural assets without any direct or indirect benefits, could be possible. Alas, when dealing with biological insect invasions and possible impacts on crops and human health that quite critically affect the livelihoods of millions around the world, prioritisation of human health, farmer livelihoods, threatened species, etc. is necessary. We suggest the EU should allow each member state to perform its own analysis and decide if these types of policies are locally justified.
+Understandably, an argument against the type of cost-benefit analysis here performed is that social and cultural values are hard to capture and quantify. Granted, non-monetary values are important, as we acknowledged by including the TEV framework. In a world with unlimited resources, conservation of natural assets without any direct or indirect benefits, could be possible. Alas, when dealing with biological insect invasions that critically affect human health, livelihoods, threatened species, etc. priortising the cosliest impacts is necessary. We suggest the EU should perhaps reconsider this policy and similar ones to allow each member state to perform its own analysis and decide if these types of policies are locally justified.
+
+5. Conclusions
+============
+
+In the context of rising biological invasions with costly impacts, determining areas of priority is fundamental for optimal budgeting. Several frameworks for prioritising these type of invasions have risen in recent years. In this article we assess to what extent these frameworks are being implemented in current policies. To do so, we selected a policy designed in response to an invasive insect, the Red Palm Weevil (RPW). Amongst invasive species, insects are the costliest and it is estimated less than half of potential insect invasions have taken place. To assess the policy, we performed a cost-benefit analysis within the region of Catalonia, Spain. This was done in several steps. First, we interviewed stakeholders from goverment and industry to properly understand the local reality of the RPW infestation. Second, we estimated the number of palm trees in the region at the beginning of the infestation and modelled it until present. Third, we calculated the costs and benefits associated with the policy. Finally, we estimated the net social benefits of the policy. We found that the costs of the policy far outweight the benefits. This is likely due to the almost exclusive ornamental use of palm trees. 
+
+
 
 Acknowledgements
 ==========
@@ -1882,9 +1892,14 @@ This research was funded by the "María de Maeztu" Unit of Excellence 2016 from 
 
 \newpage
 
-
-Appendix 
+Appendices
 ==========
+
+
+Appendix A: Summaries of the policies selected and related legislation
+========
+
+This section extends on relevant details on the policy assessed in this article. It summarises all GenCat orders and includes the EU legislation that underpins RPW related legislation. 
 
 -   Order ARP/343/2006: On July 3rd 2006, the presence of the RPW in Catalonia is confirmed. Pest prevention and management is declared in the public’s interest. This declaration is done based on Article 15 from Spanish Law 43/2002 which states that when a potential pest (i.e. economic or environmental impacts) is identified for the first time it should be immediately declared. The management against this pest is considered in the public’s utility or greater good if it meets several criteria, including that it is present in areas that were previously declared pest free [INSERT HERE BOE citation.] Costing implications based on articles 8, 9 and 12 of this order include prospection, detection, destruction and indemnification to property owners begin. The total costs for these activities have been provided by the regional government, which also include survey, research, regulation, management, and outreach costs [citation]. 
 
@@ -1900,13 +1915,17 @@ Appendix
 
 -   Order AAM/56/2011: On April 12th 2011, a modification to the 2006 order was published. The main changes are done to articles 8, 9, 11, 12. The key change made from this final order is that GenCat from this year onwards continues to perform annual inspections, publish the delimited area and inform local authorities through outreach activities, but treatment and removal costs are transferred to municipalities and private owners. These activities transferred are mandatory and procedure are carefully described including the type of chemicals to be used, times of the year when they should be done and specific places where trees should be destroyed. 
 
+Appendix B: Variable symbols
+========
+For reference, this appendix summarises variable symbols for stocks (\ref{tab:stocks}) and flows (\ref{tab:flows}). These were not included in the text to avoid repetition although some readers might find these tables helpful.
+
 ```{r stock table summary, echo=FALSE}
 Summary_Stock <- as.vector(c("Healthy","Infested","In treatment","Lost","Replanted","Total population"))
 Stock <- as.vector(c("$S_t^H$","$S_t^I$","$S_t^{T}$","$S_t^L$","$S_t^R$","$S_t$"))
 df_stock <- as_tibble(Stock,Summary_Stock)
 
 colnames(df_stock) <- c("Stock")
-kable(df_stock, caption = "\\label{tab:stocks}Stocks.", booktabs = T,escape = F) %>%
+kable(df_stock, caption = "\\label{tab:stocks}Palm tree stocks.", booktabs = T,escape = F) %>%
 kable_styling(latex_options = c("hold_position"))
 ```
 
@@ -1928,26 +1947,37 @@ Flow <- as.vector(c("$F_{t,t-1}^R$",
 
 df_flow <- as_tibble(Flow,Summary_Flow)
 colnames(df_flow) <- c("Flow")
-kable(df_flow, caption = "\\label{tab:flows}Flows.", booktabs = T,escape = F) %>%
+kable(df_flow, caption = "\\label{tab:flows}Palm tree flows.", booktabs = T,escape = F) %>%
 kable_styling(latex_options = c("hold_position"))
 ```
+
+Appendix C: Detailed results 
+========
+
+This section expands on the result section by providing the details of each element that contributes to the costs and benefits. The folowing tables and figures are included in the text but aggregated in the total costs and benefits. 
 
 ```{r gencat cost tables, echo=FALSE}
 gencat%>%
   set_names(c("Year","GenCat cost","GenCat cost present"))%>%
 kable(
-  caption = "\\label{tab:gencat_table}GenCat costs. Source: GENCAT, 2018.",
+  caption = "\\label{tab:gencat_table}GenCat costs associated to RPW expenditure over time.",
   booktabs = T,
   escape = F,
   linesep= ""
 ) %>%
   kable_styling(latex_options = c("hold_position"))%>%
-  footnote(general=paste("Total value for all years is ",round(sum(gencat$gov_cost_present),digits = 0)))
+  footnote(general= c(
+                      paste("Total cost of all activities for all years is ",
+                         round(sum(gencat$gov_cost_present),
+                               digits = 0),
+                         ".",sep = ""),
+                      "Source: GENCAT, 2018."),
+                     footnote_as_chunk = T)
 ```
 
 \begin{figure}[!htb]
 \centerline{\includegraphics[width=30pc]{gencat_plot.png}}
-\caption{GenCat costs}
+\caption{GenCat costs overtime associated to RPW expenditure.}
 \label{fig:gencat_plot} 
 \end{figure}
 
@@ -1955,33 +1985,35 @@ kable(
 date_cost_low%>%
   set_names(c("Year","Replanting","Inspection","Prevention","Treatment","Removal","Total"))%>%
   kable(
-    caption = "\\label{tab:date_costs_low}Date management costs lower bound.",
+    caption = "\\label{tab:date_costs_low}Management costs (lower bound) for date palms over time.",
     booktabs = T,
     escape = F,
     linesep= ""
   ) %>%
   kable_styling(latex_options = c("hold_position"))%>%
-  footnote(general=paste("Total value for all years is ",round(sum(date_cost_low$total),digits = 0)))
+  footnote(general=paste("Total cost of all activities for all years is ",round(sum(date_cost_low$total),digits = 0),".",sep = ""),
+           footnote_as_chunk = T)
 ```
 
 ```{r date_cost_high table}
 date_cost_high%>%
   set_names(c("Year","Replanting","Inspection","Prevention","Treatment","Removal","Total"))%>%
   kable(
-    caption = "\\label{tab:date_costs_high}Date management costs upper bound.",
+    caption = "\\label{tab:date_costs_high}Management costs (upper bound) for date palms over time.",
     booktabs = T,
     escape = F,
     linesep= ""
   ) %>%
   kable_styling(latex_options = c("hold_position"))%>%
-  footnote(general=paste("Total value for all years is ",round(sum(date_cost_high$total),digits=0)))
+   footnote(general=paste("Total cost of all activities for all years is ",round(sum(date_cost_high$total),digits = 0),".",sep = ""),
+           footnote_as_chunk = T)
 
 
 ```
 
 \begin{figure}[!htb]
 \centerline{\includegraphics[width=30pc]{date_costs.png}}
-\caption{Management costs for date palms.}
+\caption{Management costs over time for date palms by activity.}
 \label{fig:date_costs} 
 \end{figure}
 
@@ -1989,33 +2021,31 @@ date_cost_high%>%
 canary_cost_low%>%
   set_names(c("Year","Replanting","Inspection","Prevention","Treatment","Removal","Total"))%>%
   kable(
-    caption = "\\label{tab:canary_costs_low}Canary management lower bound.",
+    caption = "\\label{tab:canary_costs_low}Management costs (lower bound) for canary palms over time.",
     booktabs = T,
     escape = F,
     linesep= ""
   ) %>%
   kable_styling(latex_options = c("hold_position"))%>%
-  footnote(general=paste("Total value for all years is ",round(sum(canary_cost_low$total),digits = 0)))
-
+   footnote(general=paste("Total cost of all activities for all years is ",round(sum(canary_cost_low$total),digits = 0),".",sep = ""), footnote_as_chunk = T)
 ```
 
 ```{r canary_cost_high table}
 canary_cost_high%>%
   set_names(c("Year","Replanting","Inspection","Prevention","Treatment","Removal","Total"))%>%
   kable(
-    caption = "\\label{tab:canary_costs_high}Canary management costs upper bound.",
+    caption = "\\label{tab:canary_costs_high}Management costs (upper bound) for canary palms over time.",
     booktabs = T,
     escape = F,
     linesep= ""
   ) %>%
   kable_styling(latex_options = c("hold_position"))%>%
-  footnote(general=paste("Total value for all years is ",round(sum(canary_cost_high$total),digits=0)))
-
+   footnote(general=paste("Total cost of all activities for all years is ",round(sum(canary_cost_high$total),digits = 0),".",sep = ""), footnote_as_chunk = T)
 ```
 
 \begin{figure}[!htb]
 \centerline{\includegraphics[width=30pc]{canary_costs.png}}
-\caption{Management costs for canary palms.}
+\caption{Management costs over time for canary palms by activity.}
 \label{fig:canary_costs} 
 \end{figure}
 
@@ -2030,12 +2060,12 @@ total_costs%>%
   ) %>%
   kable_styling(latex_options = c("hold_position"))%>%
   add_header_above(c("","","Lower"=3,"Higher"=3))%>%
-  footnote(general=paste("Total for lower bound is ",round(sum(total_costs$total_lower),digits=0),", total for higher bound is ",round(sum(total_costs$total_upper),digits=0),sep = ""))
+  footnote(general=paste("Total for lower bound is ",round(sum(total_costs$total_lower),digits=0),", total for higher bound is ",round(sum(total_costs$total_upper),digits=0),sep = ""), footnote_as_chunk = T)
 ```
 
 \begin{figure}[!htb]
 \centerline{\includegraphics[width=30pc]{costs_combined_total.png}}
-\caption{Total costs.}
+\caption{Total costs over time for GenCat, date and canary palms.}
 \label{fig:costs_combined_total} 
 \end{figure}
 
@@ -2043,14 +2073,16 @@ total_costs%>%
 carbon_benefits%>%
   set_names(c("Year","Date","Canary","Total","Date","Canary","Total"))%>%
 kable(
-    caption = "\\label{tab:carbon_costs}Carbon sequestration values.",
+    caption = "\\label{tab:carbon_costs}Carbon sequestration values over time.",
     booktabs = T,
     escape = F,
     linesep= ""
   ) %>%
   kable_styling(latex_options = c("hold_position"))%>%
   add_header_above(c("","Lower"=3,"Higher"=3))%>%
-  footnote(general=paste("Total for lower bound is ",round(sum(carbon_benefits$total_lower),digits=0),", total for higher bound is ",round(sum(carbon_benefits$total_upper),digits=0),sep = ""))
+  footnote(general=paste("Combining the totals for all years for both species yields a lower bound of ",round(sum(carbon_benefits$total_lower),digits=0)," and a higher bound of ",round(sum(carbon_benefits$total_upper),digits=0),".",sep = ""),
+           footnote_as_chunk = T)
+
 ```
 
 \pagebreak
