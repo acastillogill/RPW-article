@@ -27,16 +27,17 @@ keywords: "Environmental valuation, *Phoenix. spp*, ecosystem services, *Rhyncho
   
 date: "`r Sys.Date()`"
 bookdown:
-  fig_caption: yes
+    fig_caption: yes
 bibliography: library1.bib
+csl: apa.csl
 header-includes:
-   - \usepackage{caption,setspace,titlesec}
+   - \usepackage{caption,setspace,titlesec,threeparttable}
       \usepackage[section]{placeins}
       \usepackage[left=3cm, right=3cm, top=3cm]{geometry}
       \captionsetup[table]{font=normalsize,labelfont=normalsize}
       \captionsetup[figure]{font={normalsize,it},labelfont={normalsize,it}}
       \doublespacing
-     
+
 output: rticles::elsevier_article
 ---
 \makeatletter
@@ -78,7 +79,8 @@ x <-
     "citr",
     "FinancialMath",
     "quantmod",
-    "lubridate")
+    "lubridate",
+    "stringr")
 
 
 lapply(x, require, character.only = TRUE)
@@ -134,7 +136,7 @@ kable(
   kable_styling(latex_options = c("hold_position"))%>%
   footnote(general="GENCAT, 2018.",
            general_title = "Source: ",
-                     footnote_as_chunk = T)
+                     footnote_as_chunk = T, threeparttable = TRUE)
 ```
 
 
@@ -156,7 +158,7 @@ Figure \ref{fig:catalonia} shows the invasion status of RPW in Catalonia up to N
 
 \begin{figure}[!htb]
 \centerline{\includegraphics[width=20pc]{2016invasion.png}} 
-\caption{2016 invasion status. Source:[@generalitatdecatalunyaRedPalmWeevil2017]}
+\caption{2016 invasion status, (Source: GENCAT, 2017).}
 \label{fig:catalonia} 
 \end{figure}
 
@@ -169,11 +171,11 @@ The beetle has also invaded other parts of the world. In Japan, it was first obs
 
 2.1 Cost-benefit analysis
 ============
-We will perform a cost-benefit analysis assessing a set of conservation policies put into place to protect susceptible species from the RPW. Based on the policies selected, two species appear: *Phoenix canariensis*, from here on, canary palm, and *Phoenix dactylifera*, from here on date palm [@generalitatdecatalunyaORDERARP3432006]. The former was reported in 99.69% and the latter in 0.23% of RPW cases in the region [@generalitatdecatalunyaPrevencioLluitaContra2011]. Although date palms currently represent a small fraction of reports, we include them because in absence of canary palms, the RPW would likely shift to infesting date palms. 
-The first step of a cost benefit analysis is to define what constitute as costs and benefits. We interpret as costs all expenditures with the direct aim of protecting and preserving palm trees in presence of the RPW as a direct output of the conservation policies set into place. The following activities fall into the management category and include: prevention and inspection of healthy palms, treatment of infested palms and removal of palms that are too infested to be salvaged. However, a full assessment should include not only management expenditure, but also, government expenditure associated to survey, research, regulation, management and outreach [@aukemaEconomicImpactsNonNative2011]. To better understand the rationale behind the accouting used in this study, a few points are made on the policies. 
-The main variation in terms of the funding agent is that in 2011, inspection, prevention, treatment and removal costs were transfered from the Catalonian goverment (GENCAT), to municipalities and private owners. From 2005 to 2011, GenCat was responsible for research and outreach in addition to the management activities described (excluding replanting). From 2011, onwards, municipalities and property owners are responsible for management activities while GenCat continues funding research and outreach for the pest. Although replanting is not explicit in the Orders, between 2005 to present, replanting has not been null albeit total stock or rates unknown [@congostrinaBarcelonaPlantaPalmeras2017; @puricaroBarcelonaAtesora242017], we therefore include replanting on behalf of municipalities and property owners throughout the entire period.
+We will perform a cost-benefit analysis assessing a set of conservation policies put into place to protect susceptible species from the RPW. Based on the policies selected, two species appear: canary and date palms [@generalitatdecatalunyaORDERARP3432006]. The former was reported in 99.69% and the latter in 0.23% of RPW infestation cases in Catalonia [@generalitatdecatalunyaPrevencioLluitaContra2011]. Although date palms currently represent a small fraction of reports, we include them because in absence of canary palms, the RPW would likely shift to infesting date palms. 
+The first step of a cost benefit analysis is to define what constitute as costs and benefits. We interpret as costs all expenditures with the direct aim of protecting and preserving palm trees in presence of the RPW as a direct output of the conservation policies set into place. The following activities fall into the management category and include: prevention and inspection of healthy palms, treatment of infested palms and removal of palms that are too infested to be salvaged. However, a full assessment should include not only management expenditure, but also government expenditure associated to survey, research, regulation, management and outreach [@aukemaEconomicImpactsNonNative2011]. To better understand the rationale behind the accouting used in this study, a few points are made on the policies. 
+The main variation in terms of the funding agent is that in 2011, inspection, prevention, treatment and removal costs were transfered from the Catalonian goverment (GENCAT), to municipalities and private owners. From 2005 to 2011, GENCAT was responsible for research and outreach in addition to the management activities described (excluding replanting). From 2011, onwards, municipalities and property owners are responsible for management activities while GENCAT continues funding research and outreach for the pest. Although replanting is not explicit in the Orders, between 2005 to present, replanting has not been null albeit total stock or rates unknown [@congostrinaBarcelonaPlantaPalmeras2017; @puricaroBarcelonaAtesora242017], we therefore include replanting on behalf of municipalities and property owners throughout the entire period.
 
-To define benefits, we will use the total economic value (TEV) framework [@ledouxValuingOceanCoastal2002]. The TEV framework classifies the value of an asset into two main categories: use and non-use values.The main difference between these values is that use values are related to the use of the asset while non-use values relate to the motivation for conserving the asset for future generations or for its own sake. Figure \ref {fig:tev} further illustrates this point by listing indirect and direct values derived from palm trees. The former includes aesthetic benefits and carbon sequestration. Although in some places palm trees have direct values (i.e. cultivation), as will be described in the following paragraphs, in the scope of this article, no direct values were identified. 
+To define benefits, we will use the total economic value (TEV) framework [@ledouxValuingOceanCoastal2002]. The TEV framework classifies the value of an asset into two main categories: use and non-use values. The main difference between these values is that use values are related to the use of the asset while non-use values relate to the motivation for conserving the asset for future generations or for its own sake. Figure \ref {fig:tev} further illustrates this point by listing indirect and direct values derived from palm trees. The former includes aesthetic benefits and carbon sequestration. Although in some places palm trees have direct values (i.e. cultivation), as will be described in the following paragraphs, in the scope of this article, no direct values were identified. 
 
 \begin{figure}[!htb]
 \centerline{\includegraphics[width=30pc]{tev.png}} 
@@ -181,9 +183,9 @@ To define benefits, we will use the total economic value (TEV) framework [@ledou
 \label{fig:tev}
 \end{figure}
 
-Canary and date palms are non-native to the Iberian Peninsula. They were introduced in ancient times as evidenced by depictions of late Iberian pottery and coinage dating back to the third to first century BC [@al-khayriDatePalmGenetic2015]. Although canary palms produce edible fruits they are not used in agriculture, as opposed to date palms. In Spain, the land area dedicated to date cultivation is marginal with an average of ~600 hectares since 1961 to present [@faostatFAO2018]. In Catalonia, our region of study, date cultivation is virtually non-existent. Palms are planted in urban areas, resorts, public spaces and private gardens mainly near the coast [@al-khayriDatePalmGenetic2015]. Currently, they are classified as as species of "least concern" on the IUCN Red List of Threatened Species [@beechPhoenixCanariensisIUCN2017]. This means that they do not qualify as threatened, near threatened or conservation dependent before 2001.
+Canary and date palms are non-native to the Iberian Peninsula. They were introduced in ancient times as evidenced by depictions of late Iberian pottery and coinage dating back to the third to first century BC [@al-khayriDatePalmGenetic2015]. Although canary palms produce edible fruits they are so small and their flesh is so thin that they are not used in agriculture, as opposed to date palms. In Spain, the land area dedicated to date cultivation is marginal with an average of ca. 600 hectares since 1961 to present [@faostatFAO2018] whereas in Catalonia it is virtually non-existent. In Catalonia, our region of study, date cultivation is virtually non-existent. Palms are planted in urban areas, resorts, public spaces and private gardens mainly near the coast [@al-khayriDatePalmGenetic2015]. Currently, they are classified as species of "least concern" on the IUCN Red List of Threatened Species [@beechPhoenixCanariensisIUCN2017], meaning they do not qualify as threatened, near threatened or conservation dependent before 2001.
 
-Given this context and its almost exclusive ornamental use, we define benefits as follows. We identify two indirect use values as benefits: carbon sequestration and enhanced aesthetic value, the latter being the main reason behind palm tree availability in Catalonia. 
+Given this context and their almost exclusive ornamental use, we identify two indirect use values as benefits: carbon sequestration and enhanced aesthetic value, the latter being the main reason behind palm tree availability in Catalonia. 
 
 
 2.2 A model of tree stocks under RPW infestation
@@ -271,7 +273,7 @@ S_t^R-S_{t-1}^R=F_{t,t-1}^R
 Costs
 =======
 
-We now introduce equations to calculate the costs. These are divided into two main groups. The first is management costs assumed by municipalities and private palm owners from 2011 onwards. These management costs, $M_t$, for trees in year $t$ are described as the sum of inspection, $C_t^{inspect}$, prevention, $C_t^{prevent}$, treatment costs, $C_t^{treat}$, replanting, $C_t^{replant}$, and removal costs, $C_t^{remove}$. The second group is GenCat costs which includes management costs (except replanting) but also additional activities such as research and outreach. These were provided from 2005 to 2017 and since no specific breakdown was provided by GenCat so they are added as a lump sum.
+We now introduce equations to calculate the costs. These are divided into two main groups. The first is management costs assumed by municipalities and private palm owners from 2011 onwards. These management costs, $M_t$, for trees in year $t$ are described as the sum of inspection, $C_t^{inspect}$, prevention, $C_t^{prevent}$, treatment costs, $C_t^{treat}$, replanting, $C_t^{replant}$, and removal costs, $C_t^{remove}$. The second group is GENCAT costs which includes management costs (except replanting) but also additional activities such as research and outreach. These were provided from 2005 to 2017 and since no specific breakdown was provided by GENCAT so they are added as a lump sum.
 
 \begin{equation} \label{eq:management_costs} 
 M_t=C_t^{inspect}+C_t^{prevent}+C_t^{treat}+C_t^{replant}+C_t^{removal}
@@ -415,19 +417,19 @@ Since public tree inventory is decentralised and private owners have agency to c
 
 As previously mentioned, the availability of both palm trees in the region of study is human-mediated given its almost exclusive ornamental use. Due to this management of palm trees in the region of study, we identified multiple human-centred factors as explanatory variables (namely population, GDP per sector and municipality area). Furthermore, we consulted with two experts in forestry and ornamental plants who suggested distance to the Western Mediterranean Basin plays a key role in the presence of palm trees.
 
-Data for aforementioned variables was retrieved from the Catalonian statistical department (IDESCAT) for all municipalities. Distance was calculated using polygon centroids. GDP per sector was not available for all 947 municipalities, however, it was available for all 'comarcas', which are a higher administrative level made up of 42 divisions. 'Comarcas' GDP per sector was used for municipalities lacking these data. 
+Data for aforementioned variables was retrieved from the Catalonian statistical department (IDESCAT) for all municipalities. Distance was calculated using polygon centroids. GDP per sector was not available for all municipalities, however, it was available for all 'comarcas', which are a higher administrative level. 'Comarcas' GDP per sector was used for municipalities lacking these data. 
 
-We selected a stratified sampling strategy to collect data on the both species. This strategy was selected because we wanted all comarcas to be represented within the sample. We set out to collect a sample size of 50 municipalities. The total number of municipalities is 947 and they are divided in 42 comarcas, which we defined as the strata. For each strata, we calculated the sample size as: $\frac{Sample\ Size}{Total\ population}*Strata\ size$. For example, for the comarca Baix Camp with 28 municipalities, calculations were: $\frac{50}{947}*28=1.48\approx 2\ municipalities$. Repeating this process for all comarcas and rounding decimals upwards yielded 73 municipalities. 
+Since we wanted all “comarcas” to be represented within the sample, we selected a stratified sampling strategy to collect data on both species. We set out to collect a sample size of 50 municipalities. The total number of Catalan municipalities is 947 distributed into 42 comarcas, which we defined as the strata. For each strata, we calculated the sample size as: $\frac{Sample\ Size}{Total\ population}*Strata\ size$. For example, for the comarca Baix Camp with 28 municipalities, calculations were: $\frac{50}{947}*28=1.48\approx 2\ municipalities$. Repeating this process for all comarcas and rounding decimals upwards yielded 73 municipalities. 
 
-We collected data on tree stocks using static maps from Google Maps. The following procedure was done for each of the 73 municipalities. First, using a shapefile for the region and the R Packages sf and GGMap [@kahleGgmapSpatialVisualization2013], a grid for each municipality was produced where each cell in the grid represented a separate image. Examples of the grids are shown in Figure \ref{fig:grids} where the upper row is the municipality polygon layered on to a satellite image and the lower row is the corresponding grid. Over 25,000 images were individually assessed for palms trees of each species. 
+We collected data on tree stocks using static maps from Google Maps. The following procedure was done for each of the 73 municipalities. First, using a shapefile for the region and the R Packages sf and GGMap [@kahleGgmapSpatialVisualization2013], a grid for each municipality was produced where each cell in the grid represented a separate image (Figure \ref{fig:grids}). Over 25,000 images were individually assessed for palm trees of each species. 
 
 \begin{figure}[!htb]
-\centerline{\includegraphics[width=30pc]{grids.png}} 
-\caption{Satellite pictures of municipality polygons (upper row), municipality grids for palm tree estimation (lower row).}
+\centerline{\includegraphics[width=20pc]{grids.png}} 
+\caption{Municipality grid for Salou, Catalonia.}
 \label{fig:grids} 
 \end{figure}
 
-Once observations were collected, we ran a linear model under Bayes model averaging. At this point we had no criteria to select one model over another so Bayes model averaging was useful as this model averages multiple models according to their posterior probability. The model was specified as follows: all seven explanatory variables were included, a uniform distribution was asigned as the model prior, and the Bayes Information Criterion ($BIC$)[^2] was used as the prior distribution for regression coefficients since we were in a non-informative situation. 
+Once observations were collected, we ran a linear model under Bayes model averaging. At this point we had no criteria to select one model over another so Bayes model averaging was useful as it weighs multiple models according to their posterior probability. The model was specified as follows: all seven explanatory variables were included, a uniform distribution was asigned as the model prior, and the Bayes Information Criterion ($BIC$)[^2] was used as the prior distribution for regression coefficients since we were in a non-informative situation. 
 
 ```{r reading collected data, include=FALSE}
 #Read palm data
@@ -608,10 +610,12 @@ color = cut(indu, breaks = 4),
   labs(
     title= paste("Date palm trees 2017,","n =",sum_date$sum_2017,sep = " "),
    subtitle = "Vs. distance, population and fraction of GDP from services.",
-    x = "Distance to coastline (km)",
+    x = "",
     y = "Date palms"
-  )+ theme(
-        text = element_text(size=20))
+  )+
+  theme(text = element_text(size=20))+
+  coord_cartesian(ylim = c(0, 300))
+  
 ggsave(
   "Date_palms.png",
   width = 7,
@@ -645,8 +649,8 @@ color = cut(indu, breaks = 4),
     subtitle = "Vs. distance, population and fraction of GDP from services.",
     x = "Distance to coastline (km)",
     y = "Canary palms"
-  )+ theme(
-        text = element_text(size=20))
+  )+ theme(text = element_text(size=20))+
+  coord_cartesian(ylim = c(0, 300))
 ggsave(
   "canary_palms.png",
   width = 7,
@@ -666,7 +670,7 @@ Using these models, we estimated the number of date and canary palms in Cataloni
 \label{fig:predictions} 
 \end{figure}
 
-Finally, recall that these estimates correspond to 2017 estimates. To obtain 2005 estimates, we added the reported loss for date (14) and canary palms (8946) provided by GenCat. Final estimates por date and canary palms were `r sum_date$sum_2017+14` and `r sum_canary$sum_2017+8946`. 
+Finally, recall that these estimates correspond to 2017 estimates. To obtain 2005 estimates, we added the reported loss for date (14) and canary palms (8946) provided by GENCAT. Final estimates por date and canary palms were `r sum_date$sum_2017+14` and `r sum_canary$sum_2017+8946`. 
 
 
 Infested stock 2005
@@ -1126,7 +1130,7 @@ simulations_combined<- arrangeGrob(simulations_date,simulations_canary, nrow=2)
 ggsave("simulations_combined.png",simulations_combined,width = 14,height=8,limitsize = FALSE,bg="transparent")
 ```
 
-To initialise our model, we needed to estimate the number of infested trees at the beginning of the epidemic (2005). Since no information was available, we tried to estimate the number of infested trees by running several simulations of the model whilst varying the initial infested stock. As reference, we used reports for the infested stock per year. If the simulations contained the reported infested stock, then it is likely the initialisation parameters are appropriate. To run the simulations, we used Latin Hypercube Sampling (LHS) [@mckayComparisonThreeMethods1979a] implemented with the R FME package [@soetaertSolvingDifferentialEquations2010]. The reference for these estimates was government records collected by GenCat on the evolution of the pest between 2005 and 2014. According to interviews to GenCat officials, these were collected through non-systematic communications. For example, private owners or municipalities would contact GenCat and report their RPW observations. This is to say that these reports do not accurately reflect the RPW's spatio-temporal infestation pattern, but rather, they provide a minimum volume of affected palm trees per species. Four simulations with random values for each parameter are presented in Figure \ref{fig:simulations}. 
+To initialise our model, we needed to estimate the number of infested trees at the beginning of the epidemic (2005). Since no information was available, we tried to estimate the number of infested trees by running several simulations of the model whilst varying the initial infested stock. As reference, we used reports for the infested stock per year. If the simulations contained the reported infested stock, then it is likely the initialisation parameters are appropriate. To run the simulations, we used Latin Hypercube Sampling (LHS) [@mckayComparisonThreeMethods1979a] implemented with the R FME package [@soetaertSolvingDifferentialEquations2010]. The reference for these estimates was government records collected by GENCAT on the evolution of the pest between 2005 and 2014. According to interviews to GENCAT officials, these were collected through non-systematic communications. For example, private owners or municipalities would contact GENCAT and report their RPW observations. This is to say that these reports do not accurately reflect the RPW's spatio-temporal infestation pattern, but rather, they provide a minimum volume of affected palm trees per species. Four simulations with random values for each parameter are presented in Figure \ref{fig:simulations}. 
 
 \begin{figure}[!htb]
 \centerline{\includegraphics[width=30pc]{simulations_combined.png}}
@@ -1231,10 +1235,10 @@ pv*(1+real_rate)^periods
 ```
 
 
-As mentioned in section 2.2, costs include GenCat and management costs paid by municipalities and private palm tree owners (Eq.\ref{eq:management_costs}). The total GenCat costs were provided as a lump sum and are presented as such. Figure \ref{fig:gencat_plot} (found in Appendix C) illustrates GenCat costs brought to present value. We can see that costs are slowly rising from 2005 but in 2009 they peak and then decline with a further rise around 2014. This is due to the transfer of costs to municipalities and private owners in 2011. Before 2011, research, outreach and management costs (with the exception of replanting) are within GenCat costs, these are summarised in Appendix C (Table \ref{tab:gencat_table}) and brought to present value with a discount rate of `r discount_rate` and inflation rate of `r inflation_rate`. After 2011 private owners and municipalties assume management costs in addition to replanting.
+As mentioned in section 2.2, costs include GENCAT and management costs paid by municipalities and private palm tree owners (Eq.\ref{eq:management_costs}). The total GENCAT costs were provided as a lump sum and are presented as such. Figure \ref{fig:gencat_plot} (found in Appendix C) illustrates GENCAT costs brought to present value. We can see that costs are slowly rising from 2005 but in 2009 they peak and then decline with a further rise around 2014. This is due to the transfer of costs to municipalities and private owners in 2011. Before 2011, research, outreach and management costs (with the exception of replanting) are within GENCAT costs, these are summarised in Appendix C (Table \ref{tab:gencat_table}) and brought to present value with a discount rate of `r discount_rate` and inflation rate of `r inflation_rate`. After 2011 private owners and municipalties assume management costs in addition to replanting.
 
 ```{r gencat costs, include=FALSE}
-#Add GenCat costs. 
+#Add GENCAT costs. 
 gov_cost <-
   c(
     30000,
@@ -1277,7 +1281,7 @@ gencat %>%
   guides( color = FALSE,
            fill = FALSE)+
   labs(
-    title = "GenCat costs",
+    title = "GENCAT costs",
     x = "Time",
     y = "Euros"
   ) + theme(legend.position = "top",
@@ -1286,7 +1290,7 @@ gencat %>%
 ggsave("gencat_plot.png",gencat_plot,width = 14,height=8,limitsize = FALSE,bg="transparent")
 ```
 
-We now report the costs per species and management category brought to present value. We include a lower and upper bound derived from Table \ref{tab:initpar}. Equation \ref{eq:management_costs} was applied to the lower and upper tree estimates. Tables \ref{tab:date_costs_low}, \ref{tab:date_costs_high}, \ref{tab:canary_costs_low} and \ref{tab:canary_costs_high} in Appendix C summarise each activity along with a total for management costs. The accompanying note shows an all year total. To illustrate the breakdown of costs, Figures \ref{fig:date_costs} and \ref{fig:canary_costs} present the breakdown, these are also available in Appendix C. For date palms, the costliest management activities are inspection and prevention, which makes sense since infestations for this species have been less reported. For canary palms, removal of infested trees has been the most expensive activity. This is consistent with the decline of trees and the high removal cost per tree. Table \ref{tab:total_costs} summarises the lower and upper bounds for each species in addition to total for both species (see Appendix C). This total includes GenCat costs since they are fixed in addition to date and canary costs according to lower or upper bound. An illustration of these costs is presented in Appendix C Figure \ref{fig:costs_combined_total}. The lower bound has a less steep decline than the upper bound, canary costs are higher than date costs for all years and it seems that from 2017 onwards, date costs overtake canary costs. In the upper bound were canary decline is stronger, these costs are very high but due to a reduction in overall stock, there is a declie of treatment and removal costs which allow inspection and prevention costs from date trees to become the largest cost.
+We now report the costs per species and management category brought to present value. We include a lower and upper bound derived from Table \ref{tab:initpar}. Equation \ref{eq:management_costs} was applied to the lower and upper tree estimates. Tables \ref{tab:date_costs_low}, \ref{tab:date_costs_high}, \ref{tab:canary_costs_low} and \ref{tab:canary_costs_high} in Appendix C summarise each activity along with a total for management costs. The accompanying note shows an all year total. To illustrate the breakdown of costs, Figures \ref{fig:date_costs} and \ref{fig:canary_costs} present the breakdown, these are also available in Appendix C. For date palms, the costliest management activities are inspection and prevention, which makes sense since infestations for this species have been less reported. For canary palms, removal of infested trees has been the most expensive activity. This is consistent with the decline of trees and the high removal cost per tree. Table \ref{tab:total_costs} summarises the lower and upper bounds for each species in addition to total for both species (see Appendix C). This total includes GENCAT costs since they are fixed in addition to date and canary costs according to lower or upper bound. An illustration of these costs is presented in Appendix C Figure \ref{fig:costs_combined_total}. The lower bound has a less steep decline than the upper bound, canary costs are higher than date costs for all years and it seems that from 2017 onwards, date costs overtake canary costs. In the upper bound were canary decline is stronger, these costs are very high but due to a reduction in overall stock, there is a declie of treatment and removal costs which allow inspection and prevention costs from date trees to become the largest cost.
 
 ```{r Management costs for date palms, include=FALSE}
 #Management costs for date palms
@@ -1582,8 +1586,8 @@ canary_costs_plots<- arrangeGrob(canary_1,canary_6,nrow=2)
 ggsave("canary_costs.png",canary_costs_plots,width = 14,height=16,limitsize = FALSE,bg="transparent")
 ```
 
-```{r Create total costs for both species including GenCat costs, include=FALSE}
-#Create total costs for both species including GenCat costs
+```{r Create total costs for both species including GENCAT costs, include=FALSE}
+#Create total costs for both species including GENCAT costs
 
 date_cost_low_vector <- as.vector(date_cost_low$total)
 
@@ -1847,11 +1851,11 @@ ggsave("cost_benefit_plot.png",
        bg="transparent")
 ```
 
-By merging total costs and benefits for each bound, we obtained Figure \ref{fig:cost_benefit}. The costs include GenCat and management costs paid by municipality and private owners from 2011 onwards. The benefits associated to carbon sequestration are far exceeded by total costs.
+By merging total costs and benefits for each bound, we obtained Figure \ref{fig:cost_benefit}. The costs include GENCAT and management costs paid by municipality and private owners from 2011 onwards. The benefits associated to carbon sequestration are far exceeded by total costs.
 
 \begin{figure}[!htb]
 \centerline{\includegraphics[width=30pc]{cost_benefit_plot.png}}
-\caption{Costs vs. benefits. GenCat and management costs for date and canary trees are aggregated. Benefits include carbon sequestration for both species.}
+\caption{Costs vs. benefits. GENCAT and management costs for date and canary trees are aggregated. Benefits include carbon sequestration for both species.}
 \label{fig:cost_benefit} 
 \end{figure}
 
@@ -1875,7 +1879,7 @@ The combined costs of pest management, eradication and replacement of RPW infest
 
 Places where a similar cost benefit analysis could yield results that have an overall positive effect on society is for example, Tunisia, with an economy that largely depends on date exports and allegedly the RPW is a major threat [@speakmancordallPanicRedDevils2017]. Another case where this type of conservation policy could be justified is the Canary Islands since canary palms are a native species, unlike in the Iberian Peninsula. When a species is native to an area, conservation efforts from a socio-cultural perspective are more likely to be justified. In these islands, the RPW was detected in 2007 and declared completely eradicated by 2016. Eradication efforts included the inspection of 706,081 palms, of which 209,537 were treated, 659 removed and destroyed, and 681 weevils were caught [@gobiernodecanariasCanariasPrimerTerritorio2016].
 
-The larger mandate that underpins the conservation policy here analysed is 2007/365/CE (Appendix). This policy was released for EU member states with susceptible trees stating the measures to be taken, including the ones here described as management acitivites. No associated cost-benefit analysis was found justifying the EU wide mandate. Prioritisation of budgets for biological invasions should be based on analysis that include species, pathways and sites, and impacts [@mcgeochPrioritizingSpeciesPathways2016]. 
+The larger mandate that underpins the conservation policy here analysed is 2007/365/CE (Appendix). This policy was released for EU member states with susceptible trees stating the measures to be taken, including the ones here described as management activities. No associated cost-benefit analysis was found justifying the EU wide mandate. Prioritisation of budgets for biological invasions should be based on analysis that include species, pathways and sites, and impacts [@mcgeochPrioritizingSpeciesPathways2016]. 
 
 Understandably, an argument against the type of cost-benefit analysis here performed is that social and cultural values are hard to capture and quantify. Granted, non-monetary values are important, as we acknowledged by including the TEV framework. In a world with unlimited resources, conservation of natural assets without any direct or indirect benefits, could be possible. Alas, when dealing with biological insect invasions that critically affect human health, livelihoods, threatened species, etc. priortising the cosliest impacts is necessary. We suggest the EU should perhaps reconsider this policy and similar ones to allow each member state to perform its own analysis and decide if these types of policies are locally justified.
 
@@ -1906,7 +1910,7 @@ Appendices
 Appendix A: Summaries of the policies selected and related legislation
 ========
 
-This section extends on relevant details on the policy assessed in this article. It summarises all GenCat orders and includes the EU legislation that underpins RPW related legislation. 
+This section extends on relevant details on the policy assessed in this article. It summarises all GENCAT orders and includes the EU legislation that underpins RPW related legislation. 
 
 -   Order ARP/343/2006: On July 3rd 2006, the presence of the RPW in Catalonia is confirmed. Pest prevention and management is declared in the public’s interest. This declaration is done based on Article 15 from Spanish Law 43/2002 which states that when a potential pest (i.e. economic or environmental impacts) is identified for the first time it should be immediately declared. The management against this pest is considered in the public’s utility or greater good if it meets several criteria, including that it is present in areas that were previously declared pest free [INSERT HERE BOE citation.] Costing implications based on articles 8, 9 and 12 of this order include prospection, detection, destruction and indemnification to property owners begin. The total costs for these activities have been provided by the regional government, which also include survey, research, regulation, management, and outreach costs [citation]. 
 
@@ -1914,13 +1918,13 @@ This section extends on relevant details on the policy assessed in this article.
 
 -   2008/776/CE: On 6th October 2008, a subsequent decision was reached by the EU where the 2007 decision is modified to expand the range of palm trees vulnerable to the RPW.
 
--   Order AAR/226/2009: Based on the EU commission, the GenCat updates the 2006 order by redefining and specifying actions to be taken, namely delimitation, inspections, pruning, treatment, and destruction of affected palm trees. It restates that all costs continue to be borne by the GenCat.
+-   Order AAR/226/2009: Based on the EU commission, the GENCAT updates the 2006 order by redefining and specifying actions to be taken, namely delimitation, inspections, pruning, treatment, and destruction of affected palm trees. It restates that all costs continue to be borne by the GENCAT.
 
 -   2010/467/UE: On 28th August 2010, a correction to the 17th August 2010 decision is published that states that if routine inspections from the past three years show that eradication seems to not be feasible within a year, then local measures should focus on pest contention and suppression within the selected area but maintaining eradication as a long-term objective. 
 
 -   Order AAR/2802/2010 and Resolution AAR/2802/2010: On 20th October 2010, a delimited area for the pest is published in the form of municipalities. 
 
--   Order AAM/56/2011: On April 12th 2011, a modification to the 2006 order was published. The main changes are done to articles 8, 9, 11, 12. The key change made from this final order is that GenCat from this year onwards continues to perform annual inspections, publish the delimited area and inform local authorities through outreach activities, but treatment and removal costs are transferred to municipalities and private owners. These activities transferred are mandatory and procedure are carefully described including the type of chemicals to be used, times of the year when they should be done and specific places where trees should be destroyed. 
+-   Order AAM/56/2011: On April 12th 2011, a modification to the 2006 order was published. The main changes are done to articles 8, 9, 11, 12. The key change made from this final order is that GENCAT from this year onwards continues to perform annual inspections, publish the delimited area and inform local authorities through outreach activities, but treatment and removal costs are transferred to municipalities and private owners. These activities transferred are mandatory and procedure are carefully described including the type of chemicals to be used, times of the year when they should be done and specific places where trees should be destroyed. 
 
 Appendix B: Variable symbols
 ========
@@ -1965,26 +1969,23 @@ This section expands on the result section by providing the details of each elem
 
 ```{r gencat cost tables, echo=FALSE}
 gencat%>%
-  set_names(c("Year","GenCat cost","GenCat cost present"))%>%
+  set_names(c("Year","GENCAT cost","GENCAT cost present"))%>%
 kable(
-  caption = "\\label{tab:gencat_table}GenCat costs associated to RPW expenditure over time.",
+  caption = "\\label{tab:gencat_table}GENCAT costs associated to RPW expenditure over time.",
   booktabs = T,
   escape = F,
   linesep= ""
 ) %>%
   kable_styling(latex_options = c("hold_position"))%>%
-  footnote(general= c(
-                      paste("Total cost of all activities for all years is ",
-                         round(sum(gencat$gov_cost_present),
-                               digits = 0),
-                         ".",sep = ""),
-                      "Source: GENCAT, 2018."),
-                     footnote_as_chunk = T)
+  footnote(general= paste0("Total cost of the evaluated policies for all years is ",
+                         round(sum(gencat$gov_cost_present),digits = 0),
+                         "."," Source: GENCAT, 2018."),
+                     footnote_as_chunk = T, threeparttable = TRUE)
 ```
 
 \begin{figure}[!htb]
 \centerline{\includegraphics[width=30pc]{gencat_plot.png}}
-\caption{GenCat costs overtime associated to RPW expenditure.}
+\caption{GENCAT costs overtime associated to RPW expenditure.}
 \label{fig:gencat_plot} 
 \end{figure}
 
@@ -1999,7 +2000,7 @@ date_cost_low%>%
   ) %>%
   kable_styling(latex_options = c("hold_position"))%>%
   footnote(general=paste("Total cost of all activities for all years is ",round(sum(date_cost_low$total),digits = 0),".",sep = ""),
-           footnote_as_chunk = T)
+           footnote_as_chunk = T, threeparttable = TRUE)
 ```
 
 ```{r date_cost_high table}
@@ -2013,7 +2014,7 @@ date_cost_high%>%
   ) %>%
   kable_styling(latex_options = c("hold_position"))%>%
    footnote(general=paste("Total cost of all activities for all years is ",round(sum(date_cost_high$total),digits = 0),".",sep = ""),
-           footnote_as_chunk = T)
+           footnote_as_chunk = T, threeparttable = TRUE)
 
 
 ```
@@ -2034,7 +2035,7 @@ canary_cost_low%>%
     linesep= ""
   ) %>%
   kable_styling(latex_options = c("hold_position"))%>%
-   footnote(general=paste("Total cost of all activities for all years is ",round(sum(canary_cost_low$total),digits = 0),".",sep = ""), footnote_as_chunk = T)
+   footnote(general=paste("Total cost of all activities for all years is ",round(sum(canary_cost_low$total),digits = 0),".",sep = ""), footnote_as_chunk = T, threeparttable = TRUE)
 ```
 
 ```{r canary_cost_high table}
@@ -2047,7 +2048,7 @@ canary_cost_high%>%
     linesep= ""
   ) %>%
   kable_styling(latex_options = c("hold_position"))%>%
-   footnote(general=paste("Total cost of all activities for all years is ",round(sum(canary_cost_high$total),digits = 0),".",sep = ""), footnote_as_chunk = T)
+   footnote(general=paste("Total cost of all activities for all years is ",round(sum(canary_cost_high$total),digits = 0),".",sep = ""), footnote_as_chunk = T, threeparttable = TRUE)
 ```
 
 \begin{figure}[!htb]
@@ -2058,21 +2059,20 @@ canary_cost_high%>%
 
 ```{r total costs table, echo=FALSE}
 total_costs%>%
-   set_names(c("Year","GenCat","Date","Canary","Total","Date","Canary","Total"))%>%
+   set_names(c("Year","GENCAT","Date","Canary","Total","Date","Canary","Total"))%>%
   kable(
-    caption = "\\label{tab:total_costs}Total costs.",
+    caption = "\\label{tab:total_costs}Total costs for canary and date palms over time.",
     booktabs = T,
     escape = F,
-    linesep= ""
-  ) %>%
+    linesep= "") %>%
   kable_styling(latex_options = c("hold_position"))%>%
   add_header_above(c("","","Lower"=3,"Higher"=3))%>%
-  footnote(general=paste("Total for lower bound is ",round(sum(total_costs$total_lower),digits=0),", total for higher bound is ",round(sum(total_costs$total_upper),digits=0),sep = ""), footnote_as_chunk = T)
+  footnote(general=paste("Total for lower bound is ",round(sum(total_costs$total_lower),digits=0),", total for higher bound is ",round(sum(total_costs$total_upper),digits=0),".",sep = ""), footnote_as_chunk = T, threeparttable = TRUE)
 ```
 
 \begin{figure}[!htb]
 \centerline{\includegraphics[width=30pc]{costs_combined_total.png}}
-\caption{Total costs over time for GenCat, date and canary palms.}
+\caption{Total costs over time for GENCAT, date and canary palms.}
 \label{fig:costs_combined_total} 
 \end{figure}
 
@@ -2087,8 +2087,11 @@ kable(
   ) %>%
   kable_styling(latex_options = c("hold_position"))%>%
   add_header_above(c("","Lower"=3,"Higher"=3))%>%
-  footnote(general=paste("Combining the totals for all years for both species yields a lower bound of ",round(sum(carbon_benefits$total_lower),digits=0)," and a higher bound of ",round(sum(carbon_benefits$total_upper),digits=0),".",sep = ""),
-           footnote_as_chunk = T)
+  footnote(general=
+    paste0("Combining the totals for all years for both species yields a lower bound of ",
+           round(sum(carbon_benefits$total_lower),digits=0)," and a higher bound of ",
+           round(sum(carbon_benefits$total_upper),digits=0),"."),
+           footnote_as_chunk = T, threeparttable = TRUE)
 
 ```
 
