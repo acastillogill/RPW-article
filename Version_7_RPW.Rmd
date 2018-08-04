@@ -17,7 +17,7 @@ address:
   - code: c
     address: Faculty of Economics and Business Administration, and Institute for Environmental Studies, VU University Amsterdam, The Netherlands.
   - code: d
-    address: Departament d'Agricultura, Ramaderia, Pesca, Alimentació i Medi Natural Generalitat de Catalunya  Avinguda Meridiana, 38 08018 Barcelona (Spain).
+    address: Departament d'Agricultura, Ramaderia, Pesca, Alimentació i Medi Natural Generalitat de Catalunya  Avinguda Meridiana, 38 08018, Barcelona, Spain.
 
 
 abstract: |
@@ -150,11 +150,7 @@ The RPW is native to Southeast Asia and Polynesia [@wattanapongsiriRevisionGener
 
 The RPW lays eggs on the crown of palm trees. Larvae then penetrate it eventually reaching the crown core where the meristematic tissue resides. Subsequent feeding on this tissue will eventually kill the palm tree. Because the whole larval stage occurs within the palm tree, it is concealed from plain eyesight and hence hard to detect. 
 
-In Spain, palm damage by this beetle was first observed in 1993 on the coastal front of the Granada province [@barrancoNuevoCurculionidoTropical1996]. In 2004 it reached the Autonomous Community of Valencia [@eppoRhynchophorusFerrugineus2008]. It was officially declared  a pest in Catalonia in 2006 [@generalitatdecatalunyaOrdreARP3412006] where it presumable arrived between 2003 and 2004 to the Ebro river delta and Tarragona region (South Catalonia).
-
-The Catalan Department of Agriculture has made efforts to identify in what regions (“comarques”) the beetle is present, resulting in the pattern shown in . This illustration, provided by GENCAT, colors the areas where the RPW has been reported upto November 2016. The colored area is along the coast since this is where most palm trees are present, although a few inner regions are also included. 
-
-Figure \ref{fig:catalonia} shows the invasion status of RPW in Catalonia up to November 2016 [@generalitatdecatalunyaRedPalmWeevil2017].
+In Spain, palm damage by this beetle was first observed in 1993 on the coastal front of the Granada province [@barrancoNuevoCurculionidoTropical1996]. In 2004 it reached the Autonomous Community of Valencia [@eppoRhynchophorusFerrugineus2008]. It was officially declared  a pest in Catalonia in 2006 [@generalitatdecatalunyaOrdreARP3412006] where it presumably arrived between 2003 and 2004 to the Ebro river delta and Tarragona region (South Catalonia). Figure \ref{fig:catalonia} shows the invasion status of RPW in Catalonia up to November 2016 [@generalitatdecatalunyaRedPalmWeevil2017].
 
 \begin{figure}[!htb]
 \centerline{\includegraphics[width=20pc]{2016invasion.png}} 
@@ -1692,7 +1688,7 @@ ggsave("costs_combined_total.png",
 Benefits of palm trees
 ========
 
-In order to estimate the benefits associated to carbon sequestration, as described in Equation \ref{eq:benefits}, we provide an interval per tonne for the $SCC$, reflecting uncertainty about its value. A value of 12 USD was used as the lower bound since this was the lowest $SCC$ found [@iawgTechnicalUpdateSocial2016]. Similarly, the upper bound is 125 USD [@vandenberghLowerBoundSocial2014], as it was the highest found. These values were converted to euros at an exchange rate `r exchange_rate_eur` and brought to present value with a discount rate of `r discount_rate` and inflation rate of `r inflation_rate`. Table \ref{tab:scc}, summarises the original values, publication date, the values converted to euros and present value according to source, the present value. 
+In order to estimate the benefits associated to carbon sequestration, as described in Equation \ref{eq:benefits}, we provide an interval per tonne for the $SCC$, reflecting uncertainty about its value. A value of 12 USD was used as the lower bound since this was the lowest $SCC$ found [@iawgTechnicalUpdateSocial2016]. Similarly, the upper bound is 125 USD [@vandenberghLowerBoundSocial2014], as it was the highest found. These values were converted to euros at an exchange rate `r exchange_rate_eur` and brought to present value with a discount rate of `r discount_rate` and inflation rate of `r inflation_rate`. Table \ref{tab:scc},costs were summarises the original values, publication date, the values converted to euros and present value according to source, the present value. 
 
 ```{r SCC table, echo=FALSE}
 PV <- future_value(USD,real_rate = real_rate,periods = (year(Sys.Date())-Date))
@@ -1808,16 +1804,19 @@ gather(key = "type",value="amount",2:3)%>%
   theme_classic()+
   scale_x_continuous(breaks = int_breaks)+
   guides( color = FALSE,
-           fill = guide_legend(title = "Cost type"))+
+           fill = guide_legend(title = ""))+
    scale_fill_manual(values=c("#00BA38","#F8766D"))+
   scale_color_manual(values=c("#00BA38","#F8766D"))+
   labs(
     title = "Costs vs. benefits (lower bound)",
     subtitle = "Costs were divided by 1,000 to allow benefits to appear in the plot.",
     x = "Time",
-    y = "Euros"
-  )+theme(legend.position = "top",
-          text=element_text(size=10)) -> cb_lower_plot
+    y = "Euros")+
+  theme(legend.position = "top",
+          text=element_text(size=10),
+  plot.background = element_rect(fill = "transparent", colour = NA),
+  title=element_text(color="#BCE2D7"),
+  plot.subtitle=element_text(color="#BCE2D7"))-> cb_lower_plot
 
 cb_upper %>%
   mutate(costs=costs/1000)%>%
@@ -1833,14 +1832,15 @@ gather(key = "type",value="amount",2:3)%>%
   scale_color_manual(values=c("#00BA38","#F8766D"))+
   scale_x_continuous(breaks = int_breaks)+
   guides( color = FALSE,
-           fill = guide_legend(title = "Cost type"))+
+           fill = guide_legend(title = ""))+
   labs(
     title = "Costs vs. benefits (upper bound)",
     subtitle = "Costs were divided by 1,000 to allow benefits to appear in the plot.",
     x = "Time",
     y = "Euros"
   )+theme(legend.position = "top",
-          text=element_text(size=10)) -> cb_upper_plot
+          text=element_text(size=10),
+  plot.background = element_rect(fill = "transparent", colour = NA)) -> cb_upper_plot
 
 cost_benefit_plot<- arrangeGrob(cb_lower_plot,cb_upper_plot, nrow=2)
 ggsave("cost_benefit_plot.png",
@@ -1879,14 +1879,14 @@ The combined costs of pest management, eradication and replacement of RPW infest
 
 Places where a similar cost benefit analysis could yield results that have an overall positive effect on society is for example, Tunisia, with an economy that largely depends on date exports and allegedly the RPW is a major threat [@speakmancordallPanicRedDevils2017]. Another case where this type of conservation policy could be justified is the Canary Islands since canary palms are a native species, unlike in the Iberian Peninsula. When a species is native to an area, conservation efforts from a socio-cultural perspective are more likely to be justified. In these islands, the RPW was detected in 2007 and declared completely eradicated by 2016. Eradication efforts included the inspection of 706,081 palms, of which 209,537 were treated, 659 removed and destroyed, and 681 weevils were caught [@gobiernodecanariasCanariasPrimerTerritorio2016].
 
-The larger mandate that underpins the conservation policy here analysed is 2007/365/CE (Appendix). This policy was released for EU member states with susceptible trees stating the measures to be taken, including the ones here described as management activities. No associated cost-benefit analysis was found justifying the EU wide mandate. Prioritisation of budgets for biological invasions should be based on analysis that include species, pathways and sites, and impacts [@mcgeochPrioritizingSpeciesPathways2016]. 
+The larger mandate that underpins the conservation policy here analysed is 2007/365/CE (see Appendix A). This policy was released for EU member states with susceptible trees stating the measures to be taken, including the ones here described as management activities. No associated cost-benefit analysis was found justifying the EU wide mandate. Prioritisation of budgets for biological invasions should be based on analysis that include species, pathways and sites, and impacts [@mcgeochPrioritizingSpeciesPathways2016]. 
 
-Understandably, an argument against the type of cost-benefit analysis here performed is that social and cultural values are hard to capture and quantify. Granted, non-monetary values are important, as we acknowledged by including the TEV framework. In a world with unlimited resources, conservation of natural assets without any direct or indirect benefits, could be possible. Alas, when dealing with biological insect invasions that critically affect human health, livelihoods, threatened species, etc. priortising the cosliest impacts is necessary. We suggest the EU should perhaps reconsider this policy and similar ones to allow each member state to perform its own analysis and decide if these types of policies are locally justified.
+Understandably, an argument against the type of cost-benefit analysis here performed is that social and cultural values are hard to capture and quantify. Granted, non-monetary values are important, as we acknowledged by including the TEV framework. In a world with unlimited resources, conservation of natural assets without any direct or indirect benefits, could be possible. Alas, when dealing with biological insect invasions that critically affect human health, livelihoods, threatened species, etc. priortising the cosliest impacts is necessary.
 
 5. Conclusions
 ============
 
-In the context of rising biological invasions with costly impacts, determining areas of priority is fundamental for optimal budgeting. Several frameworks for prioritising these type of invasions have risen in recent years. In this article we assess to what extent these frameworks are being implemented in current policies. To do so, we selected a policy designed in response to an invasive insect, the Red Palm Weevil (RPW). Amongst invasive species, insects are the costliest and it is estimated less than half of potential insect invasions have taken place. To assess the policy, we performed a cost-benefit analysis within the region of Catalonia, Spain. This was done in several steps. First, we interviewed stakeholders from goverment and industry to properly understand the local reality of the RPW infestation. Second, we estimated the number of palm trees in the region at the beginning of the infestation and modelled it until present. Third, we calculated the costs and benefits associated with the policy. Finally, we estimated the net social benefits of the policy. We found that the costs of the policy far outweight the benefits. This is likely due to the almost exclusive ornamental use of palm trees. 
+In the context of rising biological invasions with costly impacts, determining areas of priority is fundamental for optimal budgeting. Several frameworks for prioritising these type of invasions have risen in recent years. In this article we assess to what extent these frameworks are being implemented in current policies. To do so, we selected a policy designed in response to an invasive insect, the Red Palm Weevil (RPW). Amongst invasive species, insects are the costliest and it is estimated less than half of potential insect invasions have taken place. To assess the policy, we performed a cost-benefit analysis within the region of Catalonia, Spain. This was done in several steps. First, we interviewed stakeholders from goverment and industry to properly understand the local reality of the RPW infestation. Second, we estimated the number of palm trees in the region at the beginning of the infestation and modelled it until present. Third, we calculated the costs and benefits associated with the policy. Finally, we estimated the net social benefits of the policy. We found that the costs of the policy far outweight the benefits. This is likely due to the almost exclusive ornamental use of palm trees in Catalonia, Spain.
 
 
 
