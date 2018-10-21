@@ -48,11 +48,12 @@ editor_options:
 
 
 ```{r setup, include=FALSE}
+
+here::set_here()
 x <-
   c("tidyverse",
     "officer",
     "bookdown",
-    "fcuk",
     "knitr",
     "kableExtra",
     "kable",
@@ -77,13 +78,18 @@ x <-
     "FinancialMath",
     "quantmod",
     "lubridate",
-    "stringr")
+    "stringr",
+    "here",
+    "dummies",
+    "ggmap")
 
 
 lapply(x, require, character.only = TRUE)
 
 opts_chunk$set(echo = FALSE)
 options(knitr.table.format = "latex")
+
+rm(list = ls())
 ```
 
 1. Introduction
@@ -749,7 +755,6 @@ model <-
              list(
                c(dH_dt, dI_dt, dTr_dt),
                ForceOfInfestation = aLambda,
-               
                Treated_prob = aTau_prob,
                Success_prob = aSigma_prob,
                #Beta=aBeta,
@@ -1227,7 +1232,6 @@ pv*(1+real_rate)^periods
 
 ```
 
-
 As mentioned in section 2.2, costs include GENCAT and management costs paid by municipalities and private palm tree owners (Eq.\ref{eq:management_costs}). The total GENCAT costs were provided as a lump sum and are presented as such. Figure \ref{fig:gencat_plot} (found in Appendix C) illustrates GENCAT costs brought to present value. We can see that costs are slowly rising from 2005 but in 2009 they peak and then decline with a further rise around 2014. This is due to the transfer of costs to municipalities and private owners in 2011. Before 2011, research, outreach and management costs (with the exception of replanting) are within GENCAT costs, these are summarised in Appendix C (Table \ref{tab:gencat_table}) and brought to present value with a discount rate of `r discount_rate` and inflation rate of `r inflation_rate`. After 2011 private owners and municipalties assume management costs in addition to replanting.
 
 ```{r gencat costs, include=FALSE}
@@ -1685,6 +1689,8 @@ ggsave("costs_combined_total.png",
 Benefits of palm trees
 ========
 
+Recall we considered two types of benefits provided by palm trees (Eq.\ref{eq:benefits}), those derived from carbon sequestration and others derived from palm tree adjacency. Here we present the results for both calculations. 
+
 In order to estimate the benefits associated to carbon sequestration, as described in Equation \ref{eq:benefits}, we provide an interval per tonne for the $SCC$, reflecting uncertainty about its value. A value of 12 USD was used as the lower bound since this was the lowest $SCC$ found [@iawgTechnicalUpdateSocial2016]. Similarly, the upper bound is 125 USD [@vandenberghLowerBoundSocial2014], as it was the highest found. These values were converted to euros at an exchange rate `r exchange_rate_eur` and brought to present value with a discount rate of `r discount_rate` and inflation rate of `r inflation_rate`. Table \ref{tab:scc},costs were summarises the original values, publication date, the values converted to euros and present value according to source, the present value. 
 
 ```{r SCC table, echo=FALSE}
@@ -1702,7 +1708,7 @@ kable(
 ```
 
 
-In our total benefits calculation, we will present ranges using the lowest (USD 12) and highest (USD 125) social cost of carbon $SCC$. The lowest bound for each species will be combined with lowest cost. By applying Equation \label{eq:social_cost} using a value of 0.191 tonnes per year for 1000 trees [@aguaronComparisonMethodsEstimating2012; @citeulike:14040392]. Table \ref{tab:carbon_costs} summarises benefits derived from carbon sequestration along with totals for lower and upper estimates. Since carbon sequestration values are directly proportional to the tree stock, the lower and upper bound differ according to the initial tree estimation. For the upper estimates, there is a stronger decline over time, this explains the marked difference between the 2005 and 2017 values. 
+In our total benefits calculation, we will present ranges using the lowest (USD 12) and highest (USD 125) social cost of carbon $SCC$. The lowest bound for each species will be combined with the lowest cost by applying Equation \ref{eq:social_cost} using a value of 0.191 tonnes per year for 1000 trees [@aguaronComparisonMethodsEstimating2012; @citeulike:14040392]. Table \ref{tab:carbon_costs} summarises benefits derived from carbon sequestration along with totals for lower and upper estimates. Since carbon sequestration values are directly proportional to the tree stock, the lower and upper bound differ according to the initial tree estimation. For the upper estimates, there is a stronger decline over time, this explains the marked difference between the 2005 and 2017 values. 
 
 ```{r  carbon sequestration benefits, include=FALSE}
 #Constants
@@ -1758,6 +1764,260 @@ carbon_benefits <- carbon_benefits%>%
          total_upper=carbon_upper_date+carbon_upper_canary)%>%
   dplyr::select(time,carbon_lower_date,carbon_lower_canary,total_lower,
                 carbon_upper_date,carbon_upper_canary,total_upper)
+```
+
+##Property values
+
+We now present estimations for benefits derived from palm tree adjacency. To calculate these we used data provided by Idealista S.A., an online marketplace for buying and renting properties in Spain, Portugal, and Italy.
+
+```{r read-idealista-data, include=FALSE, eval=FALSE}
+idealista <- read.xlsx("idealista_data.xlsx")
+#See idealista structure
+glimpse(idealista)
+#is.numeric returns TRUE if the variable is numeric. 
+#sapply iterates and returns a vector. 
+#Which gives the indices that were TRUE
+num_var <- which(sapply(idealista, is.numeric))
+#Count how many variables are numeric
+length_num_var <- length(num_var)
+#Return a vector with character variables
+cat_var <- which(sapply(idealista, is.character))
+#Count how many variables are characters
+length_car_var <- length(cat_var)
+
+#Change geonames
+names(idealista)[names(idealista) == "LEVEL3NAME"] <- "PROVINCE"
+names(idealista)[names(idealista) == "LEVEL4NAME"] <- "COMARCA"
+names(idealista)[names(idealista) == "LEVEL5NAME"] <- "UNKNOWN"
+names(idealista)[names(idealista) == "LEVEL6NAME"] <- "MUNICIPALITY"
+```
+The dataset contained `r length(idealista)` observations describing properties on sale in Catalonia in October 2018. Upon initial exploration of the dataset, there were `r length_num_var` numerical and `r length_car_var` character variables. The first step was to clean the dataset by recoding character variables to numerical variables where possible. The remaining character variables pertained to additional property descriptions and their geolocation. 
+
+```{r missing values, include=FALSE, eval=FALSE}
+#Which variables have missingness in data
+idealista%>%
+  select_if(function (x) any(is.na(x)))%>%
+  summarise_all(funs(sum(is.na(.))))%>%
+  gather()%>%
+  arrange(desc(value))
+```
+
+```{r recoding, include=FALSE, eval=FALSE}
+
+#Create boolean vector
+boolean_vector <- c("Sí"=1, "No"=0)
+
+#Missingness HASBALCONY
+idealista$HASBALCONY[is.na(idealista$HASBALCONY)] <- "No"
+
+#Recode HASBALCONY
+idealista$HASBALCONY <-as.integer(plyr::revalue(idealista$HASBALCONY , boolean_vector))
+
+#CONSTRUCTIONYEAR missing values will be replaced by COMARCA median for CONSTRUCTIONYEAR
+for (i in 1:nrow(idealista)){
+  if(is.na(idealista$CONSTRUCTIONYEAR[i])){
+    idealista$CONSTRUCTIONYEAR[i] <-
+      as.integer(median(idealista$CONSTRUCTIONYEAR[idealista$COMARCA==idealista$COMARCA[i]],
+                        na.rm=TRUE)) 
+  }
+}
+
+#Missingness HASAIRCONDITIONING
+idealista$HASAIRCONDITIONING[is.na(idealista$HASAIRCONDITIONING)] <- "No"
+
+#Recode HASAIRCONDITIONING
+idealista$HASAIRCONDITIONING <-as.integer(plyr::revalue(idealista$HASAIRCONDITIONING , boolean_vector))
+
+#Missingness  BUILDINGFLOORS 
+idealista$BUILDINGFLOORS [is.na(idealista$ BUILDINGFLOORS )] <- 1
+
+#PLOTOFLAND missing values will be replaced by COMARCA median for PLOTOFLAND
+for (i in 1:nrow(idealista)){
+  if(is.na(idealista$PLOTOFLAND[i])){
+    idealista$PLOTOFLAND[i] <-
+      as.integer(median(idealista$PLOTOFLAND[idealista$COMARCA==idealista$COMARCA[i]],
+                        na.rm=TRUE)) 
+  }
+}
+
+
+#Missingness HASWARDROBE
+idealista$HASWARDROBE[is.na(idealista$HASWARDROBE)] <- "No"
+
+#Recode HASWARDROBE
+idealista$HASWARDROBE <-as.integer(plyr::revalue(idealista$HASWARDROBE , boolean_vector))
+
+#Missingness HASGARDEN
+idealista$HASGARDEN[is.na(idealista$HASGARDEN)] <- "No"
+
+#Recode HASGARDEN
+idealista$HASGARDEN <-as.integer(plyr::revalue(idealista$HASGARDEN , boolean_vector))
+
+#Missingness HASSWIMMINGPOOL
+idealista$HASSWIMMINGPOOL[is.na(idealista$HASSWIMMINGPOOL)] <- "No"
+
+#Recode HASSWIMMINGPOOL
+idealista$HASSWIMMINGPOOL <-as.integer(plyr::revalue(idealista$HASSWIMMINGPOOL , boolean_vector))
+
+#Missingness HASTERRACE
+idealista$HASTERRACE[is.na(idealista$HASTERRACE)] <- "No"
+
+#Recode HASTERRACE
+idealista$HASTERRACE <-as.integer(plyr::revalue(idealista$HASTERRACE , boolean_vector))
+
+
+#Missingness HASPARKINGSPACE
+idealista$HASPARKINGSPACE[is.na(idealista$HASPARKINGSPACE)] <- "No"
+
+#Recode HASPARKINGSPACE
+idealista$HASPARKINGSPACE <-as.integer(plyr::revalue(idealista$HASPARKINGSPACE , boolean_vector))
+
+#Missingness BUILTTYPEID
+idealista$BUILTTYPEID[is.na(idealista$BUILTTYPEID)] <- "Unknown"
+
+#Recode BUILTTYPEID
+idealista$BUILTTYPEID <- as.factor(idealista$BUILTTYPEID)
+
+
+idealista <- na.omit(idealista)
+
+
+#Pad postcode with leading zeroes
+
+idealista$POSTALCODE <- str_pad(idealista$POSTALCODE, width=5, side="left", pad="0")
+
+
+```
+
+
+```{r mutate-idealista-dataset, include=FALSE, eval=FALSE}
+
+#Select variables that are factors
+cols_factors <- c("PROPERTYTYPEID",
+                  "CHALETTYPEID",
+                  "BUILTTYPEID",
+                  "ENERGYCERTIFICATIONID",
+                  "PROVINCE")
+
+#Convert to factors
+idealista[cols_factors] <- lapply(idealista[cols_factors], factor)
+
+
+#Create years since built variable
+idealista <- idealista %>%
+  #Current year - construction year
+  mutate(YEARSBUILT = year(Sys.Date())-CONSTRUCTIONYEAR)
+
+#Create address variable
+idealista <- idealista%>%
+  mutate(ADDRESS=paste0(CLEANSTREETNAME,
+                       ", ",
+                       STREETNUMBER,
+                       ", ",
+                       POSTALCODE,
+                       " ",
+                       MUNICIPALITY,
+                       ", ",
+                       PROVINCE,
+                       ", ",
+                       "Spain"))
+```
+
+```{r select top 20 obs, include=FALSE, eval=FALSE}
+#Arrange dataset in descending order by comarca and price
+idealista_top_10 <- idealista %>%
+  group_by(COMARCA)  %>%
+  top_n(10, PRICE) %>% 
+        arrange(COMARCA,
+                desc(PRICE))
+```
+
+
+```{r finding latlon, include=FALSE, eval=FALSE}
+
+register_google(key = "AIzaSyBby88U5J_QNAchXL-jsNGndL9WzLove2Q")
+
+# Loop through the addresses to get the latitude and longitude of each address
+
+for(i in 1:nrow(idealista))
+{
+  # Print("Working...")
+  result <- geocode(idealista$ADDRESS[i],
+                    output = "latlona",
+                    source = "google")
+  idealista$LAT[i] <- as.numeric(result[2])
+  idealista$LON[i] <- as.numeric(result[1])
+  idealista$GEOADDRESS[i] <- as.character(result[3])
+}
+```
+
+
+```{r get maps, include=FALSE, eval=FALSE}
+
+houses_maps <- lapply(idealista_top_10$ADDRESS,
+                  function(x)
+                    get_map(location = x,
+                            zoom = 20, 
+                            maptype = "satellite", 
+                            source = "google")) 
+```
+
+
+```{r printing maps, include=FALSE, eval=FALSE}
+
+for (i in seq_along(houses_maps)) {
+  filename <-str_c("idealista",i,".png")
+  png(filename = filename,width=1000, height=1000) 
+m <-ggmap(houses_maps[[i]]) 
+print(m)
+dev.off()
+
+}
+```
+
+
+```{r include=FALSE, eval=FALSE}
+#save geocode address
+saveRDS(idealista, "idealista_geocode")
+```
+
+
+```{r creating full dataset, include=FALSE}
+#Create dummy variables with factors
+
+idealista_dummy <- dummy.data.frame(idealista[cols_factors])
+
+idealista_clean <- idealista %>%
+  select_if(is.numeric)%>%
+  dplyr::select(-POSTALCODE,
+                -CONSTRUCTIONYEAR)%>%
+  cbind.data.frame(idealista_dummy)
+```
+
+```{r calculating correlations, include=FALSE}
+complete_cor <- idealista_clean%>%
+#Compute correlation of complete observations
+   cor(use = "pairwise.complete.obs")
+
+#Make the correlation matrix a tibble
+complete_cor_tibble <- as.tibble(as.table(complete_cor))
+
+complete_cor_tibble %>%
+  #Sort the tibble by descending correlations
+  arrange(desc(n))%>%
+  #Filter variables that have an absolute value correlation higher than 0.5 with SalePrice
+  filter(Var1=="PRICE"&abs(n)>0.2&Var2!="PRICE")%>%
+  #Select variable and correlation
+  dplyr::select(Var2,n)
+```
+
+```{r include=FALSE}
+ggplot(idealista_clean,aes(x=as.factor(BATHNUMBER),y=PRICE))+
+  geom_boxplot()
+ggplot(idealista_clean,aes(x=as.factor(HASSWIMMINGPOOL),y=PRICE))+
+  geom_boxplot()
+ggplot(idealista_clean,aes(x=as.factor(ROOMNUMBER),y=PRICE))+
+  geom_boxplot()
 ```
 
 
@@ -1863,29 +2123,24 @@ As stated earlier, all values presented so far have been brought to present valu
 4. Discussion
 ============
 
-```{r eval=FALSE, echo=FALSE}
-wordcountaddin::text_stats(filename = "Version 5 RPW.Rmd")
-```
+The costs of pest management, eradication and replacement of RPW infested palms were previously estimated for Italy, Spain and France by the FAO. Up to 2013, the combined costs for all three countries were reported at €90 million with an increase of €110 million by 2023 [@faoNewActionPlan2017]. Our cost calculations concur with magnitidue of FAO estimates. We did not, however, find the conservation policy justified based on the analysis presented in this article. 
 
-The combined costs of pest management, eradication and replacement of RPW infested palms as well as loss of benefits were previously estimated for Italy, Spain and France. Up to 2013, the combined costs for all three countries were estimated to be €90 million, and estimations increase to €200 million by 2023 [@faoNewActionPlan2017]. Our calculations concur with magnitidue of FAO estimates although the monetary benefits and the justification for the conservation of palm trees was not found. 
+Countries where a similar cost benefit analysis could yield results that support a similar policy are, for example, Tunisia and Egypt, where production of date fruits is not insignificant and the RPW is allegedly a major threat [@speakmancordallPanicRedDevils2017]. Another place where this type of conservation policy could be justified is the Canary Islands since canary palms are a native species, unlike in the Iberian Peninsula. When a species is native, conservation efforts from a socio-cultural perspective are more likely to be justified. In these islands, the RPW was detected in 2007 and declared completely eradicated by 2016. Eradication efforts included the inspection of 706,081 palms, of which 209,537 were treated, 659 removed and destroyed, and 681 weevils were caught [@gobiernodecanariasCanariasPrimerTerritorio2016].
 
-Places where a similar cost benefit analysis could yield results that have an overall positive effect on society is for example, Tunisia, with an economy that largely depends on date exports and allegedly the RPW is a major threat [@speakmancordallPanicRedDevils2017]. Another case where this type of conservation policy could be justified is the Canary Islands since canary palms are a native species, unlike in the Iberian Peninsula. When a species is native to an area, conservation efforts from a socio-cultural perspective are more likely to be justified. In these islands, the RPW was detected in 2007 and declared completely eradicated by 2016. Eradication efforts included the inspection of 706,081 palms, of which 209,537 were treated, 659 removed and destroyed, and 681 weevils were caught [@gobiernodecanariasCanariasPrimerTerritorio2016].
+The larger mandate that underpins the conservation policy here analysed is 2007/365/CE (see Appendix A). This policy was released for EU member states with susceptible trees stating mandatory measures, including the ones here described as management activities. Within EU publication related to this policy, we could not find an invasion analysis included justifying the EU wide mandate. Prioritisation of budgets for biological invasions should be based on analysis that include species, pathways and sites, and impacts [@mcgeochPrioritizingSpeciesPathways2016]. 
 
-The larger mandate that underpins the conservation policy here analysed is 2007/365/CE (see Appendix A). This policy was released for EU member states with susceptible trees stating the measures to be taken, including the ones here described as management activities. No associated cost-benefit analysis was found justifying the EU wide mandate. Prioritisation of budgets for biological invasions should be based on analysis that include species, pathways and sites, and impacts [@mcgeochPrioritizingSpeciesPathways2016]. 
-
-Understandably, an argument against the type of cost-benefit analysis here performed is that social and cultural values are hard to capture and quantify. Granted, non-monetary values are important, as we acknowledged by including the TEV framework. In a world with unlimited resources, conservation of natural assets without any direct or indirect benefits, could be possible. Alas, when dealing with biological insect invasions that critically affect human health, livelihoods, threatened species, etc. priortising the cosliest impacts is necessary.
+Understandably, an argument against the type of cost-benefit analysis here performed is that social and cultural values are hard to capture and quantify. Granted, non-monetary values are important, as we acknowledged by including the TEV framework. In a world with unlimited resources, conservation of natural assets without any direct or indirect benefits, could be possible. Alas, when dealing with biological insect invasions that affect human health, livelihoods, threatened species, etc. priortising the cosliest impacts is necessary.
 
 5. Conclusions
 ============
 
-In the context of rising biological invasions with costly impacts, determining areas of priority is fundamental for optimal budgeting. Several frameworks for prioritising these type of invasions have risen in recent years. In this article we assess to what extent these frameworks are being implemented in current policies. To do so, we selected a policy designed in response to an invasive insect, the Red Palm Weevil (RPW). Amongst invasive species, insects are the costliest and it is estimated less than half of potential insect invasions have taken place. To assess the policy, we performed a cost-benefit analysis within the region of Catalonia, Spain. This was done in several steps. First, we interviewed stakeholders from goverment and industry to properly understand the local reality of the RPW infestation. Second, we estimated the number of palm trees in the region at the beginning of the infestation and modelled it until present. Third, we calculated the costs and benefits associated with the policy. Finally, we estimated the net social benefits of the policy. We found that the costs of the policy far outweight the benefits. This is likely due to the almost exclusive ornamental use of palm trees in Catalonia, Spain.
-
+In the context of rising biological invasions with costly impacts, determining priority areas is fundamental for optimal budgeting. Several frameworks for prioritising biological invasions have risen in recent years. In this article we assess to what extent these frameworks are being implemented in current policies. To do so, we selected a policy published in response to the arrival of invasive insect to the Iberian Peninsula in the early noughties - the red palm weevil (RPW), a beetle that affects susceptible palm tree varieties. Amongst invasive species, insects are the costliest species. It is estimated that less than half of potential insect invasions have taken place [@seebensGlobalRiseEmerging2018]. To assess the policy, we performed a cost-benefit analysis within the region of Catalonia, Spain. This was done in several steps. First, we interviewed stakeholders from goverment and industry to properly understand all associated costs. Second, we estimated the number of palm trees in the region at the beginning of the infestation and modelled their decline until present. Third, based on the Total Economic Value (TEV) framework we identified two quantifiable benefits derived from palm tree existence: carbon sequestration and enhanced aesthetic value derived from palm-tree adjacency and captured through property prices. Fourth, based on steps two and three, we calculated the costs and benefits associated with the policy. Finally, we computed the net social benefits of the policy. We found that the costs of the policy far outweight the benefits. This is likely due to the almost exclusive ornamental use of palm trees in Catalonia, Spain. 
 
 
 Acknowledgements
 ==========
 
-Servei de Sanitat Vegetal de la Generalitat de Catalunya provided interviews, records and further information on the pest in Catalonia. Dr Martí Boada and Dr Jaume Marlès Magre kindly gave feedback on the estimation of the number of palm trees. Joan Freixa Gaspar and Josep Muntaner shared insights on private palm tree owners and their behaviour. Cristian E. Nuno from the University of Chicago Urban Labs provided guidance on calculating distances to the coastline. 
+Servei de Sanitat Vegetal de la Generalitat de Catalunya provided interviews, records and further information on the pest in Catalonia. Dr Martí Boada and Dr Jaume Marlès Magre kindly gave feedback on the estimation of the number of palm trees. Joan Freixa Gaspar and Josep Muntaner shared insights on private palm tree owners and their behaviour. Cristian E. Nuno from the University of Chicago Urban Labs provided guidance on calculating distances to the coastline. Idealista S.A. shared the dataset to estimate palm tree adjacency benefits. 
 
 
 Funding
@@ -1902,25 +2157,25 @@ Appendices
 Appendix A: Summaries of the policies selected and related legislation
 ========
 
-This section extends on relevant details on the policy assessed in this article. It summarises all GENCAT orders and includes the EU legislation that underpins RPW related legislation. 
+This section expands on details related to the policy assessed in this article. It summarises all GENCAT orders and includes the EU legislation that underpins local RPW rules.
 
--   Order ARP/343/2006: On July 3rd 2006, the presence of the RPW in Catalonia is confirmed. Pest prevention and management is declared in the public’s interest. This declaration is done based on Article 15 from Spanish Law 43/2002 which states that when a potential pest (i.e. economic or environmental impacts) is identified for the first time it should be immediately declared. The management against this pest is considered in the public’s utility or greater good if it meets several criteria, including that it is present in areas that were previously declared pest free [INSERT HERE BOE citation.] Costing implications based on articles 8, 9 and 12 of this order include prospection, detection, destruction and indemnification to property owners begin. The total costs for these activities have been provided by the regional government, which also include survey, research, regulation, management, and outreach costs [citation]. 
+-   Order ARP/343/2006: On July 3rd 2006, RPW presence in Catalonia is confirmed. Pest prevention and management is declared of public interest. Costing implications based on articles 8, 9 and 12 include inspection, detection, destruction and indemnification to property owners. The total costs for these activities have been provided by the regional government, which also include survey, research, regulation, management, and outreach costs [citation]. 
 
--   2007/365/CE: On 25th May 2007, the EU Commission published a decision based on previous legislation for plant protection and the RPW spread along the Iberian Peninsula. This decision specifies the vulnerability of palm trees and announces a series of measures to be taken by member countries, including the delineation of areas that are in danger. 
+-   2007/365/CE: On 25th May 2007, the EU Commission publishes a decision based on the RPW spread along the Iberian Peninsula. The decision specifies palm tree vulnerability and announces a series of measures to be taken by member countries, including delimitation of areas at RPW risk.
 
--   2008/776/CE: On 6th October 2008, a subsequent decision was reached by the EU where the 2007 decision is modified to expand the range of palm trees vulnerable to the RPW.
+-   2008/776/CE: On 6th October 2008, the previous decision 2007/365/CE is modified by expanding the range of vulnerable palm trees.
 
--   Order AAR/226/2009: Based on the EU commission, the GENCAT updates the 2006 order by redefining and specifying actions to be taken, namely delimitation, inspections, pruning, treatment, and destruction of affected palm trees. It restates that all costs continue to be borne by the GENCAT.
+-   Order AAR/226/2009: GENCAT updates Order ARP/343/2006 by redefining and specifying actions to be taken, namely delimitation, inspections, pruning, treatment, and destruction of affected palm trees. This update is based on a decision made by the EU Commission. All costs continue to be borne by the GENCAT.
 
--   2010/467/UE: On 28th August 2010, a correction to the 17th August 2010 decision is published that states that if routine inspections from the past three years show that eradication seems to not be feasible within a year, then local measures should focus on pest contention and suppression within the selected area but maintaining eradication as a long-term objective. 
+-   2010/467/UE: On 28th August 2010, the 17th August 2010 decision is corrected. The added statment is that if routine inspections from the past three years show that eradication does not seem feasible within a year, local measures should focus on pest contention and suppression within the selected area but maintaining eradication as a long-term objective. 
 
--   Order AAR/2802/2010 and Resolution AAR/2802/2010: On 20th October 2010, a delimited area for the pest is published in the form of municipalities. 
+-   Order AAR/2802/2010 and Resolution AAR/2802/2010: On 20th October 2010, the delimited area containing the pest is published at municipality level.
 
--   Order AAM/56/2011: On April 12th 2011, a modification to the 2006 order was published. The main changes are done to articles 8, 9, 11, 12. The key change made from this final order is that GENCAT from this year onwards continues to perform annual inspections, publish the delimited area and inform local authorities through outreach activities, but treatment and removal costs are transferred to municipalities and private owners. These activities transferred are mandatory and procedure are carefully described including the type of chemicals to be used, times of the year when they should be done and specific places where trees should be destroyed. 
+-   Order AAM/56/2011: On April 12th 2011, the Order ARP/343/2006 is modified. The main changes are found in articles 8, 9, 11, 12. The key change is that from this year onwards, GENCAT continues to inspect each year, publish the delimited area, and inform local authorities through outreach activities. Treatment and removal costs, however, are transferred to municipalities and private owners. The transferred activities are mandatory and their procedure is carefully described including the type of chemicals to use, the times of the year when they should be done, and the specific places where trees should be destroyed. 
 
 Appendix B: Variable symbols
 ========
-For reference, this appendix summarises variable symbols for stocks (\ref{tab:stocks}) and flows (\ref{tab:flows}). These were not included in the text to avoid repetition although some readers might find these tables helpful.
+For reference, Appendix B summarises variable symbols for stocks (table \ref{tab:stocks}) and flows (table \ref{tab:flows}). These were not included in the text to avoid repetition although some readers might find these tables helpful.
 
 ```{r stock table summary, echo=FALSE}
 Summary_Stock <- as.vector(c("Healthy","Infested","In treatment","Lost","Replanted","Total population"))
@@ -1957,7 +2212,7 @@ kable_styling(latex_options = c("hold_position"))
 Appendix C: Detailed results 
 ========
 
-This section expands on the result section by providing the details of each element that contributes to the costs and benefits. The folowing tables and figures are included in the text but aggregated in the total costs and benefits. 
+This appendix expands on the Results section by providing detailed costs and benefits. The tables and figures that appear in the main text are aggregated versions of the ones found in subsequent pages.
 
 ```{r gencat cost tables, echo=FALSE}
 gencat%>%
