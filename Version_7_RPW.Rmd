@@ -1935,7 +1935,7 @@ idealista_top_10 <- idealista %>%
 
 ```{r finding latlon, include=FALSE, eval=FALSE}
 
-register_google(key = "AIzaSyBby88U5J_QNAchXL-jsNGndL9WzLove2Q")
+register_google(key = "")
 
 # Loop through the addresses to get the latitude and longitude of each address
 
