@@ -48,17 +48,12 @@ editor_options:
 
 
 ```{r setup, include=FALSE}
+rm(list = ls())
 
 here::set_here()
 x <-
   c("tidyverse",
     "officer",
-    "bookdown",
-    "knitr",
-    "kableExtra",
-    "kable",
-    "formatR",
-    "gridExtra",
     "jsonlite",
     "httr",
     "base64enc",
@@ -93,7 +88,15 @@ x <-
     "lm.beta",
     "MuMIn",
     "broom",
-    "skimr")
+    "skimr",
+    "bookdown",
+    "knitr",
+    "kableExtra",
+    "kable",
+    "formatR",
+    "gridExtra",
+    "DataExplorer",
+    "formattable")
 
 
 lapply(x, require, character.only = TRUE)
@@ -101,7 +104,7 @@ lapply(x, require, character.only = TRUE)
 opts_chunk$set(echo = FALSE)
 options(knitr.table.format = "latex")
 
-rm(list = ls())
+
 ```
 
 1. Introduction
@@ -123,7 +126,7 @@ In Catalonia, Spain, there are over 800 gardens, nurseries and plant traders com
 
 [^1]: The selected policies are Ordre ARP/343/2006, Ordre AAR/226/2009, Ordre AAR/2802/2010, and Ordre AAM/56/2011. These are explained in further detail in the Appendix A.
 
-```{r nurseries table, echo=FALSE}
+```{r nurseries, echo=FALSE}
 options(scipen = 999, digits = 2)
 all_nurseries <- c(348, 162, 148, 98, 106, 862)
 palm_nurseries <- c(59, 63, 10, 36, 37, 205)
@@ -144,13 +147,13 @@ df_nurseries <- df_nurseries %>%
   mutate(Ratio = `With palms` / All)
 kable(
   df_nurseries,
-  caption = "\\label{tab:nurseries}Gardens, nurseries and plant traders in Catalonia per Administrative Region.",
+  caption = "Gardens, nurseries and plant traders in Catalonia per Administrative Region.",
   booktabs = T,
   escape = F
 ) %>%
   kable_styling(latex_options = c("hold_position"))%>%
-  footnote(general="GENCAT, 2018.",
-           general_title = "Source: ",
+  footnote(general="Source: GENCAT, 2018.",
+           general_title = "",
                      footnote_as_chunk = T, threeparttable = TRUE)
 ```
 
@@ -1177,7 +1180,7 @@ df_canary%>%
   filter(run==3|run==4)->df_canary
 ```
 
-```{r init values and parameter table, echo=FALSE}
+```{r initpar, echo=FALSE}
 #Canary palms model
 options(scipen = 999)
 
@@ -1192,7 +1195,7 @@ parameter_table <- data_frame(Values,Date,Canary)
 
 kable(parameter_table, 
     booktabs = T, 
-    caption = "\\label{tab:initpar}Initialisation and parameter values for both species.", 
+    caption = "Initialisation and parameter values for both species.", 
     escape = FALSE) %>% 
     kable_styling(latex_options = c("hold_position"), 
         full_width = F)
@@ -1201,7 +1204,7 @@ kable(parameter_table,
 ```
 
 Finally, unitary costs along with their frequencies are summarised in Table \ref{tab:unitary_costs}.
-```{r unitary cost table, echo=FALSE}
+```{r unitary_costs, echo=FALSE}
 
 Type <- as.vector(c("$c^{inspect}$",
                   "$c^{prevent}$",
@@ -1214,7 +1217,7 @@ Type <- as.vector(c("$c^{inspect}$",
 unit_costs <- data_frame(Type,`Value €` ,`Yearly frequency`)
 
 kable(unit_costs,
-    caption = "\\label{tab:unitary_costs}Unitary costs for management activities.", 
+    caption = "Unitary costs for management activities.", 
     booktabs = T,
     escape = F) %>% 
     kable_styling(latex_options = c("hold_position"))
@@ -1306,7 +1309,7 @@ gencat %>%
 ggsave("gencat_plot.png",gencat_plot,width = 14,height=8,limitsize = FALSE,bg="transparent")
 ```
 
-We now report costs per species and management category brought to present value. We include a lower and upper bound derived from Table \ref{tab:initpar}. Equation \ref{eq:management_costs} was applied to the lower and upper bound tree estimates. Tables \ref{tab:date_costs_low}, \ref{tab:date_costs_high}, \ref{tab:canary_costs_low} and \ref{tab:canary_costs_high} in Appendix C summarise each activity along with a total for management costs. Table captions summarise the all year total. To illustrate each management category, Figures \ref{fig:date_costs} and \ref{fig:canary_costs} (Appendix C) present this cost breakdown. For date palms, the costliest management activities were inspection and prevention, which makes sense since infestations for this species have been less reported. For canary palms, removal of infested trees has been the most expensive activity. This is consistent with the decline of trees and the high removal cost per tree. Table \ref{tab:total_costs} (Appendix C) summarises lower and upper bounds for each species and total costs. This total includes GENCAT costs and the associated illustration for these costs is presented in Appendix C Figure \ref{fig:costs_combined_total}. The lower bound has a less steep decline than the upper bound, canary costs are higher than date costs for all years and it seems that from 2017 onwards, date costs overtake canary costs. In the upper bound where canary decline is stronger, costs are initially high but due to a reduction in overall stock, there is a decline of treatment and removal costs.
+We now report costs per species and management category brought to present value. We include a lower and upper bound derived from Table \ref{tab:initpar}. Equation \ref{eq:management_costs} was applied to the lower and upper bound tree estimates. Tables \ref{tab:date_costs_low}, \ref{tab:date_costs_high}, \ref{tab:canary_costs_low} and \ref{tab:canary_costs_high} in Appendix C summarise each activity along with a total for management costs. Table captions summarise the all year total. To illustrate each management category, Figures \ref{fig:date_costs} and \ref{fig:canary_costs} (Appendix C) present this cost breakdown. For date palms, the costliest management activities were inspection and prevention, which makes sense since infestations for this species have been less reported. For canary palms, removal of infested trees has been the most expensive activity. This is consistent with the decline of trees and the high removal cost per tree. Table \ref{tab:total_costs} (Appendix C) summarises lower and upper bounds for each species and total costs (Figure \ref{fig:costs_combined_total} in Appendix C). The lower bound has a less steep decline than the upper bound, canary costs are higher than date costs for all years and it seems that from 2017 onwards, date costs overtake canary costs. In the upper bound where canary decline is stronger, costs are initially high but due to a reduction in overall stock, there is a decline of treatment and removal costs.
 
 ```{r Management costs for date palms, include=FALSE}
 #Management costs for date palms
@@ -1711,6 +1714,8 @@ Benefits of palm trees
 
 We considered two types of benefits provided by palm trees (Eq. \ref{eq:benefits}), those derived from carbon sequestration and others derived from palm tree adjacency. Here we present the results for both calculations. 
 
+\subsubsection{Carbon sequestration benefits}
+
 In order to estimate benefits associated to carbon sequestration, we provide an interval per tonne for the social cost of carbon ($SCC$), to reflect uncertainty about its value. 12 USD was used as the minimum since this was the lowest $SCC$ found [@iawgTechnicalUpdateSocial2016]. Similarly, the maximum was 125 USD [@vandenberghLowerBoundSocial2014], as it was the highest found. These values were converted  from US dollars to euros at an exchange rate `r exchange_rate_eur` and brought to present value with a discount rate of `r discount_rate` and inflation rate of `r inflation_rate`. Table \ref{tab:scc} summarises the original values, publication date, the values converted to euros, and present value.
 
 ```{r SCC table, echo=FALSE}
@@ -1786,7 +1791,7 @@ carbon_benefits <- carbon_benefits%>%
                 carbon_upper_date,carbon_upper_canary,total_upper)
 ```
 
-##Property values
+\subsubsection{Property values benefits}
 
 We now present estimations for benefits derived from palm tree adjacency. To calculate these we used data provided by Idealista S.A., an online marketplace for buying and renting properties in Spain, Portugal, and Italy. An important clarification for this section is that the response variable used for the regression was the asking or listed price for a property. Contrast this to the actual sale price of a property. Actual sale prices for properties in Catalonia were not
 possible to obtain, however, we consider using asking price a good proxy for the purposes of this article.
@@ -2226,8 +2231,6 @@ idealista_read <- idealista_read %>%
                 -PROPERTYTYPEID,
                 -ADOPERATIONID,
                 -BUILTTYPEID,
-                -PROVINCE,
-                -COMARCA,
                 -MUNICIPALITY,
                 -ENERGYCERTIFICATIONID)
 
@@ -2235,13 +2238,24 @@ idealista_factors <- idealista_read %>%
   select_if(is.character)%>%
   mutate_all(as.factor)
 
-idealista_clean <- idealista_read%>%
+idealista_read <- idealista_read%>%
   select_if(is.numeric)%>%
   cbind(idealista_factors)
 
 ```
 
 ```{r initial data skim, include=FALSE}
+
+idealista_clean <- idealista_read%>%
+  dplyr::select(-COMARCA,
+                -PROVINCE)%>%
+  filter(PRICE<1500000,
+         PLOTOFLAND<1000,
+         CONSTRUCTEDAREA<500,
+         BATHNUMBER<10,
+         ROOMNUMBER<10,
+         BUILDINGFLOORS<5)
+                
 skim(idealista_clean)
 ```
 
@@ -2368,6 +2382,24 @@ scale_y_continuous(breaks= seq(0, 1000000, by=100000),
   
 } 
 
+```
+
+```{r}
+girona_clean <- idealista_read%>%
+  filter(PROVINCE=="Girona")%>%
+  dplyr::select(-COMARCA,
+                -CHALETTYPEID,
+                -PROVINCE)%>%
+  filter(PRICE<1500000,
+         PLOTOFLAND<1000,
+         CONSTRUCTEDAREA<500,
+         BATHNUMBER<10,
+         ROOMNUMBER<10,
+         BUILDINGFLOORS<5)
+```
+
+```{r}
+fit_girona <- lm(PRICE~ ., data=girona_clean)
 ```
 
 
@@ -2639,11 +2671,11 @@ canary_cost_low%>%
    footnote(general=paste("Total cost of all activities for all years is ",round(sum(canary_cost_low$total),digits = 0),".",sep = ""), footnote_as_chunk = T, threeparttable = TRUE)
 ```
 
-```{r canary_cost_high table}
+```{r canary_costs_high}
 canary_cost_high%>%
   set_names(c("Year","Replanting","Inspection","Prevention","Treatment","Removal","Total"))%>%
   kable(
-    caption = "\\label{tab:canary_costs_high}Management costs (upper bound) for canary palms over time.",
+    caption = "Management costs (upper bound) for canary palms over time.",
     booktabs = T,
     escape = F,
     linesep= ""
@@ -2658,11 +2690,11 @@ canary_cost_high%>%
 \label{fig:canary_costs} 
 \end{figure}
 
-```{r total costs table, echo=FALSE}
+```{r total_costs, echo=FALSE}
 total_costs%>%
    set_names(c("Year","GENCAT","Date","Canary","Total","Date","Canary","Total"))%>%
   kable(
-    caption = "\\label{tab:total_costs}Total costs for canary and date palms over time.",
+    caption = "Total costs for canary and date palms over time.",
     booktabs = T,
     escape = F,
     linesep= "") %>%
