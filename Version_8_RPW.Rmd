@@ -199,7 +199,7 @@ To define benefits, we will use the total economic value (TEV) framework [@ledou
 \label{fig:tev}
 \end{figure}
 
-Canary and date palms are non-native to the Iberian Peninsula. They were introduced in ancient times as evidenced by depictions of late Iberian pottery and coinage dating back to the third to first century BC [@al-khayriDatePalmGenetic2015]. Although canary palms produce edible fruits, they do not meet the standards required for agriculture. In Spain, the land area dedicated to date cultivation is marginal with an average of ca. 600 hectares since 1961 to present [@faostatFAO2018]. In Catalonia, our region of study, date cultivation is virtually non-existent. Palms are planted in urban areas, resorts, public spaces and private gardens mainly near the coast [@al-khayriDatePalmGenetic2015]. Currently, they are classified as species of "least concern" on the IUCN Red List of Threatened Species [@beechPhoenixCanariensisIUCN2017], meaning they do not qualify as threatened, near threatened or conservation dependent before 2001.
+Canary and date palms are non-native to the Iberian Peninsula. They were introduced in ancient times as evidenced by depictions of late Iberian pottery and coinage dating back to the third to first century BC [@al-khayriDatePalmGenetic2015]. Although canary palms produce edible fruits, they do not meet the standards required for agriculture. In Spain, the land area dedicated to date cultivation is marginal with an average of ca. 600 hectares since 1961 to present [@faostatdatabaseDownloadDataCrops2018]. In Catalonia, our region of study, date cultivation is virtually non-existent. Palms are planted in urban areas, resorts, public spaces and private gardens mainly near the coast [@al-khayriDatePalmGenetic2015]. Currently, they are classified as species of "least concern" on the IUCN Red List of Threatened Species [@beechPhoenixCanariensisIUCN2017], meaning they do not qualify as threatened, near threatened or conservation dependent before 2001.
 
 Given this context and their almost exclusive ornamental use, we identify two indirect use values as benefits: carbon sequestration and enhanced aesthetic value, the latter being the main reason behind palm tree availability in Catalonia. 
 
@@ -207,7 +207,7 @@ Given this context and their almost exclusive ornamental use, we identify two in
 2.2 A model of tree stocks under RPW infestation
 ============
 
-We modelled the evolution of tree stocks as a system dynamics problem since this approach allows us to understand nonlinear behavior over time using stocks, flows and feedback loops [@forresterBeginningSystemDynamics1989]. The two palm species considered in this study have similar processes with different initialisation values so we implemented two separate modules of the same model. From this point onward, susceptible palm species will be referred to as *tree*. The model was designed with three stocks: healthy, infested and treated trees. Figure \ref{fig:model} illustrates the model using Vensim software [add citation].
+We modelled the evolution of tree stocks as a system dynamics problem since this approach allows us to understand nonlinear behavior over time using stocks, flows and feedback loops [@forresterBeginningSystemDynamics1989]. The two palm species considered in this study have similar processes with different initialisation values so we implemented two separate modules of the same model. From this point onward, susceptible palm species will be referred to as *tree*. The model was designed with three stocks: healthy, infested and treated trees. Figure \ref{fig:model} illustrates the model using Vensim software [@ventanasystemsinc.VensimPLESoftware1992].
 
 \begin{figure}[!htb]
 \centerline{\includegraphics[width=30pc]{model.png}} 
@@ -2393,7 +2393,7 @@ We obtained Figure \ref{fig:cost_benefit} by merging total costs and benefits fo
 
 \begin{figure}[!htb]
 \centerline{\includegraphics[width=30pc]{cost_benefit_plot.png}}
-\caption{Costs vs. benefits. GENCAT and management costs for date and canary trees are aggregated. Benefits include carbon sequestration for both species.}
+\caption{Total costs vs. benefits for the RPW policy betweeen 2006 and 2017. Costs include GENCAT and management costs for date and canary trees. Benefits include carbon sequestration. In both instances, benefits derived from palm treesare dwarfed in comparison to the expenditure to preserve them.}
 \label{fig:cost_benefit} 
 \end{figure}
 
@@ -2411,7 +2411,7 @@ As stated earlier, all values presented so far have been brought to present valu
 
 The costs of pest management, eradication and replacement of RPW infested palms were previously estimated for Italy, Spain and France by the FAO. Up to 2013, the combined costs for all three countries were reported at €90 million with an increase of €110 million by 2023 [@faoNewActionPlan2017]. Our cost calculations concur with magnitidue of FAO estimates. We did not, however, find the conservation policy justified based on the analysis presented in this article. 
 
-Countries where a similar cost benefit analysis could yield results that support a similar policy are, for example, Tunisia and Egypt, where production of date fruits is not insignificant and the RPW is allegedly a major threat [@speakmancordallPanicRedDevils2017]. Another place where this type of conservation policy could be justified is the Canary Islands since canary palms are a native species, unlike in the Iberian Peninsula. When a species is native, conservation efforts from a socio-cultural perspective are more likely to be justified. In these islands, the RPW was detected in 2007 and declared completely eradicated by 2016. Eradication efforts included the inspection of 706,081 palms, of which 209,537 were treated, 659 removed and destroyed, and 681 weevils were caught [@gobiernodecanariasCanariasPrimerTerritorio2016].
+Countries where a similar cost benefit analysis could yield results that support a similar policy are, for example, Tunisia and Egypt, where production of date fruits is not insignificant and the RPW is allegedly a major threat [@speakmancordallPanicRedDevils2017]. Another place where this type of conservation policy could be justified is the Canary Islands since canary palms are a native species, unlike in the Iberian Peninsula. When a species is native, conservation efforts from a socio-cultural perspective are more likely to be justified. In these islands, the RPW was http://portaljuridic.gencat.cat/ca/pjur_ocults/pjur_resultats_fitxa/?action=fitxa&mode=single&documentId=578091&versionId=1177962&language=ca_ESdetected in 2007 and declared completely eradicated by 2016. Eradication efforts included the inspection of 706,081 palms, of which 209,537 were treated, 659 removed and destroyed, and 681 weevils were caught [@gobiernodecanariasCanariasPrimerTerritorio2016].
 
 The larger mandate that underpins the conservation policy here analysed is 2007/365/CE (see Appendix A). This policy was released for EU member states with susceptible trees stating mandatory measures, including the ones here described as management activities. Within EU publication related to this policy, we could not find an invasion analysis included justifying the EU wide mandate. Prioritisation of budgets for biological invasions should be based on analysis that include species, pathways and sites, and impacts [@mcgeochPrioritizingSpeciesPathways2016]. 
 
@@ -2447,17 +2447,19 @@ This section expands on details related to the policy assessed in this article. 
 
 -   Order ARP/343/2006: On July 3rd 2006, RPW presence in Catalonia is confirmed. Pest prevention and management is declared of public interest. Costing implications based on articles 8, 9 and 12 include inspection, detection, destruction and indemnification to property owners. The total costs for these activities have been provided by the regional government, which also include survey, research, regulation, management, and outreach costs [@generalitatdecatalunyaOrdreARP3432006]. 
 
--   2007/365/CE: On 25th May 2007, the EU Commission publishes a decision based on the RPW spread along the Iberian Peninsula. The decision specifies palm tree vulnerability and announces a series of measures to be taken by member countries, including delimitation of areas at RPW risk [@eucomission2007365CE2007].
+-   2007/365/EC: On 25th May 2007, the EU Commission publishes a decision based on the RPW spread along the Iberian Peninsula. The decision specifies palm tree vulnerability and announces a series of measures to be taken by member countries, including delimitation of areas at RPW risk [@eucomissionComissionDecision252007].
 
--   2008/776/CE: On 6th October 2008, the previous decision 2007/365/CE is modified by expanding the range of vulnerable palm trees [@eucomission2008776CE2008].
+-   2008/776/EC: On 6th October 2008, the previous decision 2007/365/CE is modified by expanding the range of vulnerable palm trees [@eucomission2008776CE2008].
 
 -   Order AAR/226/2009: GENCAT updates Order ARP/343/2006 by redefining and specifying actions to be taken, namely delimitation, inspections, pruning, treatment, and destruction of affected palm trees. This update is based on a decision made by the EU Commission. All costs continue to be borne by the GENCAT [@generalitatdecatalunyaOrdreAAR2262009].
 
--   2010/467/UE: On 28th August 2010, the 17th August 2010 decision is corrected. The added statment is that if routine inspections from the past three years show that eradication does not seem feasible within a year, local measures should focus on pest contention and suppression within the selected area but maintaining eradication as a long-term objective [@eucomissionCorreccionErroresDecision2011]. 
+-   2010/467/EC: On 28th August 2010, the 17th August 2010 decision is corrected. The added statment is that if routine inspections from the past three years show that eradication does not seem feasible within a year, local measures should focus on pest contention and suppression within the selected area but maintaining eradication as a long-term objective [@eucomissionCorreccionErroresDecision2011]. 
 
 -   Order AAR/2802/2010 and Resolution AAR/2802/2010: On 20th October 2010, the delimited area containing the pest is published at municipality level [@generalitatdecatalunyaResolucioAAR28022010].
 
 -   Order AAM/56/2011: On April 12th 2011, the Order ARP/343/2006 is modified. The main changes are found in articles 8, 9, 11, 12. The key change is that from this year onwards, GENCAT continues to inspect each year, publish the delimited area, and inform local authorities through outreach activities. Treatment and removal costs, however, are transferred to municipalities and private owners. The transferred activities are mandatory and their procedure is carefully described including the type of chemicals to use, the times of the year when they should be done, and the specific places where trees should be destroyed [@generalitatdecatalunyaORDREAAM562011]. 
+
+- Repeal to Decision 2007/365/EC: On 21st March 2018, the EU Comssion decides to repeal the 2007/365/EC decision to prevent the introduction and spread of the RPW within the European Union. The repeal started applying on 1st October 2018. The decision states annual surveys by countries enforcing the decision reported that the pest had spread to all vulnerable areas [@eucomissionCommissionImplementingDecision2018].
 
 Appendix B: Variable symbols
 ========
@@ -2554,7 +2556,7 @@ date_cost_high%>%
 
 \begin{figure}[!htb]
 \centerline{\includegraphics[width=30pc]{date_costs.png}}
-\caption{Management costs over time for date palms by activity.}
+\caption{Management costs for date palms by activity for lower and upper estimations between 2011 and 2017. The lower and upper bounds show a similar pattern for prevention and inspection costs. The main difference between the two bounds is that removal costs are increasing for the upper bound. This is due to a larger volume of date palms and the significant (in comparison to the others) unitary costs of removing an infested tree.}
 \label{fig:date_costs} 
 \end{figure}
 
@@ -2586,7 +2588,7 @@ canary_cost_high%>%
 
 \begin{figure}[!htb]
 \centerline{\includegraphics[width=30pc]{canary_costs.png}}
-\caption{Management costs over time for canary palms by activity.}
+\caption{Management costs over time for canary palms by activity between 2011 and 2017. The biggest expenditure is on removal costs since this species experienced the sharpest decline. In the upper bound, as the epidemic unfolds, more trees become infested that require large volumes of treatment. In the lower bound, the second largest cost is prevention.}
 \label{fig:canary_costs} 
 \end{figure}
 
@@ -2605,7 +2607,7 @@ total_costs%>%
 
 \begin{figure}[!htb]
 \centerline{\includegraphics[width=30pc]{costs_combined_total.png}}
-\caption{Total costs over time for GENCAT, date and canary palms.}
+\caption{Total costs over time for GENCAT, date and canary palms between 2005 and 2017. GENCAT costs are the same for both bounds. In the upper bound (bottom), GENCAT costs appear smaller in contrast to canary palms. A bigger estimation of palms, led to a larger expenditure on removal costs. In both scenarios, the second largest cost is associated to date palms.}
 \label{fig:costs_combined_total} 
 \end{figure}
 
