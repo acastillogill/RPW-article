@@ -517,7 +517,7 @@ apply(ape_canary, 2, mean)
 ```
 
 HERE.
-In terms of significant estimators this meant, distance to the coastline, and industry contribution to GDP (%), for date palms; and distance to the coastline, population, and industry contribution to GDP (%), for canary palms. Appendix D summarises the tables used for model selection with table \ref{tab:date_palms_model} and \ref{tab:canary_palms_model} summarising the model estimates for date and canary palms, respectively.
+In terms of significant estimators this meant, distance to the coastline, and industry contribution to GDP (%), for date palms; and distance to the coastline, population, and industry contribution to GDP (%), for canary palms. Tables \ref{tab:date_palms_model} and \ref{tab:canary_palms_model} in the Appendix D summarise the model estimates for date and canary palms, respectively.
 
 ```{r coefficients, include=FALSE}
 
@@ -590,8 +590,7 @@ test_canary%>%
 date_mean <- ggplot(test_date, aes(
  x = distance,
   y = date,
-color = cut(indu, breaks = 4),
-    size= population)) +
+color = cut(indu, breaks = 4))) +
   geom_jitter(alpha=0.5) +
   geom_text(
     aes(x = test_date$distance, y = test_date$date),
@@ -604,12 +603,11 @@ color = cut(indu, breaks = 4),
   ) +
   theme_classic() +
   guides(
-    size = guide_legend(title = "Population"),
       color=guide_legend(title = "Industry contribution to GDP (%)")
   ) +
   labs(
     title= paste("Date palm trees 2017,","n =",sum_date$sum_2017,sep = " "),
-   subtitle = "Vs. distance, population, and Industry contribution to GDP (%)",
+   subtitle = "Vs. distance and Industry contribution to GDP (%)",
     x = "",
     y = "Date palms"
   )+
@@ -662,11 +660,11 @@ predictions <- arrangeGrob(date_mean,canary_mean,nrow=2)
 ggsave("predictions.png",predictions,width = 14,height=16,limitsize = FALSE,bg="transparent")
 ```
 
-Using these models, we estimated the number of date and canary palms in Catalonia. Estimations appear in Figure \ref{fig:predictions} as a function of distance, population, and fraction of GDP for industry. We can see that for most municipalities, palm trees are located closest to the coast, have a positive relationship with population and negative relationship with fraction of GDP from industry. 
+Using these models, we estimated the number of healthy date and canary palms in Catalonia. Estimations appear in Figure \ref{fig:predictions} as a function of distance, population, and industry contribution to GDP (%). We can see that for most municipalities, canary palm trees are located closest to the coast, have a positive relationship with population and negative relationship with industry contribution to GDP (%). The same applies for data palm trees without the relationship with population. 
 
 \begin{figure}[!htb] 
 \centerline{\includegraphics[width=30pc]{predictions.png}} 
-\caption{Palm tree estimations according to species in 2017. The upper plot shows date species estimations and the lower, canary. Both estimations are plotted against three variables: distance to the coastline, population, and fraction of GDP from services. Overall, there are more date than canary trees. In both cases distance to the coastline has an inverse relationship with palm occurence. Population and fraction of GDP from services both have a positive effect on the number of palm trees. This matches our intuition since the most frequent use for palm trees in Catalonia is ornamental. They are often found along tourist areas, and tourism contributes to the service economy.}
+\caption{Healthy palm tree estimations in 2017. The upper plot shows date species estimations and the lower canary. Both estimations are plotted against distance to the coastline. Since industry contribution to GDP (\%) was a significant estimator for both species, it has been included with colour. This helps us see that municipalities with a lower industry contribution to GDP (\%) have more palm trees than those with a higher industry contribution to GDP (\%). Overall, there are more date than canary trees. In both cases distance to the coastline has an inverse relationship with palm tree occurence.}
 \label{fig:predictions} 
 \end{figure}
 
