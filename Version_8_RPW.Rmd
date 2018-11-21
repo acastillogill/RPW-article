@@ -99,7 +99,8 @@ x <-
     "gridExtra",
     "DataExplorer",
     "corrplot",
-    "stats")
+    "stats",
+    "stargazer")
 
 
 lapply(x, require, character.only = TRUE)
@@ -423,7 +424,7 @@ Once the sample was selected, the following procedure was done for each of the 7
 \label{fig:grids} 
 \end{figure}
 
-Once observations were collected, we proceeded to decide what model to use to estimate the distribution of palm trees. At this point we had no criteria to select one model over another so Bayes model averaging (BMA) was useful as it weighs multiple models according to their posterior probability. The Bayes Information Criterion ($BIC$)[^2] was used as the prior distribution for regression coefficients since we were in a non-informative situation. The model was specified as follows: the explanatory variables mentioned in the previous paragraphs were included. As a reminder, for each municipality these were: percentage of GDP derived from agriculture, services, construction, and industry; distance to the coast, population, and area. Finally, a uniform distribution was asigned as the model prior since we were in a non-informative situation.
+Once observations were collected, we proceeded to decide what model to use to estimate the distribution of palm trees. The Bayes Information Criterion ($BIC$)[^2] was used as the criteria to select the final model. The model was specified as follows: the explanatory variables mentioned in the previous paragraphs were included. As a reminder, for each municipality these were: percentage of GDP derived from agriculture, services, construction, and industry; distance to the coast, population, and area. Finally, a uniform distribution was asigned as the model prior since we were in a non-informative situation.
 
 ```{r reading collected data, include=FALSE}
 #Read palm data
@@ -450,102 +451,69 @@ final <- final %>%
          ser=Services/Total)
 ```
 
-```{r Looking at distributions, include=FALSE}
-boxplot_date<- ggplot(palms,aes(x=,y=date))+
-  geom_boxplot()+
-  coord_flip()
 
-boxplot_canary<- ggplot(palms,aes(x=,y=canary))+
-  geom_boxplot()+
-  coord_flip()
+```{r initial date_fit model, include=FALSE}
+#Create a model for all variables
+
+date_fit <- lm(date ~  ag+ser+cons+indu+distance+population+area, data=palms, na.action = "na.fail")
+
+
+tidy(anova(date_fit))%>%
+  arrange(p.value)%>%
+  filter(p.value<0.05)%>%
+  dplyr::select(term, statistic, p.value)
 ```
 
-```{r ape, include=FALSE }
-set.seed(42)
-n <-  nrow(palms)
-n_cv <-  50
-ape_date <-  matrix(NA, ncol=4, nrow=n_cv)
-colnames(ape_date) = c("BMA", "BPM", "HPM", "MPM")
-
-for (i in 1:n_cv) {
-  train = sample(1:n, size=round(.90*n), replace=FALSE)
-  date_train = palms[train,]
-  date_test = palms[-train,]
-  
-  bma_train_date = bas.lm(date ~  ag+ser+cons+indu+distance+population+area, data=date_train, 
-                          prior="BIC", modelprior=uniform(), initprobs="eplogp")
-  yhat_bma = predict(bma_train_date, date_test, estimator="BMA")$fit
-  yhat_hpm = predict(bma_train_date, date_test, estimator="HPM")$fit
-  yhat_mpm = predict(bma_train_date, date_test, estimator="MPM")$fit
-  yhat_bpm = predict(bma_train_date, date_test, estimator="BPM")$fit
-  ape_date[i, "BMA"] = cv.summary.bas(yhat_bma, date_test$date)
-  ape_date[i, "BPM"] = cv.summary.bas(yhat_bpm, date_test$date)
-  ape_date[i, "HPM"] = cv.summary.bas(yhat_hpm, date_test$date)
-  ape_date[i, "MPM"] = cv.summary.bas(yhat_mpm, date_test$date)
-}
-
-boxplot(ape_date)
-
-apply(ape_date, 2, mean)
-
-set.seed(42)
-n <-  nrow(palms)
-n_cv <-  50
-ape_canary <-  matrix(NA, ncol=4, nrow=n_cv)
-colnames(ape_canary) = c("BMA", "BPM", "HPM", "MPM")
-
-for (i in 1:n_cv) {
-  train = sample(1:n, size=round(.90*n), replace=FALSE)
-  canary_train = palms[train,]
-  canary_test = palms[-train,]
-  
-  bma_train_canary = bas.lm(canary ~  ag+ser+cons+indu+distance+area+population, data=canary_train, 
-                          prior="BIC", modelprior=uniform(), initprobs="eplogp")
-  yhat_bma = predict(bma_train_canary, canary_test, estimator="BMA")$fit
-  yhat_hpm = predict(bma_train_canary, canary_test, estimator="HPM")$fit
-  yhat_mpm = predict(bma_train_canary, canary_test, estimator="MPM")$fit
-  yhat_bpm = predict(bma_train_canary, canary_test, estimator="BPM")$fit
-  ape_canary[i, "BMA"] = cv.summary.bas(yhat_bma, canary_test$canary)
-  ape_canary[i, "BPM"] = cv.summary.bas(yhat_bpm, canary_test$canary)
-  ape_canary[i, "HPM"] = cv.summary.bas(yhat_hpm, canary_test$canary)
-  ape_canary[i, "MPM"] = cv.summary.bas(yhat_mpm, canary_test$canary)
-}
-
-boxplot(ape_canary)
-
-apply(ape_canary, 2, mean)
+```{r choose_model_date, include=FALSE}
+date_models <- dredge(date_fit, rank = "BIC")
+nrow(date_models)
 ```
 
-HERE.
-In terms of significant estimators this meant, distance to the coastline, and industry contribution to GDP (%), for date palms; and distance to the coastline, population, and industry contribution to GDP (%), for canary palms. Tables \ref{tab:date_palms_model} and \ref{tab:canary_palms_model} in the Appendix D summarise the model estimates for date and canary palms, respectively.
-
-```{r coefficients, include=FALSE}
-
-lm_date = lm(date ~  ag+ser+cons+indu+distance+population+area, data=palms)
-
-
-BMA_date <-  bas.lm(date ~  ag+ser+cons+indu+distance+population+area, data = palms,
-                      prior = "BIC",
-                      modelprior = uniform())
-
-n <- length(BMA_date)
-stepAIC(object=lm_date, k =log(n))
-
-lm_canary = lm(canary ~  ag+ser+cons+indu+distance+population+area, data=palms)
-
-BMA_canary <-  bas.lm(canary ~  ag+ser+cons+indu+distance+population+area, data = palms,
-                      prior = "BIC",
-                      modelprior = uniform())
-n <- length(BMA_canary)
-stepAIC(object=lm_canary, k =log(n))
+```{r final_date_models}
+final_date_1 <- lm(date ~  indu+distance, data=palms)
+final_date_2 <- lm(date ~  indu+distance+cons, data=palms)
+final_date_3 <- lm(date ~  distance+ser, data=palms)
+final_date_1$BIC <- BIC(final_date_1)
+final_date_2$BIC <- BIC(final_date_2)
+final_date_3$BIC <- BIC(final_date_3)
 ```
+
+
+```{r initial canary_fit model, include=FALSE}
+#Create a model for all variables
+
+canary_fit <- lm(canary ~  ag+ser+cons+indu+distance+population+area, data=palms, na.action = "na.fail")
+
+
+tidy(anova(canary_fit))%>%
+  arrange(p.value)%>%
+  filter(p.value<0.05)%>%
+  dplyr::select(term, statistic, p.value)
+```
+
+```{r choose_model_canary, include=FALSE}
+canary_models <- dredge(canary_fit, rank = "BIC")
+nrow(canary_models)
+```
+
+```{r final_canary_models}
+final_canary_1 <- lm(canary ~  distance+ser, data=palms)
+final_canary_2 <- lm(canary ~  distance+indu, data=palms)
+final_canary_3 <- lm(canary ~  distance+population+ser, data=palms)
+final_canary_1$BIC <- BIC(final_canary_1)
+final_canary_2$BIC <- BIC(final_canary_2)
+final_canary_3$BIC <- BIC(final_canary_3)
+```
+In terms of significant estimators this meant, distance to the coastline, and industry contribution to GDP(%), for date palms; and distance to the coastline, population, and industry contribution to GDP(%), for canary palms. Tables \ref{tab:datefit} and \ref{tab:canaryfit} in the Appendix D summarise the model estimates for date and canary palms, respectively.
+
+
 
 [^2]:$BIC= -2*log(likelihood)+log(n)*\#parameters$, where $n$ is the sample size. We will have a tradeoff between the goodness of fit (the extent to which observed data matches the values expected by theory) $n*log(1-R^2)$ and the model complexity represented with $log(n)*\#parameters$. We choose the model that has the smallest $BIC$. 
 
 ```{r tree models, include=FALSE}
 lm_date <- lm(date ~  indu+distance, data=palms)
  
-lm_canary <- lm(canary ~  indu+distance+population, data=palms)
+lm_canary <- lm(canary ~  ser+distance, data=palms)
 ```
 
 ```{r date predictions, include=FALSE}
@@ -603,11 +571,11 @@ color = cut(indu, breaks = 4))) +
   ) +
   theme_classic() +
   guides(
-      color=guide_legend(title = "Industry contribution to GDP (%)")
+      color=guide_legend(title = "Industry contribution to GDP(%)")
   ) +
   labs(
     title= paste("Date palm trees 2017,","n =",sum_date$sum_2017,sep = " "),
-   subtitle = "Vs. distance and Industry contribution to GDP (%)",
+   subtitle = "Vs. distance and Industry contribution to GDP(%)",
     x = "",
     y = "Date palms"
   )+
@@ -624,8 +592,7 @@ ggsave(
 canary_mean <- ggplot(test_canary, aes(
   x = distance,
   y = canary,
-color = cut(indu, breaks = 4),
-  size = population)
+color = cut(ser, breaks = 4))
 ) +
   geom_jitter(alpha=0.5) +
   geom_text(
@@ -639,16 +606,15 @@ color = cut(indu, breaks = 4),
   ) +
   theme_classic() +
   guides(
-    size= guide_legend(title="Population"),
-  color=guide_legend(title = "Industry contribution to GDP (%)")
+  color=guide_legend(title = "Services contribution to GDP(%)")
   ) +
   labs(
     title = paste("Canary palm trees 2017,","n =",sum_canary$sum_2017,sep = " "),
-    subtitle = "Vs. distance, population, and Industry contribution to GDP (%)",
+    subtitle = "Vs. distance and Services contribution to GDP(%)",
     x = "Distance to coastline (km)",
     y = "Canary palms"
   )+ theme(text = element_text(size=20))+
-  coord_cartesian(ylim = c(0, 200))
+  coord_cartesian(ylim = c(0, 100))
 ggsave(
   "canary_palms.png",
   width = 7,
@@ -660,7 +626,7 @@ predictions <- arrangeGrob(date_mean,canary_mean,nrow=2)
 ggsave("predictions.png",predictions,width = 14,height=16,limitsize = FALSE,bg="transparent")
 ```
 
-Using these models, we estimated the number of healthy date and canary palms in Catalonia. Estimations appear in Figure \ref{fig:predictions} as a function of distance, population, and industry contribution to GDP (%). We can see that for most municipalities, canary palm trees are located closest to the coast, have a positive relationship with population and negative relationship with industry contribution to GDP (%). The same applies for data palm trees without the relationship with population. 
+Using these models, we estimated the number of healthy date and canary palms in Catalonia. Estimations appear in Figure \ref{fig:predictions} as a function of distance to the coast. We can see that for most municipalities, canary palm trees are located closest to the coast, have a positive relationship with population and negative relationship with industry contribution to GDP (%). The same applies for data palm trees without the relationship with population. 
 
 \begin{figure}[!htb] 
 \centerline{\includegraphics[width=30pc]{predictions.png}} 
@@ -1278,7 +1244,7 @@ gencat %>%
 ggsave("gencat_plot.png",gencat_plot,width = 14,height=8,limitsize = FALSE,bg="transparent")
 ```
 
-We now report costs per species and management category brought to present value. We include a lower and upper bound derived from Table \ref{tab:initpar}. Equation \ref{eq:management_costs} was applied to the lower and upper bound tree estimates. Tables \ref{tab:date_costs_low}, \ref{tab:date_costs_high}, \ref{tab:canary_costs_low} and \ref{tab:canary_costs_high} in Appendix C summarise each activity along with a total for management costs. Table captions summarise the all year total. To illustrate each management category, Figures \ref{fig:date_costs} and \ref{fig:canary_costs} (Appendix C) present this cost breakdown. For date palms, the costliest management activities were inspection and prevention, which makes sense since infestations for this species have been less reported. For canary palms, removal of infested trees has been the most expensive activity. This is consistent with the decline of trees and the high removal cost per tree. Table \ref{tab:total_costs} (Appendix C) summarises lower and upper bounds for each species and total costs (Figure \ref{fig:costs_combined_total} in Appendix C). The lower bound has a less steep decline than the upper bound, canary costs are higher than date costs for all years and it seems that from 2017 onwards, date costs overtake canary costs. In the upper bound where canary decline is stronger, costs are initially high but due to a reduction in overall stock, there is a decline of treatment and removal costs.
+We now report costs per species and management category brought to present value. We include a lower and upper bound derived from Table \ref{tab:initpar}. Equation \ref{eq:management_costs} was applied to the lower and upper bound tree estimates. Tables \ref{tab:date_costs_low}, \ref{tab:date_costs_high}, \ref{tab:canary_costs_low} and \ref{tab:canary_costs_high} in Appendix C summarise each activity along with a total for management costs. Table captions summarise the all year total. To illustrate each management category, Figures \ref{fig:date_costs} and \ref{fig:canary_costs} (Appendix C) present this cost breakdown. For date palms, the costliest management activities were inspection and prevention, which makes sense since infestations for this species have been less reported. For canary palms, removal of infested trees has been the most expensive activity. This is consistent with the decline of trees and the high removal cost per tree. Table \ref{tab:total_costs} (Appendix C) summarises lower and upper bounds for each species and total costs (Figure \ref{fig:costs_combined_total} in Appendix C). The lower bound has a less steep decline than the upper bound, as canary costs are higher than date costs for all years and it seems that from 2017 onwards, date costs overtake canary costs. In the upper bound where canary decline is stronger, costs are initially high but due to a reduction in overall stock, there is a decline of treatment and removal costs.
 
 ```{r Management costs for date palms, include=FALSE}
 #Management costs for date palms
@@ -1690,7 +1656,7 @@ ggsave("costs_combined_total.png",
 ============
 
 
-In order to estimate benefits associated to carbon sequestration, we provide an interval per tonne for the social cost of carbon ($SCC$), to reflect uncertainty about its value. 12 USD was used as the minimum since this was the lowest $SCC$ found [@iawgTechnicalUpdateSocial2016]. Similarly, the maximum was 125 USD [@vandenberghLowerBoundSocial2014], as it was the highest found. These values were converted  from US dollars to euros at an exchange rate `r exchange_rate_eur` and brought to present value with a discount rate of `r discount_rate` and inflation rate of `r inflation_rate`. Table \ref{tab:scc} summarises the original values, publication date, the values converted to euros, and present value.
+\noindent In order to estimate benefits associated to carbon sequestration, we provide an interval per tonne for the social cost of carbon ($SCC$), to reflect uncertainty about its value. 12 USD was used as the minimum since this was the lowest $SCC$ found [@iawgTechnicalUpdateSocial2016]. Similarly, the maximum was 125 USD [@vandenberghLowerBoundSocial2014], as it was the highest found. These values were converted  from US dollars to euros at an exchange rate of `r exchange_rate_eur`. Table \ref{tab:scc} summarises the original values, publication date, the values converted to euros, and present value.
 
 ```{r SCC table, echo=FALSE}
 PV <- future_value(USD,real_rate = real_rate,periods = (year(Sys.Date())-Date))
@@ -1698,7 +1664,7 @@ Source <- as.vector(c("IAWG, 2016","van den Bergh \\& Botzen, 2014"))
 SCC_table <- data_frame(Source,USD,Date,EUR,PV)
 
 SCC_table%>%
-set_names(c("Source","USD","Published date","EUR", "Present value"))%>%
+set_names(c("Source","USD","Published date","EUR", "Present value (2017"))%>%
 kable(
     caption = "\\label{tab:scc}Social cost of carbon dioxide per tonne.", 
     booktabs = T,
@@ -1768,10 +1734,6 @@ carbon_benefits <- carbon_benefits%>%
 4.3 Property values benefits
 ==========
 
-
-
-
-
 ```{r read-idealista-data, include=FALSE}
 idealista <- read.xlsx("idealista_data.xlsx")
 #See idealista structure
@@ -1793,12 +1755,11 @@ names(idealista)[names(idealista) == "LEVEL4NAME"] <- "COMARCA"
 names(idealista)[names(idealista) == "LEVEL5NAME"] <- "UNKNOWN"
 names(idealista)[names(idealista) == "LEVEL6NAME"] <- "MUNICIPALITY"
 ```
-We now present estimations for benefits derived from palm tree adjacency. To calculate these we used data provided by Idealista S.A., an online marketplace for buying and renting properties in Spain, Portugal, and Italy. An important clarification for this section is that the response variable used for the regression was the asking or listed price for a property. Contrast this to the actual sale price of a property. Actual sale prices for properties in Catalonia were not
-possible to obtain, however, we consider using asking price a good proxy for the purposes of this article.
+\noindent We now present estimations for benefits derived from palm tree adjacency. To calculate these we used data provided by Idealista S.A., an online marketplace for buying and renting properties in Spain, Portugal, and Italy. The response variable used for the regression was the asking or listed price for a property. As actual sale prices for properties in Catalonia could not be obtained, we used asking price as a proxy.
 
 The dataset contained `r nrow(idealista)` observations describing detached properties on sale in Catalonia during October 2018. The properties were distributed evenly amongst Catalonia with at least 50 observations per *comarca*, which we defined earlier as our strata. Upon initial exploration of the dataset, there were 8 numerical and 21 character variables.
 
-The first step was to identify categorical variables within all the character variables. Here, some were identified as categorical and others related to the unique property address were left as character. The second step was to deal with missingness in the data. Most missing values appeared in variables that signalled the presence or absence of a feature (i.e. ~ swimming pool, wardrobe, terrace, garden, etc.). Since these missing values were a case of missing completely at random (MCAR), it was safe to remove observations without introducing bias into the data. However, we wanted to keep as many observations as possible so we performed imputation. After the dataset was complete, we transformed all categorical variables into numerical ones. Ordinal categorical variables were revalued to a scale, and dummies were created for non-ordinal variables. 
+The first step was to identify categoric variables within all the string variables. Here, some were identified as categoric and others related to the unique property address were left in string format. The second step was to deal with missing values in the data. Most of these relate to variables that signalled the presence or absence of a feature (i.e. ~ swimming pool, wardrobe, terrace, garden, etc.). Since these missing values were missing completely at random (MCAR), it was safe to remove observations without introducing bias into the data. However, we wanted to keep as many observations as possible so we performed imputation. After the dataset was complete, we transformed all categoric variables into numerical ones. Ordinal categoric variables were revalued to a scale, and dummies were created for non-ordinal variables. 
 
 Since we were interested in capturing the aesthetic value derived from palm-tree adjacency, two variables were created to count the ocurrence of each species on properties or within their immediate surroundings.
 
@@ -2223,7 +2184,8 @@ Using the GGMap package for R software [@kahleGgmapSpatialVisualization2013] and
 idealista_clean <- idealista_read%>%
   dplyr::select(-COMARCA,
                 -PROVINCE,
-                -CHALETTYPEID)
+                -CHALETTYPEID,
+                -CONSTRUCTIONYEAR)
 skim(idealista_clean)
 ```
 
@@ -2236,7 +2198,7 @@ idealista_clean <- idealista_clean%>%
          ROOMNUMBER<quantile(idealista_read$ROOMNUMBER, 0.95),
          BUILDINGFLOORS<quantile(idealista_read$BUILDINGFLOORS, 0.95))
 ```
-Each variable was plotted to look at the distributions. Outliers were removed for several variables since there cases listed as independent homes that likely were not part of the same sample (i.e. independent houses with more than 12 floors). In the case of the response variable, the median price per home was € `r median(idealista_read$PRICE)` and the 95th quantile was € `r quantile(idealista_read$PRICE, 0.95)` but the maximum sales price was € `r max(idealista_read$PRICE)`, which skewed the distribution. A similar procedure was followed for all variables that were not boolean. After removing outliers, the dataset had `r nrow(idealista_clean)` observations and `r length(idealista_clean)` variables included the response varaible. This means we had `r length(idealista_clean)-1` regressors. 
+Each variable was plotted to look at the distributions. Outliers were removed for several variables since there cases listed as independent homes that likely were not part of the same sample (i.e. independent houses with more than 12 floors). In the case of the response variable, the median price per home was € `r median(idealista_read$PRICE)` and the 95th quantile was € `r quantile(idealista_read$PRICE, 0.95)` but the maximum sales price was € `r max(idealista_read$PRICE)`, which skewed the distribution. A similar procedure was followed for all variables that were not boolean. After removing outliers, the dataset had `r nrow(idealista_clean)` observations and `r length(idealista_clean)` variables including the response variable. This means we had `r length(idealista_clean)-1` regressors. 
 
 ```{r skim clean dataset, include=FALSE}
 skim(idealista_clean)
@@ -2260,29 +2222,27 @@ all_models <- dredge(fit, rank = "BIC")
 saveRDS(all_models, "all_models")
 ```
 
+
+
 ```{r read_models, include=FALSE}
 #Read models
 all_models <- readRDS("all_models")
 nrow(all_models)
 ```
 
-```{r include=FALSE, eval=FALSE}
-girona_clean <- idealista_read%>%
-  filter(PROVINCE=="Girona")%>%
-  dplyr::select(-COMARCA,
-                -CHALETTYPEID,
-                -PROVINCE)%>%
-  filter(PRICE<1500000,
-         PLOTOFLAND<1000,
-         CONSTRUCTEDAREA<500,
-         BATHNUMBER<10,
-         ROOMNUMBER<10,
-         BUILDINGFLOORS<5)
-
-fit_girona <- lm(PRICE~  ., data=girona_clean)
+```{r final_homes_fit}
+homes_fit <- lm(PRICE~ BATHNUMBER+
+                  CONSTRUCTEDAREA+
+                  HASGARDEN+
+                  HASPARKINGSPACE+
+                  HASSWIMMINGPOOL+
+                  HASWARDROBE+
+                  PLOTOFLAND+
+                  YEARSBUILT
+                  , data = idealista_clean )
 ```
 
-To determine whether date or canary palms contribute significantly to enhance aesthetic values, we fitted a global model with all regressors. The t-tests for date and canary palms did not produce significant p-values. To select the model that best estimated the price variable, we once again selected the Bayesian information criterion (BIC) as the standard to compare models. We tested all possible models $(2^{16 parameters}=65,536)$ aiming to minimise the BIC. This was implemented with the *dredge()* function of the MuMln package for R software. This function generates a set of models with combinations of fixed effect terms in the global model. The model that minimises the BIC included number of bathrooms, constructed area, constructed year, garden, swimming pool, wardrobe, and plot size as regressors. Overall, we were not able to capture any values associated with palm tree occurrence.
+To determine whether date or canary palms contribute to aesthetic values, we fitted a global model with all regressors. The t-tests for date and canary palms did not produce significant p-values. To select the model that best estimated the price variable, we once again selected the Bayesian information criterion (BIC) as the standard to compare models. We tested all possible models $(2^{16 parameters}=65,536)$ aiming to minimise the BIC. This was implemented with the *dredge* function of the MuMln package for R software. This function generates a set of models with combinations of fixed effect terms in the global model. The model that minimises the BIC included number of bathrooms, constructed area, constructed year, garden, swimming pool, wardrobe, and plot size as significant regressors (see Table \ref{tab:homesfit} in Appendix D). Overall, we were not able to capture any values associated with palm tree occurrence.
 
 4.4 Total costs and benefits
 ============
@@ -2366,7 +2326,7 @@ ggsave("cost_benefit_plot.png",
        bg="transparent")
 ```
 
-We obtained Figure \ref{fig:cost_benefit} by merging total costs and benefits for each bound (lower and upper) in a single plot. The costs include goverment (GENCAT) and management costs paid by municipalities and private owners from 2011 onwards. The benefits associated to carbon sequestration are far exceeded by total costs.
+\noindent We obtained Figure \ref{fig:cost_benefit} by merging total costs and benefits for each bound (lower and upper) in a single plot. The costs include goverment (GENCAT) and management costs paid by municipalities and private owners from 2011 onwards. 
 
 \begin{figure}[!htb]
 \centerline{\includegraphics[width=30pc]{cost_benefit_plot.png}}
@@ -2381,23 +2341,23 @@ nsb_high <- round(sum(carbon_benefits$total_upper)-sum(total_costs$total_upper),
 nsb_ratio_high <- round(sum(total_costs$total_upper)/sum(carbon_benefits$total_upper),digits=0)
 ```
 
-As stated earlier, all values presented so far have been brought to present value with the same discount (`r discount_rate`) and inflation (`r inflation_rate`) rates. By applying Equation \ref{eq:nsb} between 2005 and 2017, the net social benefits (NSB) for the lower bound were €`r nsb_low `, in other words, `r nsb_ratio_low` times benefits. For the upper bound, the NSB were €`r nsb_high ` or `r nsb_ratio_high` times the benefits. 
+As stated earlier, all values presented so far have been brought to present value with the same discount (`r discount_rate`) and inflation (`r inflation_rate`) rates. By applying Equation \ref{eq:nsb} between 2005 and 2017, the net social benefits (NSB) for the lower bound were €`r nsb_low `, in other words, `r nsb_ratio_low` times benefits. For the upper bound, the NSB were €`r nsb_high ` or `r nsb_ratio_high` times the benefits. The benefits associated to carbon sequestration are far exceeded by total costs.
 
 5. Discussion
 ============
 
-The costs of pest management, eradication and replacement of RPW infested palms were previously estimated for Italy, Spain and France by the FAO. Up to 2013, the combined costs for all three countries were reported at €90 million with an increase of €110 million by 2023 [@faoNewActionPlan2017]. Our cost calculations concur with magnitidue of FAO estimates. We did not, however, find the conservation policy justified based on the analysis presented in this article. 
+\noindent The costs of pest management, eradication and replacement of RPW infested palms were previously estimated for Italy, Spain and France by the FAO. Up to 2013, the combined costs for all three countries were reported at €90 million with an increase of €110 million by 2023 [@faoNewActionPlan2017]. Our cost calculations concur with magnitidue of FAO estimates. We did not, however, find the conservation policy justified based on the analysis presented in this article. 
 
 Countries where a similar cost-benefit analysis could yield results that support a similar policy are, for example, Tunisia and Egypt, where production of date fruits is not insignificant and the RPW is allegedly a major threat [@speakmancordallPanicRedDevils2017]. Another place where this type of conservation policy could be justified is the Canary Islands since canary palms are a native species, unlike in the Iberian Peninsula. When a species is native, conservation efforts from a socio-cultural perspective are more likely to be justified. In these islands, the RPW was reported in 2007 and declared completely eradicated by 2016. Eradication efforts included the inspection of 706,081 palms, of which 209,537 were treated, 659 removed and destroyed, and 681 weevils were caught [@gobiernodecanariasCanariasPrimerTerritorio2016].
 
 The larger mandate that underpins the conservation policy here analysed is 2007/365/CE (see Appendix A). This policy was released for EU member states with susceptible trees stating mandatory measures, including the ones here described as management activities. Within EU publication related to this policy, we could not find an invasion analysis included justifying the EU wide mandate. Prioritisation of budgets for biological invasions should be based on analysis that include species, pathways and sites, and impacts [@mcgeochPrioritizingSpeciesPathways2016]. 
 
-Understandably, an argument against the type of cost-benefit analysis here performed is that social and cultural values are hard to capture and quantify. Granted, non-monetary values are important, as we acknowledged by including the TEV framework. In a world with unlimited resources, conservation of natural assets without any direct or indirect benefits, could be possible. Alas, when dealing with biological insect invasions that affect human health, livelihoods, and threatened species, prioritising the cosliest impacts is necessary.
+Understandably, an argument against the type of cost-benefit analysis here performed is that social and cultural values are hard to capture and quantify. Granted, non-monetary values are important, as we acknowledged by including the TEV framework. In a world with unlimited resources, conservation of natural assets without any direct or indirect benefits, could be possible. In practice, when dealing with biological insect invasions that affect human health, livelihoods, and threatened species, prioritising the cosliest impacts is critical.
 
 6. Conclusions
 ============
 
-In the context of rising biological invasions with costly impacts, determining priority areas is fundamental for optimal budgeting. Several frameworks for prioritising biological invasions have risen in recent years. In this article we assess to what extent these frameworks are being implemented in current policies. To do so, we selected a policy published in response to the arrival of invasive insect to the Iberian Peninsula in the early noughties - the red palm weevil (RPW), a beetle that affects susceptible palm tree varieties. Amongst invasive species, insects are the costliest species. It is estimated that less than half of potential insect invasions have taken place [@seebensGlobalRiseEmerging2018]. To assess the policy, we performed a cost-benefit analysis within the region of Catalonia, Spain. This was done in several steps. First, we interviewed stakeholders from goverment and industry to properly understand all associated costs. Second, we estimated the number of palm trees in the region at the beginning of the infestation and modelled their decline until present. Third, based on the Total Economic Value (TEV) framework we identified two quantifiable benefits derived from palm tree existence: carbon sequestration and enhanced aesthetic value derived from palm-tree adjacency and captured through property prices. Fourth, based on steps two and three, we calculated the costs and benefits associated with the policy. Finally, we computed the net social benefits of the policy. We found that the costs of the policy far outweight the benefits. This is likely due to the almost exclusive ornamental use of palm trees in Catalonia, Spain. 
+\noindent In the context of rising biological invasions with costly impacts, determining priority areas is fundamental for optimal budgeting. Several frameworks for prioritising biological invasions have risen in recent years. In this article we assess a conservation policy implemented in the context of the arrival of an invasive species to the Iberian Peninsula, which eventually spread to Mediterranean coastal areas in the EU. To do so, we selected a policy published in response to the arrival of invasive insect to the Iberian Peninsula in the early noughties - the red palm weevil (RPW), a beetle that affects susceptible palm tree varieties. To assess the policy, we performed a cost-benefit analysis within the region of Catalonia, Spain. This was done in several steps. First, we interviewed stakeholders from goverment and industry to properly understand all associated costs. Second, we estimated the number of palm trees in the region at the beginning of the infestation and dynamically modelled their decline until present. Third, based on the Total Economic Value (TEV) framework we identified two quantifiable benefits derived from palm tree existence: carbon sequestration and enhanced aesthetic value derived from palm-tree adjacency and captured through property prices. Fourth, based on steps two and three, we calculated the costs and benefits associated with the policy. Finally, we computed the net social benefits of the policy. We found that the costs of the policy far outweight the benefits. This is likely due to the almost exclusive ornamental use of palm trees in Catalonia, Spain. 
 
 
 Acknowledgements
@@ -2488,8 +2448,7 @@ Appendix C: Detailed results
 \renewcommand{\thetable}{C\arabic{table}}
 \renewcommand{\thefigure}{C\arabic{figure}}
 
-This appendix expands on the Results section by providing detailed costs and benefits. The tables and figures that appear in the main text are aggregated versions of the ones found in subsequent pages.
-
+This appendix expands on the results by providing detailed costs and benefits. The tables and figures that appear in the main text are aggregated versions of the ones that appear in this section. 
 ```{r gencat cost tables, echo=FALSE}
 gencat%>%
   set_names(c("Year","GENCAT cost","GENCAT cost present"))%>%
@@ -2641,30 +2600,39 @@ Appendix D: Coefficient tables
 \renewcommand{\thetable}{D\arabic{table}}
 \renewcommand{\thefigure}{D\arabic{figure}}
 
-```{r date_palms_model, echo=FALSE}
-stepAIC(object=lm_date, k =log(n))%>%
-  tidy()%>%
-kable(
-    caption = "Date palms model estimates",
-    booktabs = T,
-    escape = F,
-    linesep= ""
-  ) %>%
-  kable_styling(latex_options = c("hold_position"))
+```{r datefit, echo=FALSE, results='asis'}
+stargazer(final_date_1,
+          final_date_3,
+          final_date_2,
+          type="latex",
+          label="datefit",
+          header=FALSE, title = "Date palms summary table",
+          no.space = TRUE,
+          keep.stat = c("n","rsq","adj.rsq","bic","ser","f"))
+```
+
+```{r canaryfit, echo=FALSE, results='asis'}
+stargazer(final_canary_1,
+           final_canary_2,
+            final_canary_3,
+          type="latex",
+          label="canaryfit",
+          header=FALSE, title = "Canary palms summary table",
+          no.space = TRUE,
+          keep.stat = c("n","rsq","adj.rsq","bic","ser","f"))
 ```
 
 
-```{r canary_palms_model, echo=FALSE}
-stepAIC(object=lm_canary, k =log(n))%>%
-  tidy()%>%
-  kable(
-    caption = "Canary palms model estimates",
-    booktabs = T,
-    escape = F,
-    linesep= ""
-  ) %>%
-  kable_styling(latex_options = c("hold_position"))
+```{r homesfit, echo=FALSE, results='asis'}
+homes_fit$BIC <- BIC(homes_fit)
+stargazer(homes_fit, type="latex",
+label="homesfit",
+header=FALSE, title = "Property values summary table",
+no.space = TRUE,
+keep.stat = c("n","rsq","adj.rsq","bic","ser","f"))
 ```
+
+
 
 
 \pagebreak
