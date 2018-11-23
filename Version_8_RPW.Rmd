@@ -178,6 +178,7 @@ kable(
   booktabs = T,
   escape = F
 ) %>%
+  row_spec(5, hline_after = T)%>%
   kable_styling(latex_options = c("hold_position"))%>%
   footnote(general="",
            general_title = "",
@@ -626,7 +627,7 @@ predictions <- arrangeGrob(date_mean,canary_mean,nrow=2)
 ggsave("predictions.png",predictions,width = 14,height=16,limitsize = FALSE,bg="transparent")
 ```
 
-Using these models, we estimated the number of healthy date and canary palms in Catalonia. Estimations appear in Figure \ref{fig:predictions} as a function of distance to the coast. We can see that for most municipalities, canary palm trees are located closest to the coast, have a positive relationship with population and negative relationship with industry contribution to GDP (%). The same applies for data palm trees without the relationship with population. 
+Using these models, we estimated the number of healthy date and canary palms in Catalonia. Estimations appear in Figure \ref{fig:predictions} as a function of distance to the coast. We can see that for most municipalities, canary palm trees are located closest to the coast, have a positive relationship with population and negative relationship with industry contribution to GDP(%). The same applies for data palm trees without the relationship with population. 
 
 \begin{figure}[!htb] 
 \centerline{\includegraphics[width=30pc]{predictions.png}} 
@@ -1098,7 +1099,7 @@ To initialise our model, we needed to estimate the number of infested trees at t
 \label{fig:simulations} 
 \end{figure}
 
-Based on the infested stock for canary palms, we note that simulation four (yellow), best fits the reports up to 2008 (red line). Afterwards, there is a decline in reports, including a sharp decline in 2011. We infer this is due to reporting methods and not to a sudden change in the actual patterns of infestation. This inference supported by reports from the subsequent year (2012), where an increase falls within simulation three (green). From these observations, we assume appropiate initialisation parameters for infested stock are between those of simulations three and four, which correspond to values between [3-5] for date palms and [365-975] for canary palms. These selected intialisation values are summarised along with other parameters in Table \ref{tab:initpar}. These will be used for our cost calculations. 
+Based on the infested stock for canary palms, we note that simulation four, best fits the reports up to 2008 (red line). Afterwards, there is a decline in reports, including a sharp decline in 2011. We infer this is due to reporting methods and not to a sudden change in the actual patterns of infestation. This inference supported by reports from the subsequent year (2012), where an increase falls within simulation three. From these observations, we assume appropiate initialisation parameters for infested stock are between those of simulations three and four, which correspond to values between [3-5] for date palms and [365-975] for canary palms. These selected intialisation values are summarised along with other parameters in Table \ref{tab:initpar}. These will be used for our cost calculations. 
 
 ```{r ranges for infested stock 2005, eval=FALSE,include=FALSE}
 df_canary%>%
@@ -1173,9 +1174,9 @@ inflation_rate <- 0.02
 real_rate <- (1+discount_rate)/(1+inflation_rate)-1
 
 
-USD <-  as.vector(c(12,125))
+USD <-  as.vector(c(36,125))
 Date <- as.vector(c(2007,2014))
-exchange_rate_eur <- 0.87 #quantmod::getQuote("USDEUR=X")
+exchange_rate_eur <- 0.88 #quantmod::getQuote("USDEUR=X")
 EUR <- USD*exchange_rate_eur #$Last
 ```
 
@@ -1656,15 +1657,15 @@ ggsave("costs_combined_total.png",
 ============
 
 
-\noindent In order to estimate benefits associated to carbon sequestration, we provide an interval per tonne for the social cost of carbon ($SCC$), to reflect uncertainty about its value. 12 USD was used as the minimum since this was the lowest $SCC$ found [@iawgTechnicalUpdateSocial2016]. Similarly, the maximum was 125 USD [@vandenberghLowerBoundSocial2014], as it was the highest found. These values were converted  from US dollars to euros at an exchange rate of `r exchange_rate_eur`. Table \ref{tab:scc} summarises the original values, publication date, the values converted to euros, and present value.
+\noindent In order to estimate benefits associated to carbon sequestration, we provide an interval per tonne for the social cost of carbon ($SCC$), to reflect uncertainty about its value. 36 USD was used as the minimum since this was the lowest $SCC$ found [@epaSocialCostCarbon2013]. Similarly, the maximum was 125 USD [@vandenberghLowerBoundSocial2014], as it was the highest found. These values were converted from US dollars to euros at an exchange rate of `r exchange_rate_eur`. Table \ref{tab:scc} summarises the original values, publication date, the values converted to euros, and present value.
 
 ```{r SCC table, echo=FALSE}
 PV <- future_value(USD,real_rate = real_rate,periods = (year(Sys.Date())-Date))
-Source <- as.vector(c("IAWG, 2016","van den Bergh \\& Botzen, 2014"))
+Source <- as.vector(c("EPA, 2013","van den Bergh \\& Botzen, 2014"))
 SCC_table <- data_frame(Source,USD,Date,EUR,PV)
 
 SCC_table%>%
-set_names(c("Source","USD","Published date","EUR", "Present value (2017"))%>%
+set_names(c("Source","USD","Published date","EUR", "Present value (2017)"))%>%
 kable(
     caption = "\\label{tab:scc}Social cost of carbon dioxide per tonne.", 
     booktabs = T,
@@ -2341,7 +2342,7 @@ nsb_high <- round(sum(carbon_benefits$total_upper)-sum(total_costs$total_upper),
 nsb_ratio_high <- round(sum(total_costs$total_upper)/sum(carbon_benefits$total_upper),digits=0)
 ```
 
-As stated earlier, all values presented so far have been brought to present value with the same discount (`r discount_rate`) and inflation (`r inflation_rate`) rates. By applying Equation \ref{eq:nsb} between 2005 and 2017, the net social benefits (NSB) for the lower bound were €`r nsb_low `, in other words, `r nsb_ratio_low` times benefits. For the upper bound, the NSB were €`r nsb_high ` or `r nsb_ratio_high` times the benefits. The benefits associated to carbon sequestration are far exceeded by total costs.
+As stated earlier, all values presented so far have been brought to present value with the same discount (`r discount_rate`) and inflation (`r inflation_rate`) rates. By applying Equation \ref{eq:nsb} between 2005 and 2017, the net social benefits (NSB) for the lower bound were €`r nsb_low`, in other words, `r nsb_ratio_low` times benefits. For the upper bound, the NSB were €`r nsb_high` or `r nsb_ratio_high` times the benefits. The benefits associated to carbon sequestration are far exceeded by total costs.
 
 5. Discussion
 ============
